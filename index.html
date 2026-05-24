@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Uniform Content AI</title>
+
+    <!-- conexão com CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- TOPO -->
+    <header class="topbar">
+
+        <h1>Uniform Content AI</h1>
+
+        <p>
+            Gere ideias de conteúdo para fábricas de uniformes
+        </p>
+
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="container">
+
+        <!-- COLUNA ESQUERDA -->
+        <section class="form-section">
+
+            <h2>Configurar Conteúdo</h2>
+
+            <!-- TIPO DE UNIFORME -->
+            <div class="field">
+
+                <label for="tipoUniforme">
+                    Tipo de uniforme
+                </label>
+
+                <select id="tipoUniforme">
+
+                    <option value="esportivo">Esportivo</option>
+
+                    <option value="pesca">Pesca</option>
+
+                    <option value="social">Social</option>
+
+                    <option value="polo">Polo</option>
+
+                    <option value="empresa">Empresa</option>
+
+                    <option value="comitiva">Comitiva</option>
+
+                </select>
+
+            </div>
+
+            <!-- OBJETIVO -->
+            <div class="field">
+
+                <label for="objetivo">
+                    Objetivo do conteúdo
+                </label>
+
+                <select id="objetivo">
+
+                    <option value="vender">
+                        Vender
+                    </option>
+
+                    <option value="autoridade">
+                        Gerar autoridade
+                    </option>
+
+                    <option value="qualidade">
+                        Mostrar qualidade
+                    </option>
+
+                    <option value="bastidor">
+                        Mostrar bastidor
+                    </option>
+
+                    <option value="clientes">
+                        Atrair clientes
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- ESTILO -->
+            <div class="field">
+
+                <label for="estilo">
+                    Estilo do vídeo
+                </label>
+
+                <select id="estilo">
+
+                    <option value="direto">
+                        Direto
+                    </option>
+
+                    <option value="emocional">
+                        Emocional
+                    </option>
+
+                    <option value="tecnico">
+                        Técnico
+                    </option>
+
+                    <option value="premium">
+                        Premium
+                    </option>
+
+                    <option value="cinematografico">
+                        Cinematográfico
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- TEMA -->
+            <div class="field">
+
+                <label for="tema">
+                    Tema do conteúdo
+                </label>
+
+                <textarea
+                    id="tema"
+                    placeholder="Ex: mostrar um uniforme sendo criado do zero">
+                </textarea>
+
+            </div>
+
+            <!-- BOTÃO -->
+            <button id="generateBtn">
+
+                Gerar Conteúdo
+
+            </button>
+
+        </section>
+
+        <!-- COLUNA DIREITA -->
+        <section class="result-section">
+
+            <h2>Resultado</h2>
+
+            <div id="resultado">
+
+                Seu conteúdo aparecerá aqui...
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- conexão com JS -->
+    <script src="main.js"></script>
+
+</body>
+
+</html>
