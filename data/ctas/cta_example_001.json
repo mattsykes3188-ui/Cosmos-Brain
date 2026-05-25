@@ -1,0 +1,11 @@
+{
+  "id": "cta_example_001",
+  "type": "cta",
+  "product": "geral",
+  "objective": "vender",
+  "style": "direto",
+  "strength": 4,
+  "text": "Chame nossa equipe e solicite um orcamento para seu uniforme.",
+  "context": "Usar em conteudos comerciais de conversao.",
+  "source_type": "manual"
+}

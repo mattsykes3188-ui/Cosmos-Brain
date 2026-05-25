@@ -3,34 +3,50 @@
 const fs = require('fs');
 const path = require('path');
 
-function log(operation, result) {
-  const today = new Date().toISOString().slice(0, 10);
-  const logDir = path.join(__dirname, '..', 'logs');
+function logBrainAction(entry, options = {}) {
+  const timestamp = new Date().toISOString();
+  const today = timestamp.slice(0, 10);
+  const rootDir = options.rootDir || path.join(__dirname, '..');
+  const logDir = path.join(rootDir, 'logs');
   const logPath = path.join(logDir, `log_${today}.json`);
 
-  const entry = {
-    timestamp: new Date().toISOString(),
-    operation,
-    status: result.status,
-    item_id: result.item_id || null,
-    errors: result.errors || []
+  const normalizedEntry = {
+    timestamp,
+    action: entry.action || 'saveBrainItem',
+    type: entry.type || null,
+    id: entry.id || null,
+    success: Boolean(entry.success),
+    message: entry.message || '',
+    path: entry.path || null,
+    errors: Array.isArray(entry.errors) ? entry.errors : []
   };
 
-  if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
+  fs.mkdirSync(logDir, { recursive: true });
 
-  let logs = [];
-  if (fs.existsSync(logPath)) {
-    try {
-      logs = JSON.parse(fs.readFileSync(logPath, 'utf-8'));
-    } catch (_) {
-      logs = [];
-    }
-  }
+  const logs = readExistingLogs(logPath);
+  logs.push(normalizedEntry);
 
-  logs.push(entry);
-  fs.writeFileSync(logPath, JSON.stringify(logs, null, 2), 'utf-8');
+  fs.writeFileSync(logPath, JSON.stringify(logs, null, 2), 'utf8');
 
-  return entry;
+  return {
+    entry: normalizedEntry,
+    path: logPath
+  };
 }
 
-module.exports = { log };
+function readExistingLogs(logPath) {
+  if (!fs.existsSync(logPath)) {
+    return [];
+  }
+
+  try {
+    const content = JSON.parse(fs.readFileSync(logPath, 'utf8'));
+    return Array.isArray(content) ? content : [];
+  } catch (_) {
+    return [];
+  }
+}
+
+module.exports = {
+  logBrainAction
+};

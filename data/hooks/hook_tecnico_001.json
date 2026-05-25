@@ -1,0 +1,12 @@
+{
+  "id": "hook_tecnico_001",
+  "type": "hook",
+  "product": "geral",
+  "objective": "qualidade",
+  "style": "tecnico",
+  "emotion": "seguranca",
+  "strength": 5,
+  "text": "Tecido, modelagem e acabamento definem quanto tempo o uniforme vai representar bem sua empresa.",
+  "context": "Usar em conteudos educativos sobre qualidade e durabilidade.",
+  "source_type": "manual"
+}

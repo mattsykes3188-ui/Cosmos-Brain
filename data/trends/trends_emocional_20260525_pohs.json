@@ -1,0 +1,15 @@
+{
+  "id": "trends_emocional_20260525_pohs",
+  "type": "trend",
+  "product": "corporativo",
+  "objective": "engajamento",
+  "style": "emocional",
+  "strength": 4,
+  "text": "UGC e prova social: fotos de equipes reais superam conteudo de estudio em engajamento.",
+  "context": "Usar para incentivar registros de clientes, antes e depois, depoimentos e equipes usando os uniformes no dia a dia.",
+  "source_type": "agent_trends_20260525",
+  "sources": [
+    "26 Tendencias do Instagram para 2026 - Rafael Terra"
+  ],
+  "tags": ["ugc", "prova-social", "engajamento", "clientes", "equipes"]
+}

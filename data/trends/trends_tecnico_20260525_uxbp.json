@@ -1,0 +1,16 @@
+{
+  "id": "trends_tecnico_20260525_uxbp",
+  "type": "trend",
+  "product": "geral",
+  "objective": "engajamento",
+  "style": "tecnico",
+  "strength": 4,
+  "text": "Social selling LinkedIn: perfil do socio ou diretor como autoridade gera leads qualificados sem trafego pago.",
+  "context": "Usar para conteudos em primeira pessoa mostrando decisao tecnica, criterio de producao, atendimento B2B e cases.",
+  "source_type": "agent_trends_20260525",
+  "sources": [
+    "Tendencias para LinkedIn em 2026 - Digital Sem Igual",
+    "Empresas B2B investem em comunicacao premium - Copy House"
+  ],
+  "tags": ["linkedin", "social-selling", "b2b", "autoridade", "leads"]
+}

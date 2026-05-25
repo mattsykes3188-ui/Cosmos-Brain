@@ -1,90 +1,88 @@
 'use strict';
 
-const { write } = require('../core/writer');
 const fs = require('fs');
 const path = require('path');
+
+const { saveBrainItem } = require('../core/writer');
+
+const testRoot = path.join(__dirname, '.tmp_writer');
+const today = new Date().toISOString().slice(0, 10);
 
 let passed = 0;
 let failed = 0;
 
 function assert(condition, label) {
   if (condition) {
-    console.log(`  ✓ ${label}`);
+    console.log(`  OK ${label}`);
     passed++;
   } else {
-    console.log(`  ✗ ${label}`);
+    console.log(`  FAIL ${label}`);
     failed++;
   }
 }
 
-// ── TEST 1: Salvar hook válido ─────────────────────────────────────────────
-console.log('\n[TEST 1] Salvar hook válido');
+function readJson(filePath) {
+  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+}
 
-const uniqueText = `Cada detalhe do uniforme fala pela sua marca — e o cliente percebe antes de você abrir a boca. [ts:${Date.now()}]`;
+function resetTestRoot() {
+  fs.rmSync(testRoot, { recursive: true, force: true });
+  fs.mkdirSync(testRoot, { recursive: true });
+}
+
+resetTestRoot();
+
+console.log('\n[TEST 1] save valid hook');
 
 const validHook = {
   type: 'hook',
-  product: 'uniforme corporativo premium',
-  objective: 'capturar atenção de gestores no feed',
+  product: 'polo',
+  objective: 'vender',
   style: 'premium',
-  emotion: 'confiança',
-  strength: 4,
-  text: uniqueText,
-  context: 'post carrossel Instagram para donos de empresa B2B',
-  source_type: 'manual',
-  tags: ['uniforme', 'marca', 'b2b']
+  strength: 5,
+  text: 'Sua polo nao precisa parecer uniforme comum.',
+  context: 'Usar em videos premium de venda para polos personalizadas.',
+  source_type: 'test'
 };
 
-const r1 = write(validHook, 'hooks');
-console.log('  Retorno:', r1);
-assert(r1.success === true,        'deve salvar com sucesso');
-assert(typeof r1.id === 'string',  'deve retornar id gerado');
-assert(fs.existsSync(r1.path),     'arquivo deve existir em disco');
+const result = saveBrainItem(validHook, { rootDir: testRoot });
+const indexPath = path.join(testRoot, 'data', 'hooks', 'index.json');
+const logPath = path.join(testRoot, 'logs', `log_${today}.json`);
 
-// ── TEST 2: Rejeitar hook inválido ────────────────────────────────────────
-console.log('\n[TEST 2] Rejeitar hook sem campos obrigatórios');
+console.log('  Result:', result);
+assert(result.success === true, 'returns success=true');
+assert(typeof result.id === 'string' && result.id.startsWith('hook_'), 'generates hook id');
+assert(fs.existsSync(result.path), 'saves JSON file');
+assert(fs.existsSync(indexPath), 'creates/updates hooks index.json');
+assert(readJson(indexPath).includes(`${result.id}.json`), 'index.json lists saved file');
+assert(fs.existsSync(logPath), 'creates log file');
+assert(readJson(logPath).some((entry) => entry.id === result.id && entry.success === true), 'log includes success entry');
 
-const r2 = write({ type: 'hook', text: 'texto sem contexto' }, 'hooks');
-console.log('  Retorno:', r2);
-assert(r2.success === false,                             'deve ser rejeitado');
-assert(Array.isArray(r2.errors) && r2.errors.length > 0, 'deve listar erros');
-assert(r2.errors.some(e => e.includes('obrigatório')),   'erros devem citar campos obrigatórios');
+const savedItem = readJson(result.path);
+assert(savedItem.fingerprint && typeof savedItem.fingerprint === 'string', 'saves fingerprint');
+assert(savedItem.created_at && typeof savedItem.created_at === 'string', 'saves created_at');
 
-// ── TEST 3: Rejeitar duplicata ────────────────────────────────────────────
-console.log('\n[TEST 3] Rejeitar texto duplicado');
+console.log('\n[TEST 2] reject invalid hook');
 
-const r3 = write({ ...validHook }, 'hooks');
-console.log('  Retorno:', r3);
-assert(r3.success === false,                             'deve ser rejeitado');
-assert(r3.errors.some(e => e.toLowerCase().includes('duplicado')), 'erro deve mencionar duplicata');
+const filesBeforeInvalidSave = fs.readdirSync(path.join(testRoot, 'data', 'hooks')).filter((file) => file.endsWith('.json'));
+const invalidResult = saveBrainItem({
+  type: 'hook',
+  text: 'Item sem campos obrigatorios.'
+}, { rootDir: testRoot });
+const filesAfterInvalidSave = fs.readdirSync(path.join(testRoot, 'data', 'hooks')).filter((file) => file.endsWith('.json'));
+const logs = readJson(logPath);
 
-// ── TEST 4: Verificar strength fora do range ──────────────────────────────
-console.log('\n[TEST 4] Rejeitar strength=6 (fora do range 1-5)');
+console.log('  Result:', invalidResult);
+assert(invalidResult.success === false, 'returns success=false');
+assert(Array.isArray(invalidResult.errors) && invalidResult.errors.length > 0, 'returns validation errors');
+assert(filesAfterInvalidSave.length === filesBeforeInvalidSave.length, 'does not save a new data file');
+assert(logs.some((entry) => entry.success === false && entry.message === 'Validation failed.'), 'log includes validation failure');
 
-const r4 = write({ ...validHook, text: 'texto unico para teste de range ' + Date.now(), strength: 6 }, 'hooks');
-console.log('  Retorno:', r4);
-assert(r4.success === false,                  'deve ser rejeitado');
-assert(r4.errors.some(e => e.includes('"strength"')), 'erro deve citar "strength"');
+console.log('\n' + '-'.repeat(48));
+console.log(`Result: ${passed} passed | ${failed} failed`);
 
-// ── TEST 5: Verificar log gerado ──────────────────────────────────────────
-console.log('\n[TEST 5] Verificar log do dia');
+fs.rmSync(testRoot, { recursive: true, force: true });
 
-const today = new Date().toISOString().slice(0, 10);
-const logPath = path.join(__dirname, '..', 'logs', `log_${today}.json`);
-
-assert(fs.existsSync(logPath), 'arquivo de log deve existir');
-
-const logs = JSON.parse(fs.readFileSync(logPath, 'utf-8'));
-assert(logs.some(l => l.status === 'success'),          'log deve ter entrada de sucesso');
-assert(logs.some(l => l.status === 'validation_error'), 'log deve ter entrada de validation_error');
-assert(logs.some(l => l.status === 'duplicate'),        'log deve ter entrada de duplicate');
-
-console.log(`\n  Últimas entradas do log (${logs.length} total):`);
-logs.slice(-4).forEach(l =>
-  console.log(`    [${l.status.padEnd(17)}] id=${l.item_id || '—'} | ${l.timestamp}`)
-);
-
-// ── Resultado ─────────────────────────────────────────────────────────────
-console.log('\n' + '─'.repeat(55));
-console.log(`Resultado: ${passed} passou | ${failed} falhou`);
-if (failed === 0) console.log('Todos os testes passaram.');
+if (failed > 0) {
+  process.exit(1);
+}

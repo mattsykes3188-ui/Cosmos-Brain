@@ -1,14 +1,43 @@
 'use strict';
 
-// djb2-xor variant — deterministic 4-char base-36 fingerprint
-function hashText(text) {
-  const normalized = text.trim().toLowerCase();
-  let hash = 5381;
-  for (let i = 0; i < normalized.length; i++) {
-    hash = ((hash << 5) + hash) ^ normalized.charCodeAt(i);
-    hash = hash | 0; // keep 32-bit
+const crypto = require('crypto');
+
+const HASH_FIELDS = [
+  'type',
+  'product',
+  'objective',
+  'style',
+  'strength',
+  'text',
+  'context',
+  'source_type'
+];
+
+function pickMainContent(item) {
+  const content = {};
+
+  for (const field of HASH_FIELDS) {
+    content[field] = item && item[field] !== undefined ? item[field] : '';
   }
-  return Math.abs(hash).toString(36).padStart(4, '0').slice(-4);
+
+  return content;
 }
 
-module.exports = { hashText };
+function createFingerprint(item) {
+  const payload = JSON.stringify(pickMainContent(item));
+
+  return crypto
+    .createHash('sha256')
+    .update(payload)
+    .digest('hex');
+}
+
+function createShortHash(item, length = 5) {
+  return createFingerprint(item).slice(0, length);
+}
+
+module.exports = {
+  createFingerprint,
+  createShortHash,
+  pickMainContent
+};

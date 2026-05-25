@@ -1,0 +1,12 @@
+{
+  "id": "hook_direto_001",
+  "type": "hook",
+  "product": "geral",
+  "objective": "vender",
+  "style": "direto",
+  "emotion": "clareza",
+  "strength": 4,
+  "text": "Seu uniforme precisa comunicar profissionalismo antes da primeira conversa.",
+  "context": "Usar em conteudos diretos para decisores que precisam comprar uniformes.",
+  "source_type": "manual"
+}

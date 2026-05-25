@@ -1,0 +1,11 @@
+{
+  "id": "cta_clientes_001",
+  "type": "cta",
+  "product": "geral",
+  "objective": "clientes",
+  "style": "direto",
+  "strength": 4,
+  "text": "Entre em contato e descubra como sua empresa pode ter uniformes mais profissionais.",
+  "context": "Usar em conteudos para captacao de novos clientes.",
+  "source_type": "manual"
+}

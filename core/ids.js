@@ -1,14 +1,33 @@
 'use strict';
 
-const { hashText } = require('./hash');
+const { createShortHash } = require('./hash');
 
-// Retorna: tipo_subtipo_YYYYMMDD_hash4
-// Ex: hooks_premium_20260524_a3f9
-function generateId(type, subtype, text = '') {
-  const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-  const seed = text || `${type}_${subtype}_${date}`;
-  const hash = hashText(seed);
-  return `${type}_${subtype}_${date}_${hash}`;
+function generateBrainId(item, options = {}) {
+  const type = sanitizeIdPart(item && item.type ? item.type : 'item');
+  const date = formatDate(options.date || new Date());
+  const hash = createShortHash(item, options.hashLength || 5);
+
+  return `${type}_${date}_${hash}`;
 }
 
-module.exports = { generateId };
+function sanitizeIdPart(value) {
+  return String(value)
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_]+/g, '_')
+    .replace(/^_+|_+$/g, '') || 'item';
+}
+
+function formatDate(dateInput) {
+  if (typeof dateInput === 'string') {
+    return dateInput.slice(0, 10).replace(/-/g, '');
+  }
+
+  return dateInput.toISOString().slice(0, 10).replace(/-/g, '');
+}
+
+module.exports = {
+  generateBrainId,
+  sanitizeIdPart,
+  formatDate
+};

@@ -1,0 +1,11 @@
+{
+  "id": "cta_qualidade_001",
+  "type": "cta",
+  "product": "geral",
+  "objective": "qualidade",
+  "style": "tecnico",
+  "strength": 5,
+  "text": "Fale com nossa equipe e veja como os detalhes fazem diferenca no resultado final.",
+  "context": "Usar quando o conteudo destaca tecido, costura, bordado ou acabamento.",
+  "source_type": "manual"
+}

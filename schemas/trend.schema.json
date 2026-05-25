@@ -1,0 +1,21 @@
+{
+  "name": "trend",
+  "required": ["type", "product", "objective", "style", "strength", "text", "context", "source_type"],
+  "generated": ["id", "created_at"],
+  "optional": ["tags", "sources", "approved"],
+  "fields": {
+    "id":          { "type": "string" },
+    "type":        { "type": "string" },
+    "product":     { "type": "string", "minLength": 2 },
+    "objective":   { "type": "string", "minLength": 5 },
+    "style":       { "type": "string" },
+    "strength":    { "type": "number", "min": 1, "max": 5 },
+    "text":        { "type": "string", "minLength": 10 },
+    "context":     { "type": "string" },
+    "source_type": { "type": "string" },
+    "created_at":  { "type": "string" },
+    "tags":        { "type": "array" },
+    "sources":     { "type": "array" },
+    "approved":    { "type": "boolean" }
+  }
+}

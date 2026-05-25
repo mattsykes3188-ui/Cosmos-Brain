@@ -1,62 +1,167 @@
 'use strict';
 
-// Princípio: Agente propõe. Core valida. Core salva. Core registra.
-// Nenhum agente salva diretamente em data/ — todo salvamento passa por aqui.
+// Agents and tasks should call this module instead of writing directly to data/.
+// The core validates, identifies, saves, updates the manifest and logs the action.
 
 const fs = require('fs');
 const path = require('path');
 
-const { validate }     = require('./validator');
-const { isDuplicate }  = require('./deduplicator');
-const { generateId }   = require('./ids');
-const { log }          = require('./logger');
+const { createFingerprint } = require('./hash');
+const { generateBrainId } = require('./ids');
+const { logBrainAction } = require('./logger');
+const { validateBrainItem } = require('./validator');
 
-function write(object, type) {
-  // schemas usam nome singular: 'hooks' → 'hook'
-  const schemaName = type.replace(/s$/, '');
+const TYPE_TO_FOLDER = {
+  hook: 'hooks',
+  cta: 'ctas',
+  trend: 'trends',
+  pain_point: 'pain_points',
+  storytelling: 'storytelling',
+  visual: 'visual'
+};
 
-  // ── 1. Validação ──────────────────────────────────────────────────────────
-  const validation = validate(object, schemaName);
+function saveBrainItem(item, options = {}) {
+  const rootDir = options.rootDir || path.join(__dirname, '..');
+  const action = options.action || 'saveBrainItem';
+  const validation = validateBrainItem(item);
+
   if (!validation.valid) {
-    log('write', { status: 'validation_error', item_id: null, errors: validation.errors });
-    return { success: false, errors: validation.errors };
+    logBrainAction({
+      action,
+      type: item && item.type,
+      id: item && item.id,
+      success: false,
+      message: 'Validation failed.',
+      path: null,
+      errors: validation.errors
+    }, { rootDir });
+
+    return {
+      success: false,
+      id: item && item.id ? item.id : null,
+      path: null,
+      errors: validation.errors
+    };
   }
 
-  // ── 2. Detecção de duplicata ──────────────────────────────────────────────
-  if (isDuplicate(object.text, type)) {
-    const errors = [`Texto duplicado detectado em data/${type}/`];
-    log('write', { status: 'duplicate', item_id: null, errors });
-    return { success: false, errors };
+  const folderName = TYPE_TO_FOLDER[item.type];
+
+  if (!folderName) {
+    const errors = [`Unsupported type: ${item.type}`];
+
+    logBrainAction({
+      action,
+      type: item.type,
+      id: item.id,
+      success: false,
+      message: 'Unsupported item type.',
+      path: null,
+      errors
+    }, { rootDir });
+
+    return {
+      success: false,
+      id: item.id || null,
+      path: null,
+      errors
+    };
   }
 
-  // ── 3. Geração de ID ──────────────────────────────────────────────────────
-  const subtype = object.style || object.subtype || 'default';
-  const id = generateId(type, subtype, object.text);
+  const fingerprint = createFingerprint(item);
+  const id = item.id || generateBrainId(item, options);
+  const createdAt = item.created_at || new Date().toISOString().slice(0, 10);
+  const fileName = `${id}.json`;
+  const targetDir = path.join(rootDir, 'data', folderName);
+  const targetPath = path.join(targetDir, fileName);
+  const relativePath = path.join('data', folderName, fileName).replace(/\\/g, '/');
 
-  // ── 4. Enriquecimento e salvamento ────────────────────────────────────────
-  const enriched = {
-    ...object,
+  const payload = {
+    ...item,
     id,
-    created_at: new Date().toISOString().slice(0, 10)
+    fingerprint,
+    created_at: createdAt
   };
 
-  const dir = path.join(__dirname, '..', 'data', type);
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-
-  const filePath = path.join(dir, `${id}.json`);
-
   try {
-    fs.writeFileSync(filePath, JSON.stringify(enriched, null, 2), 'utf-8');
-  } catch (e) {
-    const errors = [`Erro ao salvar arquivo: ${e.message}`];
-    log('write', { status: 'save_error', item_id: id, errors });
-    return { success: false, errors };
+    fs.mkdirSync(targetDir, { recursive: true });
+    fs.writeFileSync(targetPath, JSON.stringify(payload, null, 2), 'utf8');
+    updateManifest(targetDir, fileName);
+
+    logBrainAction({
+      action,
+      type: item.type,
+      id,
+      success: true,
+      message: 'Item saved.',
+      path: relativePath,
+      errors: []
+    }, { rootDir });
+
+    return {
+      success: true,
+      id,
+      path: targetPath,
+      relativePath,
+      fingerprint
+    };
+  } catch (error) {
+    const errors = [error.message];
+
+    logBrainAction({
+      action,
+      type: item.type,
+      id,
+      success: false,
+      message: 'Save failed.',
+      path: relativePath,
+      errors
+    }, { rootDir });
+
+    return {
+      success: false,
+      id,
+      path: null,
+      errors
+    };
   }
-
-  // ── 5. Registro de sucesso ────────────────────────────────────────────────
-  log('write', { status: 'success', item_id: id, errors: [] });
-
-  return { success: true, id, path: filePath };
 }
 
-module.exports = { write };
+function updateManifest(targetDir, fileName) {
+  const indexPath = path.join(targetDir, 'index.json');
+  const manifest = readManifest(indexPath);
+
+  if (!manifest.includes(fileName)) {
+    manifest.push(fileName);
+  }
+
+  fs.writeFileSync(indexPath, JSON.stringify(manifest, null, 2), 'utf8');
+}
+
+function readManifest(indexPath) {
+  if (!fs.existsSync(indexPath)) {
+    return [];
+  }
+
+  try {
+    const content = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
+    return Array.isArray(content) ? content : [];
+  } catch (_) {
+    return [];
+  }
+}
+
+// Compatibility wrapper for older tasks that still call write(item, 'hooks').
+function write(item, type) {
+  const singularType = type ? type.replace(/s$/, '') : item && item.type;
+  return saveBrainItem({
+    ...item,
+    type: item.type || singularType
+  });
+}
+
+module.exports = {
+  TYPE_TO_FOLDER,
+  saveBrainItem,
+  updateManifest,
+  write
+};

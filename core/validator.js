@@ -1,60 +1,58 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
+const REQUIRED_FIELDS = [
+  'type',
+  'product',
+  'objective',
+  'style',
+  'strength',
+  'text',
+  'context',
+  'source_type'
+];
 
-function validate(object, schemaName) {
-  const schemaPath = path.join(__dirname, '..', 'schemas', `${schemaName}.schema.json`);
-
-  if (!fs.existsSync(schemaPath)) {
-    return { valid: false, errors: [`Schema não encontrado: ${schemaName}`] };
-  }
-
-  const schema = JSON.parse(fs.readFileSync(schemaPath, 'utf-8'));
+function validateBrainItem(item) {
   const errors = [];
 
-  for (const field of schema.required) {
-    const value = object[field];
+  if (!item || typeof item !== 'object' || Array.isArray(item)) {
+    return {
+      valid: false,
+      errors: ['Item must be an object.']
+    };
+  }
+
+  for (const field of REQUIRED_FIELDS) {
+    const value = item[field];
 
     if (value === undefined || value === null || value === '') {
-      errors.push(`Campo obrigatório ausente ou vazio: "${field}"`);
+      errors.push(`Missing required field: ${field}`);
       continue;
     }
 
-    const rules = schema.fields[field];
-    if (!rules) continue;
-
-    if (rules.type === 'number') {
-      if (typeof value !== 'number') {
-        errors.push(`"${field}" deve ser número, recebeu ${typeof value}`);
-      } else {
-        if (rules.min !== undefined && value < rules.min)
-          errors.push(`"${field}" deve ser >= ${rules.min} (recebeu ${value})`);
-        if (rules.max !== undefined && value > rules.max)
-          errors.push(`"${field}" deve ser <= ${rules.max} (recebeu ${value})`);
-      }
-    }
-
-    if (rules.type === 'string' && typeof value === 'string' && rules.minLength) {
-      if (value.length < rules.minLength)
-        errors.push(`"${field}" deve ter ao menos ${rules.minLength} caracteres`);
+    if (field !== 'strength' && typeof value !== 'string') {
+      errors.push(`Field ${field} must be a string.`);
     }
   }
 
-  for (const field of (schema.optional || [])) {
-    const value = object[field];
-    if (value === undefined) continue;
-
-    const rules = schema.fields[field];
-    if (!rules) continue;
-
-    if (rules.type === 'array' && !Array.isArray(value))
-      errors.push(`"${field}" deve ser array`);
-    if (rules.type === 'boolean' && typeof value !== 'boolean')
-      errors.push(`"${field}" deve ser boolean`);
+  if (item.id !== undefined && item.id !== null && typeof item.id !== 'string') {
+    errors.push('Field id must be a string when provided.');
   }
 
-  return errors.length > 0 ? { valid: false, errors } : { valid: true };
+  const hasStrength = item.strength !== undefined && item.strength !== null && item.strength !== '';
+
+  if (hasStrength && typeof item.strength !== 'number') {
+    errors.push('Field strength must be a number.');
+  } else if (hasStrength && (item.strength < 1 || item.strength > 5)) {
+    errors.push('Field strength must be between 1 and 5.');
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors
+  };
 }
 
-module.exports = { validate };
+module.exports = {
+  validateBrainItem,
+  validate: validateBrainItem
+};
