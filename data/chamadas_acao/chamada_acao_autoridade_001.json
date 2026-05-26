@@ -1,0 +1,11 @@
+{
+  "id": "chamada_acao_autoridade_001",
+  "type": "chamada_acao",
+  "product": "geral",
+  "objective": "autoridade",
+  "style": "tecnico",
+  "strength": 4,
+  "text": "Acompanhe nosso perfil para entender como um uniforme profissional e criado.",
+  "context": "Usar em conteudos educativos e de autoridade.",
+  "source_type": "manual"
+}

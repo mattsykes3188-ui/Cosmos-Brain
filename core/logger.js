@@ -16,10 +16,19 @@ function logBrainAction(entry, options = {}) {
     type: entry.type || null,
     id: entry.id || null,
     success: Boolean(entry.success),
-    message: entry.message || '',
+    duplicate: Boolean(entry.duplicate),
     path: entry.path || null,
+    message: entry.message || '',
     errors: Array.isArray(entry.errors) ? entry.errors : []
   };
+
+  if (entry.tokens !== undefined) {
+    normalizedEntry.tokens = entry.tokens;
+  }
+
+  if (entry.cost_usd !== undefined) {
+    normalizedEntry.cost_usd = entry.cost_usd;
+  }
 
   fs.mkdirSync(logDir, { recursive: true });
 
@@ -48,5 +57,6 @@ function readExistingLogs(logPath) {
 }
 
 module.exports = {
-  logBrainAction
+  logBrainAction,
+  readExistingLogs
 };

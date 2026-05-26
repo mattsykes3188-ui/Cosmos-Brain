@@ -2,30 +2,71 @@
 
 const fs = require('fs');
 const path = require('path');
-const { hashText } = require('./hash');
 
-function isDuplicate(text, type) {
-  const dir = path.join(__dirname, '..', 'data', type);
+const { createFingerprint } = require('./hash');
 
-  if (!fs.existsSync(dir)) return false;
+function findDuplicateBrainItem(item, folderPath) {
+  const fingerprint = item.fingerprint || createFingerprint(item);
 
-  const incomingHash = hashText(text);
-  const files = fs.readdirSync(dir).filter(f => f.endsWith('.json'));
+  if (!fs.existsSync(folderPath)) {
+    return {
+      duplicate: false,
+      fingerprint,
+      match: null
+    };
+  }
+
+  const files = fs.readdirSync(folderPath)
+    .filter((file) => file.endsWith('.json') && file !== 'index.json');
 
   for (const file of files) {
-    try {
-      const content = JSON.parse(
-        fs.readFileSync(path.join(dir, file), 'utf-8')
-      );
-      if (content.text && hashText(content.text) === incomingHash) {
-        return true;
-      }
-    } catch (_) {
-      // arquivo corrompido: ignora e continua
+    const filePath = path.join(folderPath, file);
+    const existing = readJson(filePath);
+
+    if (!existing) {
+      continue;
+    }
+
+    const existingFingerprint = existing.fingerprint || createFingerprint(existing);
+
+    if (existingFingerprint === fingerprint) {
+      return {
+        duplicate: true,
+        fingerprint,
+        match: {
+          id: existing.id || path.basename(file, '.json'),
+          file,
+          path: filePath
+        }
+      };
     }
   }
 
-  return false;
+  return {
+    duplicate: false,
+    fingerprint,
+    match: null
+  };
 }
 
-module.exports = { isDuplicate };
+function readJson(filePath) {
+  try {
+    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  } catch (_) {
+    return null;
+  }
+}
+
+// Compatibility helper for older code that only checked duplicated text.
+function isDuplicate(itemOrText, folderPath) {
+  const item = typeof itemOrText === 'string'
+    ? { type: '', product: '', objective: '', style: '', text: itemOrText }
+    : itemOrText;
+
+  return findDuplicateBrainItem(item, folderPath).duplicate;
+}
+
+module.exports = {
+  findDuplicateBrainItem,
+  isDuplicate
+};

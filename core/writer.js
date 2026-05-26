@@ -1,82 +1,119 @@
 'use strict';
 
-// Agents and tasks should call this module instead of writing directly to data/.
-// The core validates, identifies, saves, updates the manifest and logs the action.
+// Agents and tasks save through this file. It is the data integrity gate:
+// normalize -> validate -> hash -> deduplicate -> save -> update manifest -> log.
 
 const fs = require('fs');
 const path = require('path');
 
+const { findDuplicateBrainItem } = require('./deduplicator');
 const { createFingerprint } = require('./hash');
 const { generateBrainId } = require('./ids');
 const { logBrainAction } = require('./logger');
-const { validateBrainItem } = require('./validator');
-
-const TYPE_TO_FOLDER = {
-  hook: 'hooks',
-  cta: 'ctas',
-  trend: 'trends',
-  pain_point: 'pain_points',
-  storytelling: 'storytelling',
-  visual: 'visual'
-};
+const { TYPE_TO_FOLDER, normalizeBrainType, validateBrainItem } = require('./validator');
 
 function saveBrainItem(item, options = {}) {
   const rootDir = options.rootDir || path.join(__dirname, '..');
   const action = options.action || 'saveBrainItem';
-  const validation = validateBrainItem(item);
+  const normalizedItem = normalizeBrainItem(item);
+  const createdAt = normalizedItem && normalizedItem.created_at
+    ? normalizedItem.created_at
+    : new Date().toISOString().slice(0, 10);
+
+  if (normalizedItem && typeof normalizedItem === 'object' && !Array.isArray(normalizedItem)) {
+    normalizedItem.created_at = createdAt;
+  }
+
+  const validation = validateBrainItem(normalizedItem);
 
   if (!validation.valid) {
     logBrainAction({
       action,
-      type: item && item.type,
-      id: item && item.id,
+      type: normalizedItem && normalizedItem.type,
+      id: normalizedItem && normalizedItem.id,
       success: false,
-      message: 'Validation failed.',
+      duplicate: false,
       path: null,
-      errors: validation.errors
+      message: 'Validation failed.',
+      errors: validation.errors,
+      tokens: options.tokens,
+      cost_usd: options.cost_usd
     }, { rootDir });
 
     return {
       success: false,
-      id: item && item.id ? item.id : null,
+      id: normalizedItem && normalizedItem.id ? normalizedItem.id : null,
       path: null,
+      duplicate: false,
       errors: validation.errors
     };
   }
 
-  const folderName = TYPE_TO_FOLDER[item.type];
+  const folderName = TYPE_TO_FOLDER[normalizedItem.type];
+  const targetDir = path.join(rootDir, 'data', folderName);
+  const fingerprint = createFingerprint(normalizedItem);
+  const duplicateCheck = findDuplicateBrainItem({ ...normalizedItem, fingerprint }, targetDir);
 
-  if (!folderName) {
-    const errors = [`Unsupported type: ${item.type}`];
+  if (duplicateCheck.duplicate) {
+    const duplicatePath = duplicateCheck.match.path;
+    const duplicateRelativePath = toRelativeDataPath(rootDir, duplicatePath);
 
     logBrainAction({
       action,
-      type: item.type,
-      id: item.id,
+      type: normalizedItem.type,
+      id: duplicateCheck.match.id,
       success: false,
-      message: 'Unsupported item type.',
-      path: null,
-      errors
+      duplicate: true,
+      path: duplicateRelativePath,
+      message: 'Duplicate item detected.',
+      errors: [],
+      tokens: options.tokens,
+      cost_usd: options.cost_usd
     }, { rootDir });
 
     return {
       success: false,
-      id: item.id || null,
-      path: null,
+      id: duplicateCheck.match.id,
+      path: duplicatePath,
+      relativePath: duplicateRelativePath,
+      duplicate: true,
+      fingerprint
+    };
+  }
+
+  const id = normalizedItem.id || generateBrainId(normalizedItem, options);
+  const fileName = `${id}.json`;
+  const targetPath = path.join(targetDir, fileName);
+  const relativePath = toRelativeDataPath(rootDir, targetPath);
+
+  if (fs.existsSync(targetPath)) {
+    const errors = [`File already exists: ${relativePath}`];
+
+    logBrainAction({
+      action,
+      type: normalizedItem.type,
+      id,
+      success: false,
+      duplicate: false,
+      path: relativePath,
+      message: 'ID collision detected.',
+      errors,
+      tokens: options.tokens,
+      cost_usd: options.cost_usd
+    }, { rootDir });
+
+    return {
+      success: false,
+      id,
+      path: targetPath,
+      relativePath,
+      duplicate: false,
       errors
     };
   }
 
-  const fingerprint = createFingerprint(item);
-  const id = item.id || generateBrainId(item, options);
-  const createdAt = item.created_at || new Date().toISOString().slice(0, 10);
-  const fileName = `${id}.json`;
-  const targetDir = path.join(rootDir, 'data', folderName);
-  const targetPath = path.join(targetDir, fileName);
-  const relativePath = path.join('data', folderName, fileName).replace(/\\/g, '/');
-
   const payload = {
-    ...item,
+    ...normalizedItem,
     id,
     fingerprint,
     created_at: createdAt
@@ -89,12 +126,15 @@ function saveBrainItem(item, options = {}) {
 
     logBrainAction({
       action,
-      type: item.type,
+      type: normalizedItem.type,
       id,
       success: true,
-      message: 'Item saved.',
+      duplicate: false,
       path: relativePath,
-      errors: []
+      message: 'Item saved.',
+      errors: [],
+      tokens: options.tokens,
+      cost_usd: options.cost_usd
     }, { rootDir });
 
     return {
@@ -102,6 +142,7 @@ function saveBrainItem(item, options = {}) {
       id,
       path: targetPath,
       relativePath,
+      duplicate: false,
       fingerprint
     };
   } catch (error) {
@@ -109,21 +150,45 @@ function saveBrainItem(item, options = {}) {
 
     logBrainAction({
       action,
-      type: item.type,
+      type: normalizedItem.type,
       id,
       success: false,
-      message: 'Save failed.',
+      duplicate: false,
       path: relativePath,
-      errors
+      message: 'Save failed.',
+      errors,
+      tokens: options.tokens,
+      cost_usd: options.cost_usd
     }, { rootDir });
 
     return {
       success: false,
       id,
       path: null,
+      duplicate: false,
       errors
     };
   }
+}
+
+function normalizeBrainItem(item) {
+  if (!item || typeof item !== 'object' || Array.isArray(item)) {
+    return item;
+  }
+
+  const normalized = { ...item };
+
+  for (const [key, value] of Object.entries(normalized)) {
+    if (typeof value === 'string') {
+      normalized[key] = value.trim();
+    }
+  }
+
+  if (typeof normalized.type === 'string') {
+    normalized.type = normalizeBrainType(normalized.type);
+  }
+
+  return normalized;
 }
 
 function updateManifest(targetDir, fileName) {
@@ -150,18 +215,44 @@ function readManifest(indexPath) {
   }
 }
 
-// Compatibility wrapper for older tasks that still call write(item, 'hooks').
+function toRelativeDataPath(rootDir, targetPath) {
+  return path.relative(rootDir, targetPath).replace(/\\/g, '/');
+}
+
+// Compatibility wrapper for older tasks that still call write(item, 'ganchos').
 function write(item, type) {
-  const singularType = type ? type.replace(/s$/, '') : item && item.type;
+  const singularType = type ? singularizeFolderType(type) : item && item.type;
   return saveBrainItem({
     ...item,
     type: item.type || singularType
   });
 }
 
+function singularizeFolderType(type) {
+  const folderToType = {
+    ganchos: 'gancho',
+    chamadas_acao: 'chamada_acao',
+    tendencias: 'tendencia',
+    dores_mercado: 'dor_mercado',
+    narrativas: 'narrativa',
+    direcao_visual: 'direcao_visual',
+    hooks: 'gancho',
+    ctas: 'chamada_acao',
+    trends: 'tendencia',
+    pain_points: 'dor_mercado',
+    storytelling: 'narrativa',
+    visual: 'direcao_visual'
+  };
+
+  return folderToType[type] || type;
+}
+
 module.exports = {
   TYPE_TO_FOLDER,
+  normalizeBrainItem,
+  readManifest,
   saveBrainItem,
+  singularizeFolderType,
   updateManifest,
   write
 };

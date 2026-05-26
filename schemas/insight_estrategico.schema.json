@@ -1,0 +1,96 @@
+{
+  "name": "insight_estrategico",
+  "required": [
+    "type",
+    "source",
+    "padrao_mercado",
+    "interpretacao_estrategica",
+    "angulo_conteudo",
+    "formato_recomendado",
+    "strength",
+    "text",
+    "context",
+    "created_at"
+  ],
+  "generated": [
+    "id",
+    "fingerprint"
+  ],
+  "optional": [
+    "agent",
+    "source_type",
+    "batch_id",
+    "processed_at",
+    "tags",
+    "sources",
+    "approved"
+  ],
+  "fields": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "padrao_mercado": {
+      "type": "string",
+      "minLength": 1
+    },
+    "interpretacao_estrategica": {
+      "type": "string",
+      "minLength": 1
+    },
+    "angulo_conteudo": {
+      "type": "string",
+      "minLength": 1
+    },
+    "formato_recomendado": {
+      "type": "string",
+      "minLength": 1
+    },
+    "strength": {
+      "type": "number",
+      "min": 1,
+      "max": 5
+    },
+    "text": {
+      "type": "string",
+      "minLength": 10
+    },
+    "context": {
+      "type": "string",
+      "minLength": 10
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "fingerprint": {
+      "type": "string"
+    },
+    "agent": {
+      "type": "string"
+    },
+    "source_type": {
+      "type": "string"
+    },
+    "batch_id": {
+      "type": "string"
+    },
+    "processed_at": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array"
+    },
+    "sources": {
+      "type": "array"
+    },
+    "approved": {
+      "type": "boolean"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "gancho_cinematografico_001",
+  "type": "gancho",
+  "product": "geral",
+  "objective": "vender",
+  "style": "cinematografico",
+  "emotion": "impacto",
+  "strength": 4,
+  "text": "Seu uniforme pode ser apresentado como uma peca de valor, nao como um item comum.",
+  "context": "Usar em reels com close, luz, movimento de camera e revelacao final.",
+  "source_type": "manual"
+}

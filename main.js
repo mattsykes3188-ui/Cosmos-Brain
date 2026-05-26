@@ -4,18 +4,18 @@
 
 // Estado em memoria. Depois que os JSONs carregam, a interface usa estes arrays.
 let bibliotecas = {
-    hooks: [],
-    trends: [],
-    ctas: []
+    ganchos: [],
+    tendencias: [],
+    chamadas_acao: []
 };
 
 // Fallback interno: se o fetch falhar, a pagina continua funcionando.
 // Isso tambem ajuda quando a pessoa abre o HTML por duplo clique (file://).
 const fallbackBibliotecas = {
-    hooks: [
+    ganchos: [
         {
-            id: "fallback_hook_premium_001",
-            type: "hook",
+            id: "fallback_gancho_premium_001",
+            type: "gancho",
             product: "geral",
             objective: "vender",
             style: "premium",
@@ -26,8 +26,8 @@ const fallbackBibliotecas = {
             source_type: "fallback"
         },
         {
-            id: "fallback_hook_emocional_001",
-            type: "hook",
+            id: "fallback_gancho_emocional_001",
+            type: "gancho",
             product: "geral",
             objective: "clientes",
             style: "emocional",
@@ -38,8 +38,8 @@ const fallbackBibliotecas = {
             source_type: "fallback"
         },
         {
-            id: "fallback_hook_tecnico_001",
-            type: "hook",
+            id: "fallback_gancho_tecnico_001",
+            type: "gancho",
             product: "geral",
             objective: "qualidade",
             style: "tecnico",
@@ -50,8 +50,8 @@ const fallbackBibliotecas = {
             source_type: "fallback"
         },
         {
-            id: "fallback_hook_cinematografico_001",
-            type: "hook",
+            id: "fallback_gancho_cinematografico_001",
+            type: "gancho",
             product: "geral",
             objective: "vender",
             style: "cinematografico",
@@ -62,8 +62,8 @@ const fallbackBibliotecas = {
             source_type: "fallback"
         },
         {
-            id: "fallback_hook_direto_001",
-            type: "hook",
+            id: "fallback_gancho_direto_001",
+            type: "gancho",
             product: "geral",
             objective: "vender",
             style: "direto",
@@ -74,10 +74,10 @@ const fallbackBibliotecas = {
             source_type: "fallback"
         }
     ],
-    trends: [
+    tendencias: [
         {
-            id: "fallback_trend_tecnico_001",
-            type: "trend",
+            id: "fallback_tendencia_tecnico_001",
+            type: "tendencia",
             product: "geral",
             objective: "autoridade",
             style: "tecnico",
@@ -87,10 +87,10 @@ const fallbackBibliotecas = {
             source_type: "fallback"
         }
     ],
-    ctas: [
+    chamadas_acao: [
         {
-            id: "fallback_cta_vender_001",
-            type: "cta",
+            id: "fallback_chamada_acao_vender_001",
+            type: "chamada_acao",
             product: "geral",
             objective: "vender",
             style: "direto",
@@ -100,8 +100,8 @@ const fallbackBibliotecas = {
             source_type: "fallback"
         },
         {
-            id: "fallback_cta_autoridade_001",
-            type: "cta",
+            id: "fallback_chamada_acao_autoridade_001",
+            type: "chamada_acao",
             product: "geral",
             objective: "autoridade",
             style: "tecnico",
@@ -111,8 +111,8 @@ const fallbackBibliotecas = {
             source_type: "fallback"
         },
         {
-            id: "fallback_cta_qualidade_001",
-            type: "cta",
+            id: "fallback_chamada_acao_qualidade_001",
+            type: "chamada_acao",
             product: "geral",
             objective: "qualidade",
             style: "tecnico",
@@ -122,8 +122,8 @@ const fallbackBibliotecas = {
             source_type: "fallback"
         },
         {
-            id: "fallback_cta_bastidor_001",
-            type: "cta",
+            id: "fallback_chamada_acao_bastidor_001",
+            type: "chamada_acao",
             product: "geral",
             objective: "bastidor",
             style: "emocional",
@@ -133,8 +133,8 @@ const fallbackBibliotecas = {
             source_type: "fallback"
         },
         {
-            id: "fallback_cta_clientes_001",
-            type: "cta",
+            id: "fallback_chamada_acao_clientes_001",
+            type: "chamada_acao",
             product: "geral",
             objective: "clientes",
             style: "direto",
@@ -175,7 +175,7 @@ const roteirosPorEstilo = {
         Cena 1 -> Mostrar o uniforme rapidamente.<br>
         Cena 2 -> Mostrar detalhes importantes.<br>
         Cena 3 -> Mostrar producao.<br>
-        Cena 4 -> Mostrar resultado e CTA.
+        Cena 4 -> Mostrar resultado e chamada de acao.
     `
 };
 
@@ -209,7 +209,7 @@ const resultadoEl = document.getElementById("resultado");
 
 // Um manifesto e um index.json com a lista dos arquivos daquela biblioteca.
 // Usamos manifesto porque frontend puro nao consegue listar uma pasta com fetch.
-// Exemplo: primeiro buscamos data/hooks/index.json; depois buscamos cada arquivo listado ali.
+// Exemplo: primeiro buscamos data/ganchos/index.json; depois buscamos cada arquivo listado ali.
 async function carregarBiblioteca(tipo) {
     try {
         const manifesto = await carregarArquivoJson(`data/${tipo}/index.json`);
@@ -240,18 +240,18 @@ async function carregarArquivoJson(caminho) {
     return resposta.json();
 }
 
-// Carrega hooks, trends e ctas quando a pagina abre.
+// Carrega ganchos, tendencias e chamadas de acao quando a pagina abre.
 async function inicializarBibliotecas() {
     mostrarLoading();
     generateBtn.disabled = true;
 
-    const [hooks, trends, ctas] = await Promise.all([
-        carregarBiblioteca("hooks"),
-        carregarBiblioteca("trends"),
-        carregarBiblioteca("ctas")
+    const [ganchos, tendencias, chamadas_acao] = await Promise.all([
+        carregarBiblioteca("ganchos"),
+        carregarBiblioteca("tendencias"),
+        carregarBiblioteca("chamadas_acao")
     ]);
 
-    bibliotecas = { hooks, trends, ctas };
+    bibliotecas = { ganchos, tendencias, chamadas_acao };
 
     generateBtn.disabled = false;
     resultadoEl.innerHTML = "Seu conteudo aparecera aqui...";
@@ -328,7 +328,7 @@ function mostrarLoading() {
     resultadoEl.innerHTML = `
         <div class="result-card">
             <h3>Carregando</h3>
-            <p>Preparando bibliotecas de hooks, trends e CTAs...</p>
+            <p>Preparando bibliotecas de ganchos, tendencias e chamadas de acao...</p>
         </div>
     `;
 }
@@ -358,19 +358,19 @@ function gerarConteudo() {
         style: estilo
     };
 
-    const hook = escolherItemPorFiltros(bibliotecas.hooks, {
+    const gancho = escolherItemPorFiltros(bibliotecas.ganchos, {
         ...filtrosBase,
-        type: "hook"
+        type: "gancho"
     });
 
-    const trend = escolherItemPorFiltros(bibliotecas.trends, {
+    const tendencia = escolherItemPorFiltros(bibliotecas.tendencias, {
         ...filtrosBase,
-        type: "trend"
+        type: "tendencia"
     });
 
-    const cta = escolherItemPorFiltros(bibliotecas.ctas, {
+    const chamadaAcao = escolherItemPorFiltros(bibliotecas.chamadas_acao, {
         ...filtrosBase,
-        type: "cta"
+        type: "chamada_acao"
     });
 
     const roteiro = roteirosPorEstilo[estilo] || roteirosPorEstilo.direto;
@@ -394,12 +394,12 @@ function gerarConteudo() {
 
         <div class="result-card">
             <h3>Gancho</h3>
-            <p>"${escaparHtml(hook ? hook.text : "Um bom uniforme comeca com uma boa apresentacao.")}"</p>
+            <p>"${escaparHtml(gancho ? gancho.text : "Um bom uniforme comeca com uma boa apresentacao.")}"</p>
         </div>
 
         <div class="result-card">
             <h3>Tendencia</h3>
-            <p>${escaparHtml(trend ? trend.text : "Clientes valorizam cada vez mais ver o uniforme antes da producao.")}</p>
+            <p>${escaparHtml(tendencia ? tendencia.text : "Clientes valorizam cada vez mais ver o uniforme antes da producao.")}</p>
         </div>
 
         <div class="result-card">
@@ -413,8 +413,8 @@ function gerarConteudo() {
         </div>
 
         <div class="result-card">
-            <h3>CTA</h3>
-            <p>${escaparHtml(cta ? cta.text : "Chame nossa equipe e solicite um orcamento para seu uniforme.")}</p>
+            <h3>Chamada de acao</h3>
+            <p>${escaparHtml(chamadaAcao ? chamadaAcao.text : "Chame nossa equipe e solicite um orcamento para seu uniforme.")}</p>
         </div>
 
         <div class="result-card">

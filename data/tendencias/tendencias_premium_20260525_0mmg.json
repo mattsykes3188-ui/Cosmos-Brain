@@ -1,0 +1,22 @@
+{
+  "id": "tendencias_premium_20260525_0mmg",
+  "type": "tendencia",
+  "product": "geral",
+  "objective": "awareness",
+  "style": "premium",
+  "strength": 4,
+  "text": "ESG como argumento de compra: empresas com metas ESG exigem provas documentadas de fornecedores sustentaveis.",
+  "context": "Usar para conteudos sobre materiais, desperdicio, producao responsavel, documentacao e confianca do fornecedor.",
+  "source_type": "agent_tendencias_20260525",
+  "sources": [
+    "Uniformes Corporativos e Sustentabilidade - Uzan Uniformes",
+    "Tendencias de uniformes corporativos para 2026 - Alternativa Uniformes"
+  ],
+  "tags": [
+    "esg",
+    "sustentabilidade",
+    "documentacao",
+    "fornecedor",
+    "premium"
+  ]
+}

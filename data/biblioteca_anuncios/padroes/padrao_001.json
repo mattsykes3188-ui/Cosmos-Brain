@@ -1,0 +1,22 @@
+{
+  "id": "padrao_001",
+  "type": "insight_anuncio",
+  "source": "exemplo_manual",
+  "marca": "Fabrica de uniformes exemplo",
+  "produto": "uniforme corporativo",
+  "promessa": "entrega rapida com preco acessivel",
+  "dor_principal": "cliente precisa repor uniformes sem atrasar a operacao",
+  "formato": "anuncio estatico",
+  "estilo_visual": "simples, direto e com foco em preco",
+  "estrutura_copy": "dor imediata, promessa objetiva, prova simples e chamada para orcamento",
+  "strength": 3,
+  "text": "Anuncios focados em preco tendem a funcionar melhor quando combinam entrega rapida com uma promessa simples e facil de comparar.",
+  "context": "Usar como referencia para analisar anuncios de uniformes que competem por urgencia, reposicao e preco.",
+  "created_at": "2026-05-25",
+  "tags": [
+    "preco",
+    "entrega-rapida",
+    "copy-simples",
+    "uniformes"
+  ]
+}

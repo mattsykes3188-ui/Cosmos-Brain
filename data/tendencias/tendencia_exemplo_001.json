@@ -1,0 +1,11 @@
+{
+  "id": "tendencia_exemplo_001",
+  "type": "tendencia",
+  "product": "geral",
+  "objective": "autoridade",
+  "style": "tecnico",
+  "strength": 4,
+  "text": "Clientes valorizam cada vez mais ver o uniforme antes da producao.",
+  "context": "Usar para conteudos educativos sobre apresentacao visual e aprovacao.",
+  "source_type": "manual"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "gancho_exemplo_001",
+  "type": "gancho",
+  "product": "polo",
+  "objective": "vender",
+  "style": "premium",
+  "emotion": "desejo",
+  "strength": 5,
+  "text": "Sua polo nao precisa parecer uniforme comum.",
+  "context": "Usar em videos premium de venda para polos personalizadas.",
+  "source_type": "manual"
+}

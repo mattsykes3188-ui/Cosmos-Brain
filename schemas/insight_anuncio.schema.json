@@ -1,0 +1,111 @@
+{
+  "name": "insight_anuncio",
+  "required": [
+    "type",
+    "source",
+    "marca",
+    "produto",
+    "promessa",
+    "dor_principal",
+    "formato",
+    "estilo_visual",
+    "estrutura_copy",
+    "strength",
+    "text",
+    "context",
+    "created_at"
+  ],
+  "generated": [
+    "id",
+    "fingerprint"
+  ],
+  "optional": [
+    "agent",
+    "source_type",
+    "batch_id",
+    "processed_at",
+    "tags",
+    "sources",
+    "approved"
+  ],
+  "fields": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "marca": {
+      "type": "string",
+      "minLength": 1
+    },
+    "produto": {
+      "type": "string",
+      "minLength": 1
+    },
+    "promessa": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dor_principal": {
+      "type": "string",
+      "minLength": 1
+    },
+    "formato": {
+      "type": "string",
+      "minLength": 1
+    },
+    "estilo_visual": {
+      "type": "string",
+      "minLength": 1
+    },
+    "estrutura_copy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "strength": {
+      "type": "number",
+      "min": 1,
+      "max": 5
+    },
+    "text": {
+      "type": "string",
+      "minLength": 10
+    },
+    "context": {
+      "type": "string",
+      "minLength": 10
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "fingerprint": {
+      "type": "string"
+    },
+    "agent": {
+      "type": "string"
+    },
+    "source_type": {
+      "type": "string"
+    },
+    "batch_id": {
+      "type": "string"
+    },
+    "processed_at": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array"
+    },
+    "sources": {
+      "type": "array"
+    },
+    "approved": {
+      "type": "boolean"
+    }
+  }
+}
