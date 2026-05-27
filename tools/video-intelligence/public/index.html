@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Intelligence Parser</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      background: #090b10;
+      color: #f4f7fb;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    main {
+      width: min(780px, calc(100vw - 32px));
+      padding: 28px;
+      border: 1px solid #283141;
+      border-radius: 8px;
+      background: #111620;
+      box-shadow: 0 22px 70px rgba(0, 0, 0, 0.34);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 32px;
+      letter-spacing: 0;
+    }
+
+    p {
+      color: #c9d3e1;
+      line-height: 1.6;
+    }
+
+    form,
+    .status-panel {
+      display: grid;
+      gap: 14px;
+      margin-top: 22px;
+      padding: 18px;
+      border: 1px solid #283141;
+      border-radius: 8px;
+      background: #171d29;
+    }
+
+    input,
+    select,
+    button,
+    textarea {
+      font: inherit;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #283141;
+      border-radius: 8px;
+      background: #090b10;
+      color: #f4f7fb;
+    }
+
+    textarea {
+      min-height: 180px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    button {
+      min-height: 46px;
+      border: 0;
+      border-radius: 8px;
+      background: #46d6a8;
+      color: #06100d;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: wait;
+      opacity: 0.55;
+    }
+
+    .steps {
+      display: grid;
+      gap: 8px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .steps li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border: 1px solid #283141;
+      border-radius: 8px;
+      color: #c9d3e1;
+      background: #090b10;
+    }
+
+    .steps strong {
+      color: #f4f7fb;
+    }
+
+    #status {
+      min-height: 24px;
+      color: #c9d3e1;
+    }
+
+    .button-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 640px) {
+      .button-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <h1>Video Intelligence Parser</h1>
+    <p>Ferramenta local para transformar videos curtos em transcricao bruta de locucao.</p>
+    <p>Nesta fase o sistema extrai audio e roda Whisper local. A analise semantica sera implementada depois.</p>
+
+    <form id="uploadForm">
+      <label for="videoFile">Arquivo .mp4</label>
+      <input id="videoFile" name="video" type="file" accept=".mp4,video/mp4" required>
+      <button id="submitButton" type="submit">Enviar video e transcrever</button>
+    </form>
+
+    <section class="status-panel">
+      <div id="status">Aguardando envio manual de um arquivo .mp4.</div>
+
+      <ul class="steps">
+        <li><strong>Upload</strong><span id="uploadStatus">pendente</span></li>
+        <li><strong>Audio .wav</strong><span id="audioStatus">pendente</span></li>
+        <li><strong>Whisper</strong><span id="whisperStatus">pendente</span></li>
+        <li><strong>Tempo</strong><span id="durationStatus">--</span></li>
+      </ul>
+
+      <label for="transcriptionPreview">Preview da transcricao bruta</label>
+      <textarea id="transcriptionPreview" readonly placeholder="A transcricao aparecera aqui depois do processamento."></textarea>
+    </section>
+
+    <section class="status-panel">
+      <h2>Curadoria de Transcricao</h2>
+      <p>Carregue uma transcricao bruta, ajuste manualmente o texto e salve uma versao curada para analise futura.</p>
+
+      <label for="rawTranscriptionSelect">Transcricoes brutas</label>
+      <select id="rawTranscriptionSelect">
+        <option value="">Carregando transcricoes...</option>
+      </select>
+
+      <div class="button-row">
+        <button id="loadRawButton" type="button">Carregar bruta</button>
+        <button id="saveCuratedButton" type="button">Salvar curada</button>
+      </div>
+
+      <label for="curationEditor">Texto para curadoria manual</label>
+      <textarea id="curationEditor" placeholder="Escolha uma transcricao bruta para editar manualmente."></textarea>
+      <div id="curationStatus">Aguardando selecao de transcricao.</div>
+    </section>
+
+    <section class="status-panel">
+      <h2>Extracao Manual de Padrao de Locucao</h2>
+      <p>Leia uma transcricao curada, preencha os campos semanticos com a taxonomia oficial e salve um JSON draft local.</p>
+
+      <label for="curatedTranscriptionSelect">Transcricoes curadas</label>
+      <select id="curatedTranscriptionSelect">
+        <option value="">Carregando transcricoes curadas...</option>
+      </select>
+
+      <button id="loadCuratedButton" type="button">Carregar curada</button>
+
+      <label for="curatedReader">Leitura da transcricao curada</label>
+      <textarea id="curatedReader" readonly placeholder="A transcricao curada aparecera aqui."></textarea>
+
+      <label for="patternTitle">Titulo do padrao</label>
+      <input id="patternTitle" type="text" placeholder="Ex: Padrao de locucao para venda consultiva">
+
+      <label for="segmentoSelect">Segmento</label>
+      <select id="segmentoSelect" data-taxonomy="segmentos"></select>
+
+      <label for="tipoDorSelect">Tipo de dor</label>
+      <select id="tipoDorSelect" data-taxonomy="tipos_dor"></select>
+
+      <label for="hookTypeSelect">Hook type</label>
+      <select id="hookTypeSelect" data-taxonomy="tipos_hook"></select>
+
+      <label for="estruturaNarrativaSelect">Estrutura narrativa</label>
+      <select id="estruturaNarrativaSelect" data-taxonomy="estruturas_narrativas"></select>
+
+      <label for="tomEmocionalSelect">Tom emocional</label>
+      <select id="tomEmocionalSelect" data-taxonomy="tons_emocionais"></select>
+
+      <label for="tipoCtaSelect">Tipo de CTA</label>
+      <select id="tipoCtaSelect" data-taxonomy="tipos_cta"></select>
+
+      <label for="formatoConteudoSelect">Formato de conteudo</label>
+      <select id="formatoConteudoSelect" data-taxonomy="formatos_conteudo"></select>
+
+      <label for="estiloVisualSelect">Estilo visual</label>
+      <select id="estiloVisualSelect" data-taxonomy="estilos_visuais"></select>
+
+      <label for="objetivoComercialSelect">Objetivo comercial</label>
+      <select id="objetivoComercialSelect" data-taxonomy="objetivos_comerciais"></select>
+
+      <label for="patternNotes">Observacoes</label>
+      <textarea id="patternNotes" placeholder="Observacoes manuais sobre o padrao extraido."></textarea>
+
+      <button id="savePatternButton" type="button">Salvar padrao draft</button>
+      <div id="patternStatus">Aguardando transcricao curada e taxonomias.</div>
+    </section>
+
+    <section class="status-panel">
+      <h2>Revisao e Promocao de Padrao de Locucao</h2>
+      <p>Revise um padrao draft local e promova para a biblioteca oficial apenas quando estiver aprovado.</p>
+
+      <label for="draftPatternSelect">Padroes draft locais</label>
+      <select id="draftPatternSelect">
+        <option value="">Carregando drafts...</option>
+      </select>
+
+      <div class="button-row">
+        <button id="loadDraftButton" type="button">Carregar draft</button>
+        <button id="promoteDraftButton" type="button">Promover para Brain</button>
+      </div>
+
+      <label for="draftPatternViewer">JSON do draft</label>
+      <textarea id="draftPatternViewer" readonly placeholder="O JSON do padrao draft aparecera aqui."></textarea>
+      <div id="promotionStatus">Aguardando selecao de draft.</div>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById("uploadForm");
+    const fileInput = document.getElementById("videoFile");
+    const statusEl = document.getElementById("status");
+    const submitButton = document.getElementById("submitButton");
+    const uploadStatus = document.getElementById("uploadStatus");
+    const audioStatus = document.getElementById("audioStatus");
+    const whisperStatus = document.getElementById("whisperStatus");
+    const durationStatus = document.getElementById("durationStatus");
+    const transcriptionPreview = document.getElementById("transcriptionPreview");
+    const rawTranscriptionSelect = document.getElementById("rawTranscriptionSelect");
+    const loadRawButton = document.getElementById("loadRawButton");
+    const saveCuratedButton = document.getElementById("saveCuratedButton");
+    const curationEditor = document.getElementById("curationEditor");
+    const curationStatus = document.getElementById("curationStatus");
+    const curatedTranscriptionSelect = document.getElementById("curatedTranscriptionSelect");
+    const loadCuratedButton = document.getElementById("loadCuratedButton");
+    const curatedReader = document.getElementById("curatedReader");
+    const patternTitle = document.getElementById("patternTitle");
+    const patternNotes = document.getElementById("patternNotes");
+    const savePatternButton = document.getElementById("savePatternButton");
+    const patternStatus = document.getElementById("patternStatus");
+    const draftPatternSelect = document.getElementById("draftPatternSelect");
+    const loadDraftButton = document.getElementById("loadDraftButton");
+    const promoteDraftButton = document.getElementById("promoteDraftButton");
+    const draftPatternViewer = document.getElementById("draftPatternViewer");
+    const promotionStatus = document.getElementById("promotionStatus");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (!fileInput.files.length) {
+        statusEl.textContent = "Selecione um arquivo .mp4 antes de enviar.";
+        return;
+      }
+
+      const startedAt = Date.now();
+      const formData = new FormData();
+      formData.append("video", fileInput.files[0]);
+      submitButton.disabled = true;
+      uploadStatus.textContent = "enviando";
+      audioStatus.textContent = "aguardando";
+      whisperStatus.textContent = "aguardando";
+      durationStatus.textContent = "--";
+      transcriptionPreview.value = "";
+      statusEl.textContent = "Processando localmente. Isso pode levar alguns minutos.";
+
+      try {
+        const response = await fetch("/upload", {
+          method: "POST",
+          body: formData
+        });
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          uploadStatus.textContent = "falhou";
+          audioStatus.textContent = "falhou";
+          whisperStatus.textContent = "falhou";
+          statusEl.textContent = data.message || "Falha no processamento.";
+          return;
+        }
+
+        uploadStatus.textContent = `concluido: ${data.video.filename}`;
+        audioStatus.textContent = `extraido: ${data.audio.filename}`;
+        whisperStatus.textContent = `concluido: ${data.transcription.filename}`;
+        durationStatus.textContent = `${Math.round((data.duration_ms || (Date.now() - startedAt)) / 1000)}s`;
+        transcriptionPreview.value = data.transcription.preview || "";
+        statusEl.textContent = data.message;
+        await carregarListaTranscricoesBrutas(data.transcription.filename);
+      } catch (error) {
+        uploadStatus.textContent = "falhou";
+        audioStatus.textContent = "falhou";
+        whisperStatus.textContent = "falhou";
+        statusEl.textContent = `Falha no upload: ${error.message}`;
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+
+    loadRawButton.addEventListener("click", carregarTranscricaoBrutaSelecionada);
+    saveCuratedButton.addEventListener("click", salvarTranscricaoCurada);
+
+    async function carregarListaTranscricoesBrutas(selectedFile = "") {
+      try {
+        const response = await fetch("/transcricoes-brutas");
+        const data = await response.json();
+
+        rawTranscriptionSelect.innerHTML = "";
+
+        if (!data.success || !data.files.length) {
+          rawTranscriptionSelect.innerHTML = '<option value="">Nenhuma transcricao bruta encontrada</option>';
+          return;
+        }
+
+        for (const filename of data.files) {
+          const option = document.createElement("option");
+          option.value = filename;
+          option.textContent = filename;
+          option.selected = filename === selectedFile;
+          rawTranscriptionSelect.appendChild(option);
+        }
+      } catch (error) {
+        curationStatus.textContent = `Falha ao listar transcricoes: ${error.message}`;
+      }
+    }
+
+    async function carregarTranscricaoBrutaSelecionada() {
+      const filename = rawTranscriptionSelect.value;
+
+      if (!filename) {
+        curationStatus.textContent = "Selecione uma transcricao bruta.";
+        return;
+      }
+
+      try {
+        const response = await fetch(`/transcricao-bruta/${encodeURIComponent(filename)}`);
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          curationStatus.textContent = data.message || "Falha ao carregar transcricao.";
+          return;
+        }
+
+        curationEditor.value = data.text || "";
+        curationStatus.textContent = `Transcricao carregada: ${filename}`;
+      } catch (error) {
+        curationStatus.textContent = `Falha ao carregar: ${error.message}`;
+      }
+    }
+
+    async function salvarTranscricaoCurada() {
+      const filename = rawTranscriptionSelect.value;
+
+      if (!filename) {
+        curationStatus.textContent = "Selecione uma transcricao bruta antes de salvar.";
+        return;
+      }
+
+      try {
+        const response = await fetch("/salvar-transcricao-curada", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            filename,
+            text: curationEditor.value
+          })
+        });
+        const data = await response.json();
+
+        curationStatus.textContent = data.success
+          ? `Curadoria salva: ${data.curatedFilename}`
+          : data.message || "Falha ao salvar curadoria.";
+        if (data.success) {
+          await carregarListaTranscricoesCuradas(data.curatedFilename);
+        }
+      } catch (error) {
+        curationStatus.textContent = `Falha ao salvar: ${error.message}`;
+      }
+    }
+
+    loadCuratedButton.addEventListener("click", carregarTranscricaoCuradaSelecionada);
+    savePatternButton.addEventListener("click", salvarPadraoLocucaoManual);
+
+    async function carregarListaTranscricoesCuradas(selectedFile = "") {
+      try {
+        const response = await fetch("/transcricoes-curadas");
+        const data = await response.json();
+
+        curatedTranscriptionSelect.innerHTML = "";
+
+        if (!data.success || !data.files.length) {
+          curatedTranscriptionSelect.innerHTML = '<option value="">Nenhuma transcricao curada encontrada</option>';
+          return;
+        }
+
+        for (const filename of data.files) {
+          const option = document.createElement("option");
+          option.value = filename;
+          option.textContent = filename;
+          option.selected = filename === selectedFile;
+          curatedTranscriptionSelect.appendChild(option);
+        }
+      } catch (error) {
+        patternStatus.textContent = `Falha ao listar curadas: ${error.message}`;
+      }
+    }
+
+    async function carregarTranscricaoCuradaSelecionada() {
+      const filename = curatedTranscriptionSelect.value;
+
+      if (!filename) {
+        patternStatus.textContent = "Selecione uma transcricao curada.";
+        return;
+      }
+
+      try {
+        const response = await fetch(`/transcricao-curada/${encodeURIComponent(filename)}`);
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          patternStatus.textContent = data.message || "Falha ao carregar transcricao curada.";
+          return;
+        }
+
+        curatedReader.value = data.text || "";
+        patternStatus.textContent = `Transcricao curada carregada: ${filename}`;
+      } catch (error) {
+        patternStatus.textContent = `Falha ao carregar curada: ${error.message}`;
+      }
+    }
+
+    async function carregarTaxonomias() {
+      try {
+        const response = await fetch("/taxonomias");
+        const data = await response.json();
+
+        if (!data.success) {
+          patternStatus.textContent = "Falha ao carregar taxonomias.";
+          return;
+        }
+
+        document.querySelectorAll("[data-taxonomy]").forEach((select) => {
+          const taxonomyName = select.dataset.taxonomy;
+          const items = data.taxonomias[taxonomyName] || [];
+          select.innerHTML = "";
+
+          for (const item of items) {
+            const option = document.createElement("option");
+            option.value = item.id;
+            option.textContent = `${item.label} (${item.id})`;
+            select.appendChild(option);
+          }
+        });
+      } catch (error) {
+        patternStatus.textContent = `Falha ao carregar taxonomias: ${error.message}`;
+      }
+    }
+
+    async function salvarPadraoLocucaoManual() {
+      const sourceFilename = curatedTranscriptionSelect.value;
+
+      if (!sourceFilename) {
+        patternStatus.textContent = "Selecione uma transcricao curada antes de salvar.";
+        return;
+      }
+
+      try {
+        const response = await fetch("/salvar-padrao-locucao", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            sourceFilename,
+            titulo: patternTitle.value,
+            segmento: document.getElementById("segmentoSelect").value,
+            tipo_dor: document.getElementById("tipoDorSelect").value,
+            hook_type: document.getElementById("hookTypeSelect").value,
+            estrutura_narrativa: document.getElementById("estruturaNarrativaSelect").value,
+            tom_emocional: document.getElementById("tomEmocionalSelect").value,
+            tipo_cta: document.getElementById("tipoCtaSelect").value,
+            formato_conteudo: document.getElementById("formatoConteudoSelect").value,
+            estilo_visual: document.getElementById("estiloVisualSelect").value,
+            objetivo_comercial: document.getElementById("objetivoComercialSelect").value,
+            observacoes: patternNotes.value
+          })
+        });
+        const data = await response.json();
+
+        patternStatus.textContent = data.success
+          ? `Padrao salvo: ${data.patternFilename}`
+          : data.message || "Falha ao salvar padrao.";
+        if (data.success) {
+          await carregarListaPadroesDraft(data.patternFilename);
+        }
+      } catch (error) {
+        patternStatus.textContent = `Falha ao salvar padrao: ${error.message}`;
+      }
+    }
+
+    loadDraftButton.addEventListener("click", carregarPadraoDraftSelecionado);
+    promoteDraftButton.addEventListener("click", promoverPadraoDraftSelecionado);
+
+    async function carregarListaPadroesDraft(selectedFile = "") {
+      try {
+        const response = await fetch("/padroes-locucao-draft");
+        const data = await response.json();
+
+        draftPatternSelect.innerHTML = "";
+
+        if (!data.success || !data.files.length) {
+          draftPatternSelect.innerHTML = '<option value="">Nenhum draft encontrado</option>';
+          return;
+        }
+
+        for (const filename of data.files) {
+          const option = document.createElement("option");
+          option.value = filename;
+          option.textContent = filename;
+          option.selected = filename === selectedFile;
+          draftPatternSelect.appendChild(option);
+        }
+      } catch (error) {
+        promotionStatus.textContent = `Falha ao listar drafts: ${error.message}`;
+      }
+    }
+
+    async function carregarPadraoDraftSelecionado() {
+      const filename = draftPatternSelect.value;
+
+      if (!filename) {
+        promotionStatus.textContent = "Selecione um padrao draft.";
+        return;
+      }
+
+      try {
+        const response = await fetch(`/padrao-locucao-draft/${encodeURIComponent(filename)}`);
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          promotionStatus.textContent = data.message || "Falha ao carregar draft.";
+          return;
+        }
+
+        draftPatternViewer.value = JSON.stringify(data.payload, null, 2);
+        promotionStatus.textContent = `Draft carregado: ${filename}`;
+      } catch (error) {
+        promotionStatus.textContent = `Falha ao carregar draft: ${error.message}`;
+      }
+    }
+
+    async function promoverPadraoDraftSelecionado() {
+      const filename = draftPatternSelect.value;
+
+      if (!filename) {
+        promotionStatus.textContent = "Selecione um draft antes de promover.";
+        return;
+      }
+
+      try {
+        const response = await fetch("/promover-padrao-locucao", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ filename })
+        });
+        const data = await response.json();
+
+        promotionStatus.textContent = data.success
+          ? `Promovido: ${data.destination}`
+          : data.message || "Falha ao promover padrao.";
+      } catch (error) {
+        promotionStatus.textContent = `Falha ao promover: ${error.message}`;
+      }
+    }
+
+    carregarListaTranscricoesBrutas();
+    carregarListaTranscricoesCuradas();
+    carregarListaPadroesDraft();
+    carregarTaxonomias();
+  </script>
+</body>
+
+</html>

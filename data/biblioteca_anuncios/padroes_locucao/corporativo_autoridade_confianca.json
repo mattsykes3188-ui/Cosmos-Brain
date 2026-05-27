@@ -1,0 +1,22 @@
+{
+  "type": "padrao_locucao",
+  "source": {
+    "kind": "seed_manual",
+    "filename": null,
+    "path": null
+  },
+  "titulo": "Corporativo - autoridade para identidade visual",
+  "segmento": "corporativo",
+  "tipo_dor": "falta_identidade_visual",
+  "hook_type": "autoridade",
+  "estrutura_narrativa": "autoridade",
+  "tom_emocional": "corporativo",
+  "tipo_cta": "pedir_orcamento",
+  "formato_conteudo": "carrossel",
+  "estilo_visual": "corporativo_moderno",
+  "objetivo_comercial": "aumentar_autoridade",
+  "observacoes": "Padrao manual para educar empresas sobre uniforme como identidade visual e criterio de profissionalismo.",
+  "createdAt": "2026-05-27T00:00:00.000Z",
+  "approvedAt": "2026-05-27T00:00:00.000Z",
+  "status": "approved"
+}

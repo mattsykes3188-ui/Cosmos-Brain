@@ -1,0 +1,102 @@
+[
+  {
+    "id": "reel",
+    "label": "Reel",
+    "descricao": "Video curto vertical com foco em alcance, demonstracao e desejo visual.",
+    "categoria": "formato",
+    "sinonimos": ["video curto"],
+    "exemplos": ["reel mostrando uniforme pronto"],
+    "relacionados": ["curiosidade", "video_bastidor"],
+    "status": "active"
+  },
+  {
+    "id": "carrossel",
+    "label": "Carrossel",
+    "descricao": "Sequencia de slides para educar, comparar ou explicar criterio de compra.",
+    "categoria": "formato",
+    "sinonimos": ["post em slides"],
+    "exemplos": ["5 erros ao comprar uniformes"],
+    "relacionados": ["autoridade", "educar_cliente"],
+    "status": "active"
+  },
+  {
+    "id": "post_estatico",
+    "label": "Post estatico",
+    "descricao": "Imagem unica para oferta, prova visual, produto ou aviso comercial.",
+    "categoria": "formato",
+    "sinonimos": ["arte unica"],
+    "exemplos": ["post com chamada para orcamento"],
+    "relacionados": ["pedir_orcamento", "promocional"],
+    "status": "active"
+  },
+  {
+    "id": "story",
+    "label": "Story",
+    "descricao": "Conteudo temporario para bastidor, prova social, enquete ou conversa rapida.",
+    "categoria": "formato",
+    "sinonimos": ["stories"],
+    "exemplos": ["enquete sobre modelo preferido"],
+    "relacionados": ["chamar_whatsapp", "direto"],
+    "status": "active"
+  },
+  {
+    "id": "video_bastidor",
+    "label": "Video de bastidor",
+    "descricao": "Video mostrando processo real de producao, acabamento ou embalagem.",
+    "categoria": "formato",
+    "sinonimos": ["making of"],
+    "exemplos": ["bordado sendo aplicado"],
+    "relacionados": ["bastidor", "fabrica_real"],
+    "status": "active"
+  },
+  {
+    "id": "video_prova_social",
+    "label": "Video de prova social",
+    "descricao": "Video com cliente, equipe real ou resultado aplicado no contexto de uso.",
+    "categoria": "formato",
+    "sinonimos": ["depoimento visual"],
+    "exemplos": ["equipe usando novo uniforme"],
+    "relacionados": ["confiavel", "fortalecer_marca"],
+    "status": "active"
+  },
+  {
+    "id": "anuncio_pago",
+    "label": "Anuncio pago",
+    "descricao": "Criativo orientado a trafego, lead ou conversao comercial.",
+    "categoria": "formato",
+    "sinonimos": ["ads"],
+    "exemplos": ["anuncio para uniforme corporativo"],
+    "relacionados": ["gerar_lead", "pedir_orcamento"],
+    "status": "active"
+  },
+  {
+    "id": "landing_page",
+    "label": "Landing page",
+    "descricao": "Pagina focada em conversao com oferta, prova, beneficios e formulario.",
+    "categoria": "formato",
+    "sinonimos": ["pagina de captura"],
+    "exemplos": ["pagina para orcamento de polos"],
+    "relacionados": ["converter_whatsapp", "aumentar_ticket"],
+    "status": "active"
+  },
+  {
+    "id": "artigo_seo",
+    "label": "Artigo SEO",
+    "descricao": "Conteudo de busca para educar e capturar demanda ativa.",
+    "categoria": "formato",
+    "sinonimos": ["blog"],
+    "exemplos": ["como escolher uniforme corporativo"],
+    "relacionados": ["educar_cliente", "autoridade"],
+    "status": "active"
+  },
+  {
+    "id": "roteiro_vendas",
+    "label": "Roteiro de vendas",
+    "descricao": "Estrutura de abordagem comercial para atendimento, video ou WhatsApp.",
+    "categoria": "formato",
+    "sinonimos": ["script comercial"],
+    "exemplos": ["roteiro para responder objecao de preco"],
+    "relacionados": ["reduzir_objecao", "chamar_whatsapp"],
+    "status": "active"
+  }
+]

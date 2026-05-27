@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Padrao de Locucao",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "type",
+    "source",
+    "plataforma",
+    "produto",
+    "abertura",
+    "estrutura",
+    "promessa",
+    "dor_principal",
+    "objecao_atacada",
+    "tom",
+    "ritmo",
+    "cta",
+    "strength",
+    "text",
+    "context",
+    "created_at"
+  ],
+  "properties": {
+    "type": {
+      "const": "padrao_locucao"
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "plataforma": {
+      "type": "string",
+      "minLength": 1
+    },
+    "produto": {
+      "type": "string",
+      "minLength": 1
+    },
+    "abertura": {
+      "type": "string",
+      "minLength": 5
+    },
+    "estrutura": {
+      "type": "string",
+      "minLength": 5
+    },
+    "promessa": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dor_principal": {
+      "type": "string",
+      "minLength": 1
+    },
+    "objecao_atacada": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tom": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ritmo": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cta": {
+      "type": "string",
+      "minLength": 1
+    },
+    "strength": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "text": {
+      "type": "string",
+      "minLength": 10
+    },
+    "context": {
+      "type": "string",
+      "minLength": 10
+    },
+    "created_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

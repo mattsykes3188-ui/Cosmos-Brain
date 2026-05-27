@@ -72,6 +72,27 @@ function validInsightEstrategico(overrides = {}) {
   };
 }
 
+function validPadraoLocucao(overrides = {}) {
+  return {
+    type: 'padrao_locucao',
+    source: 'teste_manual',
+    plataforma: 'instagram',
+    produto: 'uniforme corporativo',
+    abertura: 'comeca com pergunta direta sobre imagem profissional',
+    estrutura: 'dor -> promessa -> prova visual -> CTA',
+    promessa: 'empresa mais profissional atraves do uniforme',
+    dor_principal: 'empresa parecer desorganizada por falta de padronizacao visual',
+    objecao_atacada: 'medo de investir em uniforme e nao perceber valor',
+    tom: 'direto e comercial',
+    ritmo: 'rapido',
+    cta: 'chamar no WhatsApp para orcamento',
+    strength: 5,
+    text: 'Padrao de locucao focado em transformar percepcao visual em argumento de venda.',
+    context: 'Usar para criar roteiros proprios sobre uniformizacao empresarial sem copiar frases originais.',
+    ...overrides
+  };
+}
+
 function resetTestRoot() {
   fs.rmSync(testRoot, { recursive: true, force: true });
   fs.mkdirSync(testRoot, { recursive: true });
@@ -140,8 +161,10 @@ console.log('\n[TEST 4] writer saves intelligence domains in mapped folders');
 
 const adInsightResult = saveBrainItem(validInsightAnuncio(), { rootDir: testRoot });
 const strategicInsightResult = saveBrainItem(validInsightEstrategico(), { rootDir: testRoot });
+const speechPatternResult = saveBrainItem(validPadraoLocucao(), { rootDir: testRoot });
 const adIndexPath = path.join(testRoot, 'data', 'biblioteca_anuncios', 'analisado', 'index.json');
 const strategicIndexPath = path.join(testRoot, 'data', 'estrategia_mateus', 'autoridade', 'index.json');
+const speechPatternIndexPath = path.join(testRoot, 'data', 'biblioteca_anuncios', 'padroes_locucao', 'index.json');
 
 console.log('  Ad insight:', adInsightResult);
 console.log('  Strategic insight:', strategicInsightResult);
@@ -153,5 +176,9 @@ assert(strategicInsightResult.success === true, 'saves insight_estrategico');
 assert(strategicInsightResult.relativePath.includes('data/estrategia_mateus/autoridade/'), 'insight_estrategico path is correct');
 assert(fs.existsSync(strategicIndexPath), 'insight_estrategico target index is created');
 assert(readJson(strategicIndexPath).includes(`${strategicInsightResult.id}.json`), 'insight_estrategico index lists saved file');
+assert(speechPatternResult.success === true, 'saves padrao_locucao');
+assert(speechPatternResult.relativePath.includes('data/biblioteca_anuncios/padroes_locucao/'), 'padrao_locucao path is correct');
+assert(fs.existsSync(speechPatternIndexPath), 'padrao_locucao target index is created');
+assert(readJson(speechPatternIndexPath).includes(`${speechPatternResult.id}.json`), 'padrao_locucao index lists saved file');
 
 finish();

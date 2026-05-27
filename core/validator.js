@@ -8,7 +8,8 @@ const TYPE_TO_FOLDER = {
   narrativa: 'narrativas',
   direcao_visual: 'direcao_visual',
   insight_anuncio: 'biblioteca_anuncios/analisado',
-  insight_estrategico: 'estrategia_mateus/autoridade'
+  insight_estrategico: 'estrategia_mateus/autoridade',
+  padrao_locucao: 'biblioteca_anuncios/padroes_locucao'
 };
 
 const TYPE_ALIASES = {
@@ -64,6 +65,24 @@ const TYPE_REQUIRED_FIELDS = {
     'text',
     'context',
     'created_at'
+  ],
+  padrao_locucao: [
+    'type',
+    'source',
+    'plataforma',
+    'produto',
+    'abertura',
+    'estrutura',
+    'promessa',
+    'dor_principal',
+    'objecao_atacada',
+    'tom',
+    'ritmo',
+    'cta',
+    'strength',
+    'text',
+    'context',
+    'created_at'
   ]
 };
 
@@ -104,12 +123,22 @@ function validateBrainItem(item) {
   validateRequiredStrings(item, requiredFields, errors);
   validateMinLength(item, 'text', 10, errors);
   validateMinLength(item, 'context', 10, errors);
+  validateTypeSpecificRules(type, item, errors);
   validateStrength(item, errors);
 
   return {
     valid: errors.length === 0,
     errors
   };
+}
+
+function validateTypeSpecificRules(type, item, errors) {
+  if (type !== 'padrao_locucao') {
+    return;
+  }
+
+  validateMinLength(item, 'abertura', 5, errors);
+  validateMinLength(item, 'estrutura', 5, errors);
 }
 
 function validateRequiredStrings(item, fields, errors) {
@@ -175,6 +204,7 @@ module.exports = {
   TYPE_REQUIRED_FIELDS,
   TYPE_TO_FOLDER,
   normalizeBrainType,
+  validateTypeSpecificRules,
   validate: validateBrainItem,
   validateBrainItem
 };

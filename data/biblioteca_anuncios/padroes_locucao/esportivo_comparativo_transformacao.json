@@ -1,0 +1,22 @@
+{
+  "type": "padrao_locucao",
+  "source": {
+    "kind": "seed_manual",
+    "filename": null,
+    "path": null
+  },
+  "titulo": "Esportivo - comparativo antes e depois",
+  "segmento": "esportivo",
+  "tipo_dor": "arte_baixa_qualidade",
+  "hook_type": "comparativo",
+  "estrutura_narrativa": "antes_depois",
+  "tom_emocional": "esportivo",
+  "tipo_cta": "solicitar_mockup",
+  "formato_conteudo": "reel",
+  "estilo_visual": "esportivo_agressivo",
+  "objetivo_comercial": "converter_whatsapp",
+  "observacoes": "Padrao manual para comparar arte fraca com mockup esportivo forte e conduzir a conversa para WhatsApp.",
+  "createdAt": "2026-05-27T00:00:00.000Z",
+  "approvedAt": "2026-05-27T00:00:00.000Z",
+  "status": "approved"
+}

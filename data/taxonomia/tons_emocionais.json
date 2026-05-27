@@ -1,0 +1,102 @@
+[
+  {
+    "id": "premium",
+    "label": "Premium",
+    "descricao": "Tom que comunica valor, acabamento superior e percepcao elevada.",
+    "categoria": "tom_emocional",
+    "sinonimos": ["alto valor"],
+    "exemplos": ["uniforme que parece marca grande"],
+    "relacionados": ["vender_premium", "premium_clean"],
+    "status": "active"
+  },
+  {
+    "id": "confiavel",
+    "label": "Confiavel",
+    "descricao": "Tom que transmite seguranca, previsibilidade e profissionalismo.",
+    "categoria": "tom_emocional",
+    "sinonimos": ["seguro"],
+    "exemplos": ["processo claro do pedido a entrega"],
+    "relacionados": ["hospitalar", "autoridade"],
+    "status": "active"
+  },
+  {
+    "id": "urgente",
+    "label": "Urgente",
+    "descricao": "Tom voltado para prazo, decisao rapida e necessidade imediata.",
+    "categoria": "tom_emocional",
+    "sinonimos": ["rapido"],
+    "exemplos": ["pedido para evento proximo"],
+    "relacionados": ["atraso_producao", "chamar_whatsapp"],
+    "status": "active"
+  },
+  {
+    "id": "tecnico",
+    "label": "Tecnico",
+    "descricao": "Tom educativo com foco em material, processo, acabamento e criterios de qualidade.",
+    "categoria": "tom_emocional",
+    "sinonimos": ["especialista"],
+    "exemplos": ["explicacao de bordado e tecido"],
+    "relacionados": ["aumentar_autoridade", "demonstracao_produto"],
+    "status": "active"
+  },
+  {
+    "id": "popular",
+    "label": "Popular",
+    "descricao": "Tom simples, acessivel e orientado a preco ou volume.",
+    "categoria": "tom_emocional",
+    "sinonimos": ["acessivel"],
+    "exemplos": ["camiseta promocional para campanha"],
+    "relacionados": ["promocional_popular", "pedir_orcamento"],
+    "status": "active"
+  },
+  {
+    "id": "sofisticado",
+    "label": "Sofisticado",
+    "descricao": "Tom refinado para marcas que desejam elegancia e diferenciacao.",
+    "categoria": "tom_emocional",
+    "sinonimos": ["elegante"],
+    "exemplos": ["uniforme social com fotografia editorial"],
+    "relacionados": ["luxo_discreto", "vender_premium"],
+    "status": "active"
+  },
+  {
+    "id": "esportivo",
+    "label": "Esportivo",
+    "descricao": "Tom energico ligado a movimento, equipe, performance e identidade de time.",
+    "categoria": "tom_emocional",
+    "sinonimos": ["competitivo"],
+    "exemplos": ["camisa de time personalizada"],
+    "relacionados": ["esportivo_agressivo", "reel"],
+    "status": "active"
+  },
+  {
+    "id": "corporativo",
+    "label": "Corporativo",
+    "descricao": "Tom profissional e organizado para empresas, equipes e atendimento.",
+    "categoria": "tom_emocional",
+    "sinonimos": ["empresarial"],
+    "exemplos": ["polo para equipe comercial"],
+    "relacionados": ["corporativo_moderno", "falta_padronizacao"],
+    "status": "active"
+  },
+  {
+    "id": "inspirador",
+    "label": "Inspirador",
+    "descricao": "Tom que conecta uniforme com orgulho, pertencimento e transformacao.",
+    "categoria": "tom_emocional",
+    "sinonimos": ["motivador"],
+    "exemplos": ["equipe se reconhecendo na nova identidade"],
+    "relacionados": ["transformacao", "fortalecer_marca"],
+    "status": "active"
+  },
+  {
+    "id": "direto",
+    "label": "Direto",
+    "descricao": "Tom objetivo, claro e comercial, sem excesso de explicacao.",
+    "categoria": "tom_emocional",
+    "sinonimos": ["objetivo"],
+    "exemplos": ["peca seu orcamento hoje"],
+    "relacionados": ["pedir_orcamento", "converter_whatsapp"],
+    "status": "active"
+  }
+]

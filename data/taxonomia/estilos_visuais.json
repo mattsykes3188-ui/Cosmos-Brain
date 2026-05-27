@@ -1,0 +1,102 @@
+[
+  {
+    "id": "premium_clean",
+    "label": "Premium clean",
+    "descricao": "Visual limpo, claro e sofisticado para aumentar valor percebido.",
+    "categoria": "estilo_visual",
+    "sinonimos": ["minimalista premium"],
+    "exemplos": ["foto limpa com foco no acabamento"],
+    "relacionados": ["premium", "vender_premium"],
+    "status": "active"
+  },
+  {
+    "id": "industrial",
+    "label": "Industrial",
+    "descricao": "Visual robusto ligado a producao, durabilidade e ambiente operacional.",
+    "categoria": "estilo_visual",
+    "sinonimos": ["fabrica"],
+    "exemplos": ["pecas na linha de producao"],
+    "relacionados": ["operacional", "fabrica_real"],
+    "status": "active"
+  },
+  {
+    "id": "esportivo_agressivo",
+    "label": "Esportivo agressivo",
+    "descricao": "Visual dinamico, forte e competitivo para times e equipes.",
+    "categoria": "estilo_visual",
+    "sinonimos": ["performance"],
+    "exemplos": ["camisa esportiva com contraste forte"],
+    "relacionados": ["esportivo", "reel"],
+    "status": "active"
+  },
+  {
+    "id": "corporativo_moderno",
+    "label": "Corporativo moderno",
+    "descricao": "Visual profissional, atual e organizado para empresas.",
+    "categoria": "estilo_visual",
+    "sinonimos": ["empresarial moderno"],
+    "exemplos": ["polo com logo em ambiente de escritorio"],
+    "relacionados": ["corporativo", "falta_identidade_visual"],
+    "status": "active"
+  },
+  {
+    "id": "artesanal",
+    "label": "Artesanal",
+    "descricao": "Visual que valoriza cuidado manual, detalhe e proximidade.",
+    "categoria": "estilo_visual",
+    "sinonimos": ["feito com cuidado"],
+    "exemplos": ["close em costura e acabamento"],
+    "relacionados": ["prova_visual", "confiavel"],
+    "status": "active"
+  },
+  {
+    "id": "tecnico",
+    "label": "Tecnico",
+    "descricao": "Visual explicativo com foco em informacao, ficha, material e processo.",
+    "categoria": "estilo_visual",
+    "sinonimos": ["didatico"],
+    "exemplos": ["comparativo de tecido e personalizacao"],
+    "relacionados": ["autoridade", "educar_cliente"],
+    "status": "active"
+  },
+  {
+    "id": "institucional",
+    "label": "Institucional",
+    "descricao": "Visual serio e confiavel para reforcar marca e organizacao.",
+    "categoria": "estilo_visual",
+    "sinonimos": ["corporativo formal"],
+    "exemplos": ["equipe alinhada em foto oficial"],
+    "relacionados": ["fortalecer_marca", "confiavel"],
+    "status": "active"
+  },
+  {
+    "id": "promocional_popular",
+    "label": "Promocional popular",
+    "descricao": "Visual direto, chamativo e acessivel para volume, evento ou campanha.",
+    "categoria": "estilo_visual",
+    "sinonimos": ["oferta popular"],
+    "exemplos": ["camiseta promocional com preco claro"],
+    "relacionados": ["popular", "promocional"],
+    "status": "active"
+  },
+  {
+    "id": "luxo_discreto",
+    "label": "Luxo discreto",
+    "descricao": "Visual elegante e contido, sem excesso de elementos ou apelo popular.",
+    "categoria": "estilo_visual",
+    "sinonimos": ["sofisticacao discreta"],
+    "exemplos": ["uniforme social em fotografia editorial"],
+    "relacionados": ["sofisticado", "vender_premium"],
+    "status": "active"
+  },
+  {
+    "id": "fabrica_real",
+    "label": "Fabrica real",
+    "descricao": "Visual autentico de processo, equipe, maquina, producao e bastidor.",
+    "categoria": "estilo_visual",
+    "sinonimos": ["bastidor real"],
+    "exemplos": ["mesa de producao com pecas em andamento"],
+    "relacionados": ["video_bastidor", "bastidor"],
+    "status": "active"
+  }
+]

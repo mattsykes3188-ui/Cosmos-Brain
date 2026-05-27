@@ -1,0 +1,22 @@
+{
+  "type": "padrao_locucao",
+  "source": {
+    "kind": "seed_manual",
+    "filename": null,
+    "path": null
+  },
+  "titulo": "Pesca - percepcao premium com prova visual",
+  "segmento": "pesca",
+  "tipo_dor": "baixa_percepcao_premium",
+  "hook_type": "transformacao",
+  "estrutura_narrativa": "prova_visual",
+  "tom_emocional": "premium",
+  "tipo_cta": "conhecer_modelos",
+  "formato_conteudo": "video_bastidor",
+  "estilo_visual": "premium_clean",
+  "objetivo_comercial": "vender_premium",
+  "observacoes": "Padrao manual para mostrar detalhe, acabamento e visual premium em camisetas de pesca sem inventar hook fora da taxonomia.",
+  "createdAt": "2026-05-27T00:00:00.000Z",
+  "approvedAt": "2026-05-27T00:00:00.000Z",
+  "status": "approved"
+}

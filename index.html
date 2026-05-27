@@ -5,165 +5,222 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Uniform Content AI</title>
+    <title>Cosmos Midia | Central de Inteligencia</title>
 
-    <!-- conexão com CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-
-    <!-- TOPO -->
-    <header class="topbar">
-
-        <h1>Uniform Content AI</h1>
-
-        <p>
-            Gere ideias de conteúdo para fábricas de uniformes
-        </p>
-
-    </header>
-
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="container">
-
-        <!-- COLUNA ESQUERDA -->
-        <section class="form-section">
-
-            <h2>Configurar Conteúdo</h2>
-
-            <!-- TIPO DE UNIFORME -->
-            <div class="field">
-
-                <label for="tipoUniforme">
-                    Tipo de uniforme
-                </label>
-
-                <select id="tipoUniforme">
-
-                    <option value="esportivo">Esportivo</option>
-
-                    <option value="pesca">Pesca</option>
-
-                    <option value="social">Social</option>
-
-                    <option value="polo">Polo</option>
-
-                    <option value="empresa">Empresa</option>
-
-                    <option value="comitiva">Comitiva</option>
-
-                </select>
-
+    <div class="app-shell">
+        <aside class="sidebar" aria-label="Navegacao principal">
+            <div class="brand-block">
+                <span class="brand-mark">CM</span>
+                <div>
+                    <strong>Cosmos Midia</strong>
+                    <span>Brain Console</span>
+                </div>
             </div>
 
-            <!-- OBJETIVO -->
-            <div class="field">
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-section="dashboard">Dashboard</button>
+                <button class="nav-item" data-section="tendencias">Tendencias</button>
+                <button class="nav-item" data-section="dores">Dores de Mercado</button>
+                <button class="nav-item" data-section="ganchos">Ganchos</button>
+                <button class="nav-item" data-section="chamadas">Chamadas de Acao</button>
+                <button class="nav-item" data-section="anuncios">Biblioteca de Anuncios</button>
+                <button class="nav-item" data-section="estrategia">Estrategia Mateus</button>
+                <button class="nav-item" data-section="gerador">Gerador</button>
+                <button class="nav-item" data-section="logs">Logs</button>
+            </nav>
+        </aside>
 
-                <label for="objetivo">
-                    Objetivo do conteúdo
-                </label>
+        <div class="workspace">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">Central de inteligencia</p>
+                    <h1>Cosmos Midia</h1>
+                    <p>Central de inteligencia para marketing de fabricas de uniformes</p>
+                </div>
 
-                <select id="objetivo">
+                <div class="system-status">
+                    <span class="status-dot" aria-hidden="true"></span>
+                    <span>Brain ativo</span>
+                    <time id="dataAtual">--</time>
+                </div>
+            </header>
 
-                    <option value="vender">
-                        Vender
-                    </option>
+            <main class="main-content">
+                <section id="dashboardSection" class="content-section active" data-section-panel="dashboard">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">Visao geral</p>
+                            <h2>Dashboard de Inteligencia</h2>
+                        </div>
+                        <span id="loadingBadge" class="badge">Carregando brain...</span>
+                    </div>
 
-                    <option value="autoridade">
-                        Gerar autoridade
-                    </option>
+                    <div id="dashboardCards" class="metric-grid"></div>
 
-                    <option value="qualidade">
-                        Mostrar qualidade
-                    </option>
+                    <div class="two-column">
+                        <section class="panel timeline-section">
+                            <div class="panel-heading">
+                                <h3>Timeline de inteligencia</h3>
+                                <span class="chip">Sistema vivo</span>
+                            </div>
+                            <div id="timelineList" class="timeline-list"></div>
+                        </section>
 
-                    <option value="bastidor">
-                        Mostrar bastidor
-                    </option>
+                        <section class="panel">
+                            <div class="panel-heading">
+                                <h3>Insights recentes</h3>
+                                <span class="chip">JSON real</span>
+                            </div>
+                            <div id="recentInsights" class="insight-list"></div>
+                        </section>
+                    </div>
+                </section>
 
-                    <option value="clientes">
-                        Atrair clientes
-                    </option>
+                <section id="tendenciasSection" class="content-section" data-section-panel="tendencias">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">Radar</p>
+                            <h2>Tendencias</h2>
+                        </div>
+                    </div>
+                    <div id="tendenciasList" class="library-grid"></div>
+                </section>
 
-                </select>
+                <section id="doresSection" class="content-section" data-section-panel="dores">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">Mercado</p>
+                            <h2>Dores de Mercado</h2>
+                        </div>
+                    </div>
+                    <div id="doresList" class="library-grid"></div>
+                </section>
 
-            </div>
+                <section id="ganchosSection" class="content-section" data-section-panel="ganchos">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">Criatividade</p>
+                            <h2>Ganchos</h2>
+                        </div>
+                    </div>
+                    <div id="ganchosList" class="library-grid"></div>
+                </section>
 
-            <!-- ESTILO -->
-            <div class="field">
+                <section id="chamadasSection" class="content-section" data-section-panel="chamadas">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">Conversao</p>
+                            <h2>Chamadas de Acao</h2>
+                        </div>
+                    </div>
+                    <div id="chamadasList" class="library-grid"></div>
+                </section>
 
-                <label for="estilo">
-                    Estilo do vídeo
-                </label>
+                <section id="anunciosSection" class="content-section" data-section-panel="anuncios">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">Inteligencia competitiva</p>
+                            <h2>Biblioteca de Anuncios</h2>
+                        </div>
+                    </div>
+                    <div id="anunciosList" class="library-grid"></div>
+                </section>
 
-                <select id="estilo">
+                <section id="estrategiaSection" class="content-section" data-section-panel="estrategia">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">Direcao</p>
+                            <h2>Estrategia Mateus</h2>
+                        </div>
+                    </div>
+                    <div id="estrategiaList" class="library-grid"></div>
+                </section>
 
-                    <option value="direto">
-                        Direto
-                    </option>
+                <section id="geradorSection" class="content-section generator-section" data-section-panel="gerador">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">Motor criativo</p>
+                            <h2>Gerador</h2>
+                        </div>
+                        <span class="badge">Conteudo com base no Brain</span>
+                    </div>
 
-                    <option value="emocional">
-                        Emocional
-                    </option>
+                    <div class="generator-grid">
+                        <section class="panel form-section">
+                            <h3>Configurar Conteudo</h3>
 
-                    <option value="tecnico">
-                        Técnico
-                    </option>
+                            <div class="field">
+                                <label for="tipoUniforme">Tipo de uniforme</label>
+                                <select id="tipoUniforme">
+                                    <option value="esportivo">Esportivo</option>
+                                    <option value="pesca">Pesca</option>
+                                    <option value="social">Social</option>
+                                    <option value="polo">Polo</option>
+                                    <option value="empresa">Empresa</option>
+                                    <option value="comitiva">Comitiva</option>
+                                </select>
+                            </div>
 
-                    <option value="premium">
-                        Premium
-                    </option>
+                            <div class="field">
+                                <label for="objetivo">Objetivo do conteudo</label>
+                                <select id="objetivo">
+                                    <option value="vender">Vender</option>
+                                    <option value="autoridade">Gerar autoridade</option>
+                                    <option value="qualidade">Mostrar qualidade</option>
+                                    <option value="bastidor">Mostrar bastidor</option>
+                                    <option value="clientes">Atrair clientes</option>
+                                </select>
+                            </div>
 
-                    <option value="cinematografico">
-                        Cinematográfico
-                    </option>
+                            <div class="field">
+                                <label for="estilo">Estilo do video</label>
+                                <select id="estilo">
+                                    <option value="direto">Direto</option>
+                                    <option value="emocional">Emocional</option>
+                                    <option value="tecnico">Tecnico</option>
+                                    <option value="premium">Premium</option>
+                                    <option value="cinematografico">Cinematografico</option>
+                                </select>
+                            </div>
 
-                </select>
+                            <div class="field">
+                                <label for="tema">Tema do conteudo</label>
+                                <textarea id="tema" placeholder="Ex: mostrar um uniforme sendo criado do zero"></textarea>
+                            </div>
 
-            </div>
+                            <button id="generateBtn">Gerar Conteudo</button>
+                        </section>
 
-            <!-- TEMA -->
-            <div class="field">
+                        <section class="panel result-section">
+                            <div class="panel-heading">
+                                <h3>Resultado</h3>
+                                <span id="generatorStatus" class="chip">Aguardando briefing</span>
+                            </div>
+                            <div id="resultado" class="result-stack">
+                                Seu conteudo aparecera aqui...
+                            </div>
+                        </section>
+                    </div>
+                </section>
 
-                <label for="tema">
-                    Tema do conteúdo
-                </label>
+                <section id="logsSection" class="content-section" data-section-panel="logs">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">Governanca</p>
+                            <h2>Logs</h2>
+                        </div>
+                    </div>
+                    <div id="logsPanel" class="panel"></div>
+                </section>
+            </main>
+        </div>
+    </div>
 
-                <textarea
-                    id="tema"
-                    placeholder="Ex: mostrar um uniforme sendo criado do zero">
-                </textarea>
-
-            </div>
-
-            <!-- BOTÃO -->
-            <button id="generateBtn">
-
-                Gerar Conteúdo
-
-            </button>
-
-        </section>
-
-        <!-- COLUNA DIREITA -->
-        <section class="result-section">
-
-            <h2>Resultado</h2>
-
-            <div id="resultado">
-
-                Seu conteúdo aparecerá aqui...
-
-            </div>
-
-        </section>
-
-    </main>
-
-    <!-- conexão com JS -->
     <script src="main.js"></script>
-
 </body>
 
 </html>

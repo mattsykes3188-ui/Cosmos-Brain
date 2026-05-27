@@ -1,0 +1,18 @@
+{
+  "type": "padrao_locucao",
+  "source": "exemplo_manual",
+  "plataforma": "instagram",
+  "produto": "uniforme corporativo",
+  "abertura": "comeca com pergunta direta sobre imagem profissional",
+  "estrutura": "dor -> promessa -> prova visual -> CTA",
+  "promessa": "empresa mais profissional atraves do uniforme",
+  "dor_principal": "empresa parecer desorganizada por falta de padronizacao visual",
+  "objecao_atacada": "medo de investir em uniforme e nao perceber valor",
+  "tom": "direto e comercial",
+  "ritmo": "rapido",
+  "cta": "chamar no WhatsApp para orcamento",
+  "strength": 5,
+  "text": "Padrao de locucao focado em transformar percepcao visual em argumento de venda.",
+  "context": "Usar para criar roteiros proprios sobre uniformizacao empresarial sem copiar frases originais.",
+  "created_at": "2026-05-26"
+}

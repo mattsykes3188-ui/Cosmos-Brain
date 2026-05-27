@@ -1,0 +1,102 @@
+[
+  {
+    "id": "pedir_orcamento",
+    "label": "Pedir orcamento",
+    "descricao": "CTA para iniciar cotacao de uniforme.",
+    "categoria": "cta",
+    "sinonimos": ["solicitar preco"],
+    "exemplos": ["peca seu orcamento agora"],
+    "relacionados": ["gerar_lead", "demora_orcamento"],
+    "status": "active"
+  },
+  {
+    "id": "chamar_whatsapp",
+    "label": "Chamar no WhatsApp",
+    "descricao": "CTA para conversa comercial direta pelo WhatsApp.",
+    "categoria": "cta",
+    "sinonimos": ["falar no zap"],
+    "exemplos": ["chame nossa equipe no WhatsApp"],
+    "relacionados": ["converter_whatsapp", "direto"],
+    "status": "active"
+  },
+  {
+    "id": "conhecer_modelos",
+    "label": "Conhecer modelos",
+    "descricao": "CTA para explorar opcoes de uniformes antes do orcamento.",
+    "categoria": "cta",
+    "sinonimos": ["ver modelos"],
+    "exemplos": ["veja modelos para sua equipe"],
+    "relacionados": ["cliente_indeciso", "demonstracao_produto"],
+    "status": "active"
+  },
+  {
+    "id": "ver_catalogo",
+    "label": "Ver catalogo",
+    "descricao": "CTA para acessar colecao, linha ou lista de opcoes.",
+    "categoria": "cta",
+    "sinonimos": ["abrir catalogo"],
+    "exemplos": ["acesse nosso catalogo"],
+    "relacionados": ["post_estatico", "educar_cliente"],
+    "status": "active"
+  },
+  {
+    "id": "solicitar_mockup",
+    "label": "Solicitar mockup",
+    "descricao": "CTA para visualizar o uniforme antes da producao.",
+    "categoria": "cta",
+    "sinonimos": ["pedir previa"],
+    "exemplos": ["solicite um mockup da sua ideia"],
+    "relacionados": ["aprovacao_whatsapp", "acelerar_aprovacao"],
+    "status": "active"
+  },
+  {
+    "id": "fechar_pedido",
+    "label": "Fechar pedido",
+    "descricao": "CTA de conversao final para compra.",
+    "categoria": "cta",
+    "sinonimos": ["comprar"],
+    "exemplos": ["feche seu pedido com nossa equipe"],
+    "relacionados": ["aumentar_ticket", "vender_premium"],
+    "status": "active"
+  },
+  {
+    "id": "agendar_atendimento",
+    "label": "Agendar atendimento",
+    "descricao": "CTA para marcar conversa consultiva.",
+    "categoria": "cta",
+    "sinonimos": ["marcar conversa"],
+    "exemplos": ["agende um atendimento para sua empresa"],
+    "relacionados": ["corporativo", "gerar_lead"],
+    "status": "active"
+  },
+  {
+    "id": "baixar_template",
+    "label": "Baixar template",
+    "descricao": "CTA para capturar lead com material util de briefing ou arte.",
+    "categoria": "cta",
+    "sinonimos": ["download de modelo"],
+    "exemplos": ["baixe o template de briefing"],
+    "relacionados": ["briefing_incompleto", "gerar_lead"],
+    "status": "active"
+  },
+  {
+    "id": "aprovar_modelo",
+    "label": "Aprovar modelo",
+    "descricao": "CTA para avancar etapa de validacao visual.",
+    "categoria": "cta",
+    "sinonimos": ["confirmar modelo"],
+    "exemplos": ["aprove o modelo antes da producao"],
+    "relacionados": ["retrabalho_design", "acelerar_aprovacao"],
+    "status": "active"
+  },
+  {
+    "id": "pedir_amostra",
+    "label": "Pedir amostra",
+    "descricao": "CTA para reduzir risco percebido antes de pedidos maiores.",
+    "categoria": "cta",
+    "sinonimos": ["solicitar amostra"],
+    "exemplos": ["peca uma amostra do tecido"],
+    "relacionados": ["reduzir_objecao", "confiavel"],
+    "status": "active"
+  }
+]

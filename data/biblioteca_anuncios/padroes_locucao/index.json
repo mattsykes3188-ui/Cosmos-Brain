@@ -1,0 +1,173 @@
+{
+  "type": "padroes_locucao_index",
+  "generatedAt": "2026-05-27T00:15:22.404Z",
+  "total": 5,
+  "counts": {
+    "por_segmento": {
+      "agro": 1,
+      "corporativo": 1,
+      "esportivo": 1,
+      "hospitalar": 1,
+      "pesca": 1
+    },
+    "por_tipo_dor": {
+      "falta_padronizacao": 2,
+      "falta_identidade_visual": 1,
+      "arte_baixa_qualidade": 1,
+      "baixa_percepcao_premium": 1
+    },
+    "por_hook_type": {
+      "dor_direta": 1,
+      "autoridade": 1,
+      "comparativo": 1,
+      "pergunta": 1,
+      "transformacao": 1
+    },
+    "por_estrutura_narrativa": {
+      "problema_solucao": 2,
+      "autoridade": 1,
+      "antes_depois": 1,
+      "prova_visual": 1
+    },
+    "por_tom_emocional": {
+      "confiavel": 1,
+      "corporativo": 1,
+      "esportivo": 1,
+      "tecnico": 1,
+      "premium": 1
+    },
+    "por_tipo_cta": {
+      "chamar_whatsapp": 1,
+      "pedir_orcamento": 1,
+      "solicitar_mockup": 1,
+      "ver_catalogo": 1,
+      "conhecer_modelos": 1
+    },
+    "por_objetivo_comercial": {
+      "gerar_lead": 1,
+      "aumentar_autoridade": 1,
+      "converter_whatsapp": 1,
+      "educar_cliente": 1,
+      "vender_premium": 1
+    }
+  },
+  "coverage": {
+    "segmentos": {
+      "covered": [
+        "agro",
+        "corporativo",
+        "esportivo",
+        "hospitalar",
+        "pesca"
+      ],
+      "missing": [
+        "comitiva",
+        "escolar",
+        "gastronomia",
+        "operacional",
+        "promocional"
+      ]
+    },
+    "tipos_dor": {
+      "covered": [
+        "arte_baixa_qualidade",
+        "baixa_percepcao_premium",
+        "falta_identidade_visual",
+        "falta_padronizacao"
+      ],
+      "missing": [
+        "aprovacao_whatsapp",
+        "atraso_producao",
+        "briefing_incompleto",
+        "cliente_indeciso",
+        "demora_orcamento",
+        "dificuldade_vender_valor",
+        "inconsistencia_lote",
+        "retrabalho_design"
+      ]
+    },
+    "hooks": {
+      "covered": [
+        "autoridade",
+        "comparativo",
+        "dor_direta",
+        "pergunta",
+        "transformacao"
+      ],
+      "missing": [
+        "bastidor",
+        "choque",
+        "curiosidade",
+        "erro_comum",
+        "promessa_pratica"
+      ]
+    }
+  },
+  "items": [
+    {
+      "filename": "agro_dor_padronizacao_problema_solucao.json",
+      "titulo": "Agro - dor de padronizacao com problema e solucao",
+      "segmento": "agro",
+      "tipo_dor": "falta_padronizacao",
+      "hook_type": "dor_direta",
+      "estrutura_narrativa": "problema_solucao",
+      "tom_emocional": "confiavel",
+      "tipo_cta": "chamar_whatsapp",
+      "objetivo_comercial": "gerar_lead",
+      "approvedAt": "2026-05-27T00:00:00.000Z",
+      "sourceFilename": ""
+    },
+    {
+      "filename": "corporativo_autoridade_confianca.json",
+      "titulo": "Corporativo - autoridade para identidade visual",
+      "segmento": "corporativo",
+      "tipo_dor": "falta_identidade_visual",
+      "hook_type": "autoridade",
+      "estrutura_narrativa": "autoridade",
+      "tom_emocional": "corporativo",
+      "tipo_cta": "pedir_orcamento",
+      "objetivo_comercial": "aumentar_autoridade",
+      "approvedAt": "2026-05-27T00:00:00.000Z",
+      "sourceFilename": ""
+    },
+    {
+      "filename": "esportivo_comparativo_transformacao.json",
+      "titulo": "Esportivo - comparativo antes e depois",
+      "segmento": "esportivo",
+      "tipo_dor": "arte_baixa_qualidade",
+      "hook_type": "comparativo",
+      "estrutura_narrativa": "antes_depois",
+      "tom_emocional": "esportivo",
+      "tipo_cta": "solicitar_mockup",
+      "objetivo_comercial": "converter_whatsapp",
+      "approvedAt": "2026-05-27T00:00:00.000Z",
+      "sourceFilename": ""
+    },
+    {
+      "filename": "hospitalar_falta_padronizacao_tecnico.json",
+      "titulo": "Hospitalar - pergunta tecnica sobre padronizacao",
+      "segmento": "hospitalar",
+      "tipo_dor": "falta_padronizacao",
+      "hook_type": "pergunta",
+      "estrutura_narrativa": "problema_solucao",
+      "tom_emocional": "tecnico",
+      "tipo_cta": "ver_catalogo",
+      "objetivo_comercial": "educar_cliente",
+      "approvedAt": "2026-05-27T00:00:00.000Z",
+      "sourceFilename": ""
+    },
+    {
+      "filename": "pesca_premium_prova_visual.json",
+      "titulo": "Pesca - percepcao premium com prova visual",
+      "segmento": "pesca",
+      "tipo_dor": "baixa_percepcao_premium",
+      "hook_type": "transformacao",
+      "estrutura_narrativa": "prova_visual",
+      "tom_emocional": "premium",
+      "tipo_cta": "conhecer_modelos",
+      "objetivo_comercial": "vender_premium",
+      "approvedAt": "2026-05-27T00:00:00.000Z",
+      "sourceFilename": ""
+    }
+  ]
+}

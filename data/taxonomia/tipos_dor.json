@@ -1,0 +1,122 @@
+[
+  {
+    "id": "atraso_producao",
+    "label": "Atraso de producao",
+    "descricao": "Dor ligada a prazo, entrega e impacto operacional quando o uniforme nao fica pronto a tempo.",
+    "categoria": "dor_operacional",
+    "sinonimos": ["demora na entrega"],
+    "exemplos": ["pedido atrasado antes de evento"],
+    "relacionados": ["urgente", "acelerar_aprovacao"],
+    "status": "active"
+  },
+  {
+    "id": "inconsistencia_lote",
+    "label": "Inconsistencia de lote",
+    "descricao": "Problema de diferenca entre pecas, cores, tamanhos ou acabamentos no mesmo pedido.",
+    "categoria": "dor_operacional",
+    "sinonimos": ["lote desigual"],
+    "exemplos": ["camisas com tons diferentes"],
+    "relacionados": ["tecnico", "prova_visual"],
+    "status": "active"
+  },
+  {
+    "id": "aprovacao_whatsapp",
+    "label": "Aprovacao por WhatsApp",
+    "descricao": "Dificuldade de aprovar arte, modelo ou detalhe tecnico por conversas soltas no WhatsApp.",
+    "categoria": "dor_operacional",
+    "sinonimos": ["aprovacao informal"],
+    "exemplos": ["cliente aprova arte errada no chat"],
+    "relacionados": ["solicitar_mockup", "acelerar_aprovacao"],
+    "status": "active"
+  },
+  {
+    "id": "baixa_percepcao_premium",
+    "label": "Baixa percepcao premium",
+    "descricao": "Quando o uniforme parece comum e nao comunica valor, qualidade ou profissionalismo.",
+    "categoria": "dor_percepcao",
+    "sinonimos": ["parece barato"],
+    "exemplos": ["catalogo simples reduz valor percebido"],
+    "relacionados": ["premium", "vender_premium"],
+    "status": "active"
+  },
+  {
+    "id": "falta_padronizacao",
+    "label": "Falta de padronizacao",
+    "descricao": "Equipe sem consistencia visual, prejudicando organizacao e confianca.",
+    "categoria": "dor_percepcao",
+    "sinonimos": ["equipe despadronizada"],
+    "exemplos": ["cada funcionario usa uma roupa diferente"],
+    "relacionados": ["corporativo", "problema_solucao"],
+    "status": "active"
+  },
+  {
+    "id": "briefing_incompleto",
+    "label": "Briefing incompleto",
+    "descricao": "Falta de informacoes essenciais para criar, orcar ou produzir o uniforme corretamente.",
+    "categoria": "dor_operacional",
+    "sinonimos": ["pedido sem detalhe"],
+    "exemplos": ["cliente nao envia medidas ou logo correto"],
+    "relacionados": ["demora_orcamento", "processo_passo_a_passo"],
+    "status": "active"
+  },
+  {
+    "id": "arte_baixa_qualidade",
+    "label": "Arte em baixa qualidade",
+    "descricao": "Problema causado por logo, imagem ou arquivo inadequado para personalizacao.",
+    "categoria": "dor_operacional",
+    "sinonimos": ["logo ruim"],
+    "exemplos": ["logo enviado em print do celular"],
+    "relacionados": ["retrabalho_design", "tecnico"],
+    "status": "active"
+  },
+  {
+    "id": "demora_orcamento",
+    "label": "Demora no orcamento",
+    "descricao": "Perda de velocidade comercial porque o cliente demora a receber proposta clara.",
+    "categoria": "dor_comercial",
+    "sinonimos": ["orcamento lento"],
+    "exemplos": ["cliente procura outro fornecedor"],
+    "relacionados": ["converter_whatsapp", "pedir_orcamento"],
+    "status": "active"
+  },
+  {
+    "id": "cliente_indeciso",
+    "label": "Cliente indeciso",
+    "descricao": "Cliente nao avanca porque nao entende modelo, valor, prazo ou diferenca entre opcoes.",
+    "categoria": "dor_comercial",
+    "sinonimos": ["duvida para fechar"],
+    "exemplos": ["cliente pede varias alteracoes sem decidir"],
+    "relacionados": ["conhecer_modelos", "reduzir_objecao"],
+    "status": "active"
+  },
+  {
+    "id": "retrabalho_design",
+    "label": "Retrabalho de design",
+    "descricao": "Refacao de arte, mockup ou layout por falta de alinhamento inicial.",
+    "categoria": "dor_operacional",
+    "sinonimos": ["refacao de arte"],
+    "exemplos": ["arte volta varias vezes para ajuste"],
+    "relacionados": ["aprovacao_whatsapp", "aprovar_modelo"],
+    "status": "active"
+  },
+  {
+    "id": "falta_identidade_visual",
+    "label": "Falta de identidade visual",
+    "descricao": "Uniforme nao conecta com marca, cores, posicionamento ou padrao visual da empresa.",
+    "categoria": "dor_percepcao",
+    "sinonimos": ["marca sem unidade"],
+    "exemplos": ["uniforme nao parece pertencer a marca"],
+    "relacionados": ["fortalecer_marca", "corporativo_moderno"],
+    "status": "active"
+  },
+  {
+    "id": "dificuldade_vender_valor",
+    "label": "Dificuldade de vender valor",
+    "descricao": "Fabrica compete por preco porque nao consegue comunicar diferencial e percepcao premium.",
+    "categoria": "dor_comercial",
+    "sinonimos": ["briga por preco"],
+    "exemplos": ["cliente compara apenas menor orcamento"],
+    "relacionados": ["vender_premium", "autoridade"],
+    "status": "active"
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "id": "gerar_lead",
+    "label": "Gerar lead",
+    "descricao": "Capturar contatos interessados em uniforme, catalogo, orcamento ou atendimento.",
+    "categoria": "objetivo_comercial",
+    "sinonimos": ["captar contato"],
+    "exemplos": ["formulario para pedir orcamento"],
+    "relacionados": ["pedir_orcamento", "anuncio_pago"],
+    "status": "active"
+  },
+  {
+    "id": "aumentar_autoridade",
+    "label": "Aumentar autoridade",
+    "descricao": "Fortalecer percepcao de expertise tecnica e estrategica da fabrica.",
+    "categoria": "objetivo_comercial",
+    "sinonimos": ["virar referencia"],
+    "exemplos": ["carrossel ensinando acabamento"],
+    "relacionados": ["autoridade", "artigo_seo"],
+    "status": "active"
+  },
+  {
+    "id": "vender_premium",
+    "label": "Vender premium",
+    "descricao": "Aumentar valor percebido para vender uniformes de maior ticket.",
+    "categoria": "objetivo_comercial",
+    "sinonimos": ["vender valor"],
+    "exemplos": ["mostrar uniforme como identidade de marca"],
+    "relacionados": ["premium", "baixa_percepcao_premium"],
+    "status": "active"
+  },
+  {
+    "id": "educar_cliente",
+    "label": "Educar cliente",
+    "descricao": "Ensinar criterios de compra, aprovacao, material, acabamento e processo.",
+    "categoria": "objetivo_comercial",
+    "sinonimos": ["orientar comprador"],
+    "exemplos": ["explicar diferenca entre acabamentos"],
+    "relacionados": ["tecnico", "carrossel"],
+    "status": "active"
+  },
+  {
+    "id": "reduzir_objecao",
+    "label": "Reduzir objecao",
+    "descricao": "Diminuir duvidas sobre preco, prazo, qualidade, risco ou aprovacao.",
+    "categoria": "objetivo_comercial",
+    "sinonimos": ["quebrar duvida"],
+    "exemplos": ["explicar por que mockup evita erro"],
+    "relacionados": ["quebra_objecao", "cliente_indeciso"],
+    "status": "active"
+  },
+  {
+    "id": "aumentar_ticket",
+    "label": "Aumentar ticket",
+    "descricao": "Conduzir cliente a comprar melhor, mais completo ou com maior valor agregado.",
+    "categoria": "objetivo_comercial",
+    "sinonimos": ["elevar valor do pedido"],
+    "exemplos": ["oferecer linha premium para equipe comercial"],
+    "relacionados": ["vender_premium", "fechar_pedido"],
+    "status": "active"
+  },
+  {
+    "id": "acelerar_aprovacao",
+    "label": "Acelerar aprovacao",
+    "descricao": "Reduzir atrito entre briefing, mockup, aprovacao e producao.",
+    "categoria": "objetivo_comercial",
+    "sinonimos": ["aprovar mais rapido"],
+    "exemplos": ["mostrar passo a passo de aprovacao"],
+    "relacionados": ["aprovar_modelo", "aprovacao_whatsapp"],
+    "status": "active"
+  },
+  {
+    "id": "divulgar_segmento",
+    "label": "Divulgar segmento",
+    "descricao": "Comunicar que a fabrica atende um nicho especifico com repertorio proprio.",
+    "categoria": "objetivo_comercial",
+    "sinonimos": ["mostrar nicho"],
+    "exemplos": ["conteudo para uniformes hospitalares"],
+    "relacionados": ["hospitalar", "landing_page"],
+    "status": "active"
+  },
+  {
+    "id": "fortalecer_marca",
+    "label": "Fortalecer marca",
+    "descricao": "Aumentar percepcao de identidade, consistencia e profissionalismo.",
+    "categoria": "objetivo_comercial",
+    "sinonimos": ["reforcar identidade"],
+    "exemplos": ["equipe com uniformes alinhados a marca"],
+    "relacionados": ["falta_identidade_visual", "institucional"],
+    "status": "active"
+  },
+  {
+    "id": "converter_whatsapp",
+    "label": "Converter WhatsApp",
+    "descricao": "Transformar conversa no WhatsApp em orcamento, aprovacao ou pedido fechado.",
+    "categoria": "objetivo_comercial",
+    "sinonimos": ["vender no chat"],
+    "exemplos": ["roteiro para atendimento no WhatsApp"],
+    "relacionados": ["chamar_whatsapp", "roteiro_vendas"],
+    "status": "active"
+  }
+]

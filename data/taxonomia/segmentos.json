@@ -1,0 +1,102 @@
+[
+  {
+    "id": "corporativo",
+    "label": "Corporativo",
+    "descricao": "Empresas que usam uniformes para padronizar equipe, atendimento e imagem profissional.",
+    "categoria": "segmento",
+    "sinonimos": ["empresarial"],
+    "exemplos": ["uniforme para equipe administrativa"],
+    "relacionados": ["polo", "falta_padronizacao"],
+    "status": "active"
+  },
+  {
+    "id": "hospitalar",
+    "label": "Hospitalar",
+    "descricao": "Clinicas, hospitais e profissionais de saude que precisam de uniformes tecnicos e confiaveis.",
+    "categoria": "segmento",
+    "sinonimos": ["saude"],
+    "exemplos": ["jaleco e scrub personalizado"],
+    "relacionados": ["tecnico", "confiavel"],
+    "status": "active"
+  },
+  {
+    "id": "agro",
+    "label": "Agro",
+    "descricao": "Negocios rurais, fazendas, cooperativas e equipes de campo.",
+    "categoria": "segmento",
+    "sinonimos": ["agronegocio"],
+    "exemplos": ["camisa operacional para equipe de campo"],
+    "relacionados": ["operacional", "industrial"],
+    "status": "active"
+  },
+  {
+    "id": "pesca",
+    "label": "Pesca",
+    "descricao": "Marcas, grupos e lojas ligadas a pesca esportiva e lazer outdoor.",
+    "categoria": "segmento",
+    "sinonimos": ["pesca esportiva"],
+    "exemplos": ["camiseta dry fit de pesca"],
+    "relacionados": ["esportivo", "sublimacao"],
+    "status": "active"
+  },
+  {
+    "id": "esportivo",
+    "label": "Esportivo",
+    "descricao": "Times, academias, equipes e eventos esportivos com foco em identidade e desempenho.",
+    "categoria": "segmento",
+    "sinonimos": ["time"],
+    "exemplos": ["uniforme de equipe personalizada"],
+    "relacionados": ["esportivo_agressivo", "transformacao"],
+    "status": "active"
+  },
+  {
+    "id": "comitiva",
+    "label": "Comitiva",
+    "descricao": "Grupos, eventos e comunidades que usam uniforme como identidade coletiva.",
+    "categoria": "segmento",
+    "sinonimos": ["grupo"],
+    "exemplos": ["camiseta personalizada para comitiva"],
+    "relacionados": ["promocional", "pertencimento"],
+    "status": "active"
+  },
+  {
+    "id": "promocional",
+    "label": "Promocional",
+    "descricao": "Campanhas, eventos e acoes comerciais que usam uniforme para visibilidade de marca.",
+    "categoria": "segmento",
+    "sinonimos": ["evento"],
+    "exemplos": ["camiseta para campanha promocional"],
+    "relacionados": ["post_estatico", "gerar_lead"],
+    "status": "active"
+  },
+  {
+    "id": "escolar",
+    "label": "Escolar",
+    "descricao": "Escolas, cursos e instituicoes de ensino que precisam de padronizacao visual.",
+    "categoria": "segmento",
+    "sinonimos": ["educacional"],
+    "exemplos": ["uniforme escolar personalizado"],
+    "relacionados": ["falta_padronizacao", "institucional"],
+    "status": "active"
+  },
+  {
+    "id": "gastronomia",
+    "label": "Gastronomia",
+    "descricao": "Restaurantes, bares, cafeterias e equipes de cozinha ou atendimento.",
+    "categoria": "segmento",
+    "sinonimos": ["alimentacao"],
+    "exemplos": ["avental e camiseta para restaurante"],
+    "relacionados": ["corporativo_moderno", "confiavel"],
+    "status": "active"
+  },
+  {
+    "id": "operacional",
+    "label": "Operacional",
+    "descricao": "Equipes de producao, manutencao, logistica e campo que dependem de durabilidade.",
+    "categoria": "segmento",
+    "sinonimos": ["equipe de campo"],
+    "exemplos": ["uniforme operacional resistente"],
+    "relacionados": ["industrial", "atraso_producao"],
+    "status": "active"
+  }
+]

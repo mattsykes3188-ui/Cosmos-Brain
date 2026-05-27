@@ -1,0 +1,102 @@
+[
+  {
+    "id": "problema_solucao",
+    "label": "Problema-solucao",
+    "descricao": "Narrativa que apresenta uma dor clara e mostra o uniforme como resposta pratica.",
+    "categoria": "narrativa",
+    "sinonimos": ["dor e solucao"],
+    "exemplos": ["equipe despadronizada vira equipe profissional"],
+    "relacionados": ["falta_padronizacao", "pedir_orcamento"],
+    "status": "active"
+  },
+  {
+    "id": "antes_depois",
+    "label": "Antes e depois",
+    "descricao": "Mostra a transformacao visual entre situacao inicial e resultado final.",
+    "categoria": "narrativa",
+    "sinonimos": ["transformacao visual"],
+    "exemplos": ["antes sem padrao, depois com uniforme premium"],
+    "relacionados": ["transformacao", "prova_visual"],
+    "status": "active"
+  },
+  {
+    "id": "bastidor",
+    "label": "Bastidor",
+    "descricao": "Revela etapas internas de criacao, producao, acabamento ou conferencia.",
+    "categoria": "narrativa",
+    "sinonimos": ["making of"],
+    "exemplos": ["corte, personalizacao e embalagem"],
+    "relacionados": ["video_bastidor", "fabrica_real"],
+    "status": "active"
+  },
+  {
+    "id": "prova_visual",
+    "label": "Prova visual",
+    "descricao": "Usa imagem, detalhe ou comparacao para comprovar qualidade e percepcao.",
+    "categoria": "narrativa",
+    "sinonimos": ["evidencia visual"],
+    "exemplos": ["close no bordado e acabamento"],
+    "relacionados": ["premium_clean", "educar_cliente"],
+    "status": "active"
+  },
+  {
+    "id": "comparativo",
+    "label": "Comparativo",
+    "descricao": "Compara opcoes, materiais, acabamentos ou resultados para educar a decisao.",
+    "categoria": "narrativa",
+    "sinonimos": ["comparacao"],
+    "exemplos": ["uniforme comum vs uniforme premium"],
+    "relacionados": ["quebra_objecao", "reduzir_objecao"],
+    "status": "active"
+  },
+  {
+    "id": "autoridade",
+    "label": "Autoridade",
+    "descricao": "Ensina criterio tecnico ou estrategico para posicionar a fabrica como especialista.",
+    "categoria": "narrativa",
+    "sinonimos": ["conteudo educativo"],
+    "exemplos": ["como avaliar acabamento antes do pedido"],
+    "relacionados": ["aumentar_autoridade", "tecnico"],
+    "status": "active"
+  },
+  {
+    "id": "demonstracao_produto",
+    "label": "Demonstracao de produto",
+    "descricao": "Mostra caracteristicas do uniforme em uso ou em detalhe.",
+    "categoria": "narrativa",
+    "sinonimos": ["demo"],
+    "exemplos": ["mostrando tecido, gola e personalizacao"],
+    "relacionados": ["reel", "conhecer_modelos"],
+    "status": "active"
+  },
+  {
+    "id": "quebra_objecao",
+    "label": "Quebra de objecao",
+    "descricao": "Ataca duvidas sobre preco, prazo, qualidade, aprovacao ou personalizacao.",
+    "categoria": "narrativa",
+    "sinonimos": ["resposta a objecao"],
+    "exemplos": ["por que uniforme premium nao e gasto"],
+    "relacionados": ["reduzir_objecao", "cliente_indeciso"],
+    "status": "active"
+  },
+  {
+    "id": "transformacao",
+    "label": "Transformacao",
+    "descricao": "Mostra mudanca de percepcao, identidade ou profissionalismo causada pelo uniforme.",
+    "categoria": "narrativa",
+    "sinonimos": ["mudanca percebida"],
+    "exemplos": ["equipe ganha presenca de marca"],
+    "relacionados": ["antes_depois", "fortalecer_marca"],
+    "status": "active"
+  },
+  {
+    "id": "processo_passo_a_passo",
+    "label": "Processo passo a passo",
+    "descricao": "Organiza o conteudo em etapas simples para reduzir ansiedade e aumentar clareza.",
+    "categoria": "narrativa",
+    "sinonimos": ["passo a passo"],
+    "exemplos": ["briefing, mockup, aprovacao, producao e entrega"],
+    "relacionados": ["briefing_incompleto", "acelerar_aprovacao"],
+    "status": "active"
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "id": "dor_direta",
+    "label": "Dor direta",
+    "descricao": "Abertura que nomeia um problema do cliente sem rodeio.",
+    "categoria": "hook",
+    "sinonimos": ["problema direto"],
+    "exemplos": ["sua equipe parece desorganizada?"],
+    "relacionados": ["problema_solucao", "falta_padronizacao"],
+    "status": "active"
+  },
+  {
+    "id": "pergunta",
+    "label": "Pergunta",
+    "descricao": "Abertura em formato de pergunta para ativar reflexao imediata.",
+    "categoria": "hook",
+    "sinonimos": ["questionamento"],
+    "exemplos": ["voce sabe o que seu uniforme comunica?"],
+    "relacionados": ["curiosidade", "educar_cliente"],
+    "status": "active"
+  },
+  {
+    "id": "choque",
+    "label": "Choque",
+    "descricao": "Abertura com contraste forte para quebrar expectativa.",
+    "categoria": "hook",
+    "sinonimos": ["impacto"],
+    "exemplos": ["o uniforme barato pode custar caro para sua marca"],
+    "relacionados": ["baixa_percepcao_premium", "reduzir_objecao"],
+    "status": "active"
+  },
+  {
+    "id": "curiosidade",
+    "label": "Curiosidade",
+    "descricao": "Abertura que cria lacuna de informacao e incentiva continuidade.",
+    "categoria": "hook",
+    "sinonimos": ["gancho curioso"],
+    "exemplos": ["o detalhe que muda a percepcao do uniforme"],
+    "relacionados": ["prova_visual", "reel"],
+    "status": "active"
+  },
+  {
+    "id": "autoridade",
+    "label": "Autoridade",
+    "descricao": "Abertura que posiciona conhecimento tecnico ou experiencia de mercado.",
+    "categoria": "hook",
+    "sinonimos": ["especialista"],
+    "exemplos": ["depois de produzir milhares de uniformes..."],
+    "relacionados": ["aumentar_autoridade", "tecnico"],
+    "status": "active"
+  },
+  {
+    "id": "transformacao",
+    "label": "Transformacao",
+    "descricao": "Abertura que antecipa mudanca visual, comercial ou operacional.",
+    "categoria": "hook",
+    "sinonimos": ["mudanca"],
+    "exemplos": ["olha como essa equipe mudou com um uniforme certo"],
+    "relacionados": ["antes_depois", "fortalecer_marca"],
+    "status": "active"
+  },
+  {
+    "id": "comparativo",
+    "label": "Comparativo",
+    "descricao": "Abertura que coloca duas opcoes ou resultados lado a lado.",
+    "categoria": "hook",
+    "sinonimos": ["lado a lado"],
+    "exemplos": ["uniforme comum vs uniforme que vende valor"],
+    "relacionados": ["comparativo", "vender_premium"],
+    "status": "active"
+  },
+  {
+    "id": "bastidor",
+    "label": "Bastidor",
+    "descricao": "Abertura que promete mostrar o processo real por tras do produto.",
+    "categoria": "hook",
+    "sinonimos": ["por tras da producao"],
+    "exemplos": ["vem ver como esse uniforme nasceu"],
+    "relacionados": ["video_bastidor", "fabrica_real"],
+    "status": "active"
+  },
+  {
+    "id": "erro_comum",
+    "label": "Erro comum",
+    "descricao": "Abertura que aponta uma falha recorrente na compra ou criacao de uniformes.",
+    "categoria": "hook",
+    "sinonimos": ["erro frequente"],
+    "exemplos": ["o erro que faz seu uniforme parecer barato"],
+    "relacionados": ["arte_baixa_qualidade", "quebra_objecao"],
+    "status": "active"
+  },
+  {
+    "id": "promessa_pratica",
+    "label": "Promessa pratica",
+    "descricao": "Abertura que promete um ganho claro e aplicavel.",
+    "categoria": "hook",
+    "sinonimos": ["beneficio direto"],
+    "exemplos": ["como aprovar seu uniforme mais rapido"],
+    "relacionados": ["acelerar_aprovacao", "processo_passo_a_passo"],
+    "status": "active"
+  }
+]

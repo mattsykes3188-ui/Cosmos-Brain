@@ -64,6 +64,28 @@ function validInsightEstrategico(overrides = {}) {
   };
 }
 
+function validPadraoLocucao(overrides = {}) {
+  return {
+    type: 'padrao_locucao',
+    source: 'teste_manual',
+    plataforma: 'instagram',
+    produto: 'uniforme corporativo',
+    abertura: 'comeca com pergunta direta sobre imagem profissional',
+    estrutura: 'dor -> promessa -> prova visual -> CTA',
+    promessa: 'empresa mais profissional atraves do uniforme',
+    dor_principal: 'empresa parecer desorganizada por falta de padronizacao visual',
+    objecao_atacada: 'medo de investir em uniforme e nao perceber valor',
+    tom: 'direto e comercial',
+    ritmo: 'rapido',
+    cta: 'chamar no WhatsApp para orcamento',
+    strength: 5,
+    text: 'Padrao de locucao focado em transformar percepcao visual em argumento de venda.',
+    context: 'Usar para criar roteiros proprios sobre uniformizacao empresarial sem copiar frases originais.',
+    created_at: '2026-05-26',
+    ...overrides
+  };
+}
+
 console.log('\n[TEST 1] valid item passes');
 
 const valid = validateBrainItem(validItem());
@@ -98,8 +120,10 @@ console.log('\n[TEST 4] new intelligence domains pass');
 
 const validAdInsight = validateBrainItem(validInsightAnuncio());
 const validStrategicInsight = validateBrainItem(validInsightEstrategico());
+const validSpeechPattern = validateBrainItem(validPadraoLocucao());
 assert(validAdInsight.valid === true, 'insight_anuncio valid item passes');
 assert(validStrategicInsight.valid === true, 'insight_estrategico valid item passes');
+assert(validSpeechPattern.valid === true, 'padrao_locucao valid item passes');
 
 console.log('\n[TEST 5] new intelligence domains fail when required fields are invalid');
 
@@ -114,6 +138,11 @@ const invalidStrategicInsight = validateBrainItem(validInsightEstrategico({
   interpretacao_estrategica: '',
   context: 'curto'
 }));
+const invalidSpeechPattern = validateBrainItem(validPadraoLocucao({
+  abertura: '',
+  produto: '',
+  strength: 6
+}));
 
 assert(invalidAdInsight.valid === false, 'insight_anuncio invalid item fails');
 assert(invalidAdInsight.errors.some((error) => error.includes('marca')), 'insight_anuncio requires marca');
@@ -122,6 +151,10 @@ assert(invalidAdInsight.errors.some((error) => error.includes('strength')), 'ins
 assert(invalidStrategicInsight.valid === false, 'insight_estrategico invalid item fails');
 assert(invalidStrategicInsight.errors.some((error) => error.includes('padrao_mercado')), 'insight_estrategico requires padrao_mercado');
 assert(invalidStrategicInsight.errors.some((error) => error.includes('interpretacao_estrategica')), 'insight_estrategico requires interpretacao_estrategica');
+assert(invalidSpeechPattern.valid === false, 'padrao_locucao invalid item fails');
+assert(invalidSpeechPattern.errors.some((error) => error.includes('abertura')), 'padrao_locucao requires abertura');
+assert(invalidSpeechPattern.errors.some((error) => error.includes('produto')), 'padrao_locucao requires produto');
+assert(invalidSpeechPattern.errors.some((error) => error.includes('strength')), 'padrao_locucao validates strength');
 
 console.log('\n' + '-'.repeat(48));
 console.log(`Result: ${passed} passed | ${failed} failed`);

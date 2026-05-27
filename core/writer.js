@@ -241,7 +241,8 @@ function singularizeFolderType(type) {
     trends: 'tendencia',
     pain_points: 'dor_mercado',
     storytelling: 'narrativa',
-    visual: 'direcao_visual'
+    visual: 'direcao_visual',
+    padroes_locucao: 'padrao_locucao'
   };
 
   return folderToType[type] || type;

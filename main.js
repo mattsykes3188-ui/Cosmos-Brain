@@ -1,16 +1,57 @@
 // ===============================
-// COSMOS CONTENT BRAIN
+// COSMOS MIDIA - INTELLIGENCE UI
 // ===============================
 
-// Estado em memoria. Depois que os JSONs carregam, a interface usa estes arrays.
+// Estado central da interface. O frontend continua simples: HTML, CSS e JS puro.
 let bibliotecas = {
     ganchos: [],
     tendencias: [],
-    chamadas_acao: []
+    chamadas_acao: [],
+    dores_mercado: [],
+    biblioteca_anuncios: [],
+    estrategia_mateus: []
 };
 
-// Fallback interno: se o fetch falhar, a pagina continua funcionando.
-// Isso tambem ajuda quando a pessoa abre o HTML por duplo clique (file://).
+let ultimoLogValidacao = null;
+
+// Um manifesto e um index.json com a lista dos arquivos daquela biblioteca.
+// Usamos manifestos porque o navegador nao consegue listar diretorios via fetch.
+// Futuramente, este ponto pode trocar arquivos locais por uma API/backend.
+const bibliotecasConfig = {
+    ganchos: {
+        caminho: "data/ganchos",
+        label: "Ganchos",
+        type: "gancho"
+    },
+    tendencias: {
+        caminho: "data/tendencias",
+        label: "Tendencias",
+        type: "tendencia"
+    },
+    chamadas_acao: {
+        caminho: "data/chamadas_acao",
+        label: "Chamadas de Acao",
+        type: "chamada_acao"
+    },
+    dores_mercado: {
+        caminho: "data/dores_mercado",
+        label: "Dores de Mercado",
+        type: "dor_mercado"
+    },
+    biblioteca_anuncios: {
+        caminho: "data/biblioteca_anuncios",
+        label: "Biblioteca de Anuncios",
+        type: "insight_anuncio"
+    },
+    estrategia_mateus: {
+        caminho: "data/estrategia_mateus",
+        label: "Estrategia Mateus",
+        type: "insight_estrategico"
+    }
+};
+
+// Fallback interno: se fetch falhar, a pagina abre e o gerador segue funcionando.
+// Isso tambem cobre o caso de abrir o HTML por duplo clique usando file://.
 const fallbackBibliotecas = {
     ganchos: [
         {
@@ -47,18 +88,6 @@ const fallbackBibliotecas = {
             strength: 5,
             text: "Tecido, acabamento e modelagem fazem toda diferenca no resultado final.",
             context: "Fallback para conteudos tecnicos.",
-            source_type: "fallback"
-        },
-        {
-            id: "fallback_gancho_cinematografico_001",
-            type: "gancho",
-            product: "geral",
-            objective: "vender",
-            style: "cinematografico",
-            emotion: "impacto",
-            strength: 4,
-            text: "Seu uniforme merece uma apresentacao de cinema.",
-            context: "Fallback para conteudos cinematograficos.",
             source_type: "fallback"
         },
         {
@@ -109,39 +138,52 @@ const fallbackBibliotecas = {
             text: "Acompanhe nosso perfil para entender como um uniforme profissional e criado.",
             context: "Fallback de autoridade.",
             source_type: "fallback"
-        },
+        }
+    ],
+    dores_mercado: [
         {
-            id: "fallback_chamada_acao_qualidade_001",
-            type: "chamada_acao",
+            id: "fallback_dor_mercado_001",
+            type: "dor_mercado",
             product: "geral",
-            objective: "qualidade",
-            style: "tecnico",
-            strength: 5,
-            text: "Fale com nossa equipe e veja como os detalhes fazem diferenca no resultado final.",
-            context: "Fallback de qualidade.",
-            source_type: "fallback"
-        },
-        {
-            id: "fallback_chamada_acao_bastidor_001",
-            type: "chamada_acao",
-            product: "geral",
-            objective: "bastidor",
-            style: "emocional",
-            strength: 4,
-            text: "Continue acompanhando para ver mais bastidores da nossa producao.",
-            context: "Fallback de bastidor.",
-            source_type: "fallback"
-        },
-        {
-            id: "fallback_chamada_acao_clientes_001",
-            type: "chamada_acao",
-            product: "geral",
-            objective: "clientes",
+            objective: "autoridade",
             style: "direto",
             strength: 4,
-            text: "Entre em contato e descubra como sua empresa pode ter uniformes mais profissionais.",
-            context: "Fallback para atrair clientes.",
+            text: "Compradores de uniformes sofrem quando nao conseguem visualizar o resultado final antes do pedido.",
+            context: "Fallback para leitura de dor do mercado.",
             source_type: "fallback"
+        }
+    ],
+    biblioteca_anuncios: [
+        {
+            id: "fallback_insight_anuncio_001",
+            type: "insight_anuncio",
+            source: "fallback",
+            marca: "Fabrica de uniformes",
+            produto: "uniforme corporativo",
+            promessa: "entrega rapida com atendimento direto",
+            dor_principal: "cliente precisa de uniforme sem atrasar a operacao",
+            formato: "anuncio estatico",
+            estilo_visual: "direto e comercial",
+            estrutura_copy: "dor, promessa, prova e chamada para orcamento",
+            strength: 3,
+            text: "Anuncios diretos tendem a funcionar quando conectam urgencia, prazo e clareza de orcamento.",
+            context: "Fallback para inteligencia de anuncios.",
+            created_at: "2026-05-26"
+        }
+    ],
+    estrategia_mateus: [
+        {
+            id: "fallback_estrategia_mateus_001",
+            type: "insight_estrategico",
+            source: "fallback",
+            padrao_mercado: "fabricas ainda comunicam uniforme como produto comum",
+            interpretacao_estrategica: "a oportunidade esta em vender percepcao de marca, nao apenas tecido",
+            angulo_conteudo: "autoridade sobre valor percebido",
+            formato_recomendado: "carrossel educativo ou reels de bastidor",
+            strength: 5,
+            text: "A fabrica que educa o cliente sobre valor percebido sai da briga por preco.",
+            context: "Fallback para direcao estrategica.",
+            created_at: "2026-05-26"
         }
     ]
 };
@@ -202,34 +244,14 @@ const hashtagsPorUniforme = {
 
 const generateBtn = document.getElementById("generateBtn");
 const resultadoEl = document.getElementById("resultado");
+const generatorStatusEl = document.getElementById("generatorStatus");
+const loadingBadgeEl = document.getElementById("loadingBadge");
+const dataAtualEl = document.getElementById("dataAtual");
 
 // ===============================
 // CARREGAMENTO DOS JSONS
 // ===============================
 
-// Um manifesto e um index.json com a lista dos arquivos daquela biblioteca.
-// Usamos manifesto porque frontend puro nao consegue listar uma pasta com fetch.
-// Exemplo: primeiro buscamos data/ganchos/index.json; depois buscamos cada arquivo listado ali.
-async function carregarBiblioteca(tipo) {
-    try {
-        const manifesto = await carregarArquivoJson(`data/${tipo}/index.json`);
-
-        if (!Array.isArray(manifesto)) {
-            throw new Error(`Manifesto invalido para ${tipo}`);
-        }
-
-        const caminhos = manifesto.map((arquivo) => `data/${tipo}/${arquivo}`);
-        const itens = await Promise.all(caminhos.map(carregarArquivoJson));
-
-        return itens.filter(Boolean);
-    } catch (erro) {
-        console.warn(`Falha ao carregar ${tipo}. Usando fallback interno.`, erro);
-        return fallbackBibliotecas[tipo] || [];
-    }
-}
-
-// Funcao pequena e isolada para buscar qualquer JSON.
-// Futuramente, este ponto pode trocar fetch de arquivos por uma API/backend.
 async function carregarArquivoJson(caminho) {
     const resposta = await fetch(caminho);
 
@@ -240,28 +262,294 @@ async function carregarArquivoJson(caminho) {
     return resposta.json();
 }
 
-// Carrega ganchos, tendencias e chamadas de acao quando a pagina abre.
-async function inicializarBibliotecas() {
-    mostrarLoading();
-    generateBtn.disabled = true;
+async function carregarBiblioteca(tipo) {
+    const config = bibliotecasConfig[tipo];
 
-    const [ganchos, tendencias, chamadas_acao] = await Promise.all([
-        carregarBiblioteca("ganchos"),
-        carregarBiblioteca("tendencias"),
-        carregarBiblioteca("chamadas_acao")
+    if (!config) {
+        return [];
+    }
+
+    try {
+        const manifesto = await carregarArquivoJson(`${config.caminho}/index.json`);
+
+        if (!Array.isArray(manifesto)) {
+            throw new Error(`Manifesto invalido para ${tipo}`);
+        }
+
+        const caminhos = manifesto.map((arquivo) => `${config.caminho}/${arquivo}`);
+        const itens = await Promise.all(caminhos.map(carregarArquivoJson));
+
+        return itens.filter(Boolean);
+    } catch (erro) {
+        return fallbackBibliotecas[tipo] || [];
+    }
+}
+
+async function carregarTodasBibliotecas() {
+    const tipos = Object.keys(bibliotecasConfig);
+    const resultados = await Promise.all(tipos.map((tipo) => carregarBiblioteca(tipo)));
+
+    return tipos.reduce((acumulador, tipo, indice) => {
+        acumulador[tipo] = resultados[indice];
+        return acumulador;
+    }, {});
+}
+
+async function carregarUltimoLogValidacao() {
+    const hoje = formatarDataArquivo(new Date());
+    const caminho = `logs/push_safety/push_validation_${hoje}.json`;
+
+    try {
+        ultimoLogValidacao = await carregarArquivoJson(caminho);
+    } catch (erro) {
+        ultimoLogValidacao = null;
+    }
+}
+
+async function inicializarBibliotecas() {
+    mostrarDataAtual();
+    mostrarLoading();
+    renderDashboard();
+
+    if (generateBtn) {
+        generateBtn.disabled = true;
+    }
+
+    const [dados, log] = await Promise.all([
+        carregarTodasBibliotecas(),
+        carregarUltimoLogValidacao()
     ]);
 
-    bibliotecas = { ganchos, tendencias, chamadas_acao };
+    bibliotecas = dados;
 
-    generateBtn.disabled = false;
-    resultadoEl.innerHTML = "Seu conteudo aparecera aqui...";
+    if (generateBtn) {
+        generateBtn.disabled = false;
+    }
+
+    if (loadingBadgeEl) {
+        loadingBadgeEl.textContent = "Brain ativo";
+        loadingBadgeEl.classList.add("success");
+    }
+
+    renderDashboard();
+    renderTimeline();
+    renderInsightsRecentes();
+    renderGenerator();
+    renderSecoesDeBiblioteca();
+    renderLogs(log);
 }
 
 // ===============================
-// SELECAO DE CONTEUDO
+// RENDERIZACAO DA CENTRAL
 // ===============================
 
-// Escolhe um item aleatorio de forma segura.
+function renderDashboard() {
+    const dashboardCardsEl = document.getElementById("dashboardCards");
+
+    if (!dashboardCardsEl) {
+        return;
+    }
+
+    const contagens = contarItensPorTipo();
+    const forcaTendencias = calcularForcaMedia(bibliotecas.tendencias);
+    const forcaEstrategia = calcularForcaMedia(bibliotecas.estrategia_mateus);
+    const statusLog = ultimoLogValidacao && ultimoLogValidacao.success ? "Aprovado" : "Pendente";
+
+    dashboardCardsEl.innerHTML = [
+        criarMetricCard("Tendencias detectadas", contagens.tendencias, `Forca media ${forcaTendencias}`),
+        criarMetricCard("Dores de mercado", contagens.dores_mercado, "Leituras para posicionamento e pauta"),
+        criarMetricCard("Ganchos disponiveis", contagens.ganchos, "Entradas criativas para Reels e posts"),
+        criarMetricCard("Insights de anuncios", contagens.biblioteca_anuncios, "Padroes competitivos catalogados"),
+        criarMetricCard("Insights estrategicos", contagens.estrategia_mateus, `Forca media ${forcaEstrategia}`),
+        criarMetricCard("Ultimo log", statusLog, ultimoLogValidacao ? "Validacao local encontrada" : "Sem log servido para a data atual")
+    ].join("");
+}
+
+function renderTimeline() {
+    const timelineListEl = document.getElementById("timelineList");
+
+    if (!timelineListEl) {
+        return;
+    }
+
+    const eventos = [
+        criarEvento("Nova tendencia adicionada", pegarItensRecentes(bibliotecas.tendencias, 1)[0]),
+        criarEvento("Nova dor detectada", pegarItensRecentes(bibliotecas.dores_mercado, 1)[0]),
+        criarEvento("Gancho gerado", pegarItensRecentes(bibliotecas.ganchos, 1)[0]),
+        criarEvento("Insight de anuncio criado", pegarItensRecentes(bibliotecas.biblioteca_anuncios, 1)[0]),
+        criarEvento("Insight estrategico criado", pegarItensRecentes(bibliotecas.estrategia_mateus, 1)[0])
+    ];
+
+    timelineListEl.innerHTML = eventos.map((evento) => `
+        <article class="timeline-item">
+            <strong>${escaparHtml(evento.titulo)}</strong>
+            <p>${escaparHtml(evento.texto)}</p>
+        </article>
+    `).join("");
+}
+
+function renderInsightsRecentes() {
+    const recentInsightsEl = document.getElementById("recentInsights");
+
+    if (!recentInsightsEl) {
+        return;
+    }
+
+    const itens = [
+        ...pegarItensRecentes(bibliotecas.tendencias, 2),
+        ...pegarItensRecentes(bibliotecas.ganchos, 2),
+        ...pegarItensRecentes(bibliotecas.biblioteca_anuncios, 1),
+        ...pegarItensRecentes(bibliotecas.estrategia_mateus, 1)
+    ].slice(0, 6);
+
+    if (itens.length === 0) {
+        recentInsightsEl.innerHTML = criarEmptyState("Nenhum insight carregado ainda.");
+        return;
+    }
+
+    recentInsightsEl.innerHTML = itens.map((item) => `
+        <article class="insight-card">
+            <strong>${escaparHtml(rotuloTipo(item.type))}</strong>
+            <p>${escaparHtml(item.text)}</p>
+            <div class="library-meta">
+                ${criarChip(`forca ${item.strength || "-"}`)}
+                ${criarChip(item.style || item.formato || item.source || "brain")}
+            </div>
+        </article>
+    `).join("");
+}
+
+function renderGenerator() {
+    if (resultadoEl) {
+        resultadoEl.innerHTML = "Seu conteudo aparecera aqui...";
+    }
+
+    if (generatorStatusEl) {
+        generatorStatusEl.textContent = "Brain pronto";
+    }
+}
+
+function renderSecoesDeBiblioteca() {
+    renderListaBiblioteca("tendenciasList", bibliotecas.tendencias);
+    renderListaBiblioteca("doresList", bibliotecas.dores_mercado);
+    renderListaBiblioteca("ganchosList", bibliotecas.ganchos);
+    renderListaBiblioteca("chamadasList", bibliotecas.chamadas_acao);
+    renderListaBiblioteca("anunciosList", bibliotecas.biblioteca_anuncios);
+    renderListaBiblioteca("estrategiaList", bibliotecas.estrategia_mateus);
+}
+
+function renderListaBiblioteca(elementId, lista) {
+    const elemento = document.getElementById(elementId);
+
+    if (!elemento) {
+        return;
+    }
+
+    if (!Array.isArray(lista) || lista.length === 0) {
+        elemento.innerHTML = criarEmptyState("Ainda nao ha itens reais nesta biblioteca.");
+        return;
+    }
+
+    elemento.innerHTML = pegarItensRecentes(lista, 12).map((item) => `
+        <article class="library-card">
+            <strong>${escaparHtml(item.text || item.promessa || item.interpretacao_estrategica)}</strong>
+            <p>${escaparHtml(item.context || item.dor_principal || item.padrao_mercado || "Item do Cosmos Brain.")}</p>
+            <div class="library-meta">
+                ${criarChip(rotuloTipo(item.type))}
+                ${criarChip(`forca ${item.strength || "-"}`)}
+                ${criarChip(item.product || item.produto || "geral")}
+            </div>
+        </article>
+    `).join("");
+}
+
+function renderLogs() {
+    const logsPanelEl = document.getElementById("logsPanel");
+
+    if (!logsPanelEl) {
+        return;
+    }
+
+    if (!ultimoLogValidacao) {
+        logsPanelEl.innerHTML = `
+            <h3>Validacao local</h3>
+            <p>Nenhum log de push safety foi servido para a data atual.</p>
+            <p>Quando necessario, rode <strong>node scripts/pre_push_validation.js</strong> antes de commit ou push automatizado.</p>
+        `;
+        return;
+    }
+
+    logsPanelEl.innerHTML = `
+        <h3>Validacao local</h3>
+        <p>Status: <strong>${ultimoLogValidacao.success ? "aprovado" : "bloqueado"}</strong></p>
+        <p>Arquivos verificados: <strong>${ultimoLogValidacao.checked_files || 0}</strong></p>
+        <p>Duracao: <strong>${ultimoLogValidacao.duration_ms || 0}ms</strong></p>
+    `;
+}
+
+function mudarSecao(secao) {
+    document.querySelectorAll("[data-section-panel]").forEach((painel) => {
+        painel.classList.toggle("active", painel.dataset.sectionPanel === secao);
+    });
+
+    document.querySelectorAll(".nav-item").forEach((botao) => {
+        botao.classList.toggle("active", botao.dataset.section === secao);
+    });
+}
+
+// ===============================
+// CALCULOS E SELECAO DE CONTEUDO
+// ===============================
+
+function contarItensPorTipo() {
+    return Object.keys(bibliotecas).reduce((contagens, tipo) => {
+        contagens[tipo] = Array.isArray(bibliotecas[tipo]) ? bibliotecas[tipo].length : 0;
+        return contagens;
+    }, {});
+}
+
+function calcularForcaMedia(lista) {
+    if (!Array.isArray(lista) || lista.length === 0) {
+        return "-";
+    }
+
+    const itensComForca = lista.filter((item) => Number.isFinite(Number(item.strength)));
+
+    if (itensComForca.length === 0) {
+        return "-";
+    }
+
+    const soma = itensComForca.reduce((total, item) => total + Number(item.strength), 0);
+    return (soma / itensComForca.length).toFixed(1);
+}
+
+function pegarItensRecentes(lista, limite = 4) {
+    if (!Array.isArray(lista)) {
+        return [];
+    }
+
+    return [...lista]
+        .sort((a, b) => extrairTempoItem(b) - extrairTempoItem(a))
+        .slice(0, limite);
+}
+
+function extrairTempoItem(item) {
+    const dataTexto = item.created_at || item.processed_at || extrairDataDoId(item.id);
+    const tempo = Date.parse(dataTexto);
+    return Number.isFinite(tempo) ? tempo : 0;
+}
+
+function extrairDataDoId(id) {
+    const match = String(id || "").match(/(\d{8})/);
+
+    if (!match) {
+        return "";
+    }
+
+    const valor = match[1];
+    return `${valor.slice(0, 4)}-${valor.slice(4, 6)}-${valor.slice(6, 8)}`;
+}
+
 function pegarItemAleatorio(lista) {
     if (!Array.isArray(lista) || lista.length === 0) {
         return null;
@@ -271,8 +559,6 @@ function pegarItemAleatorio(lista) {
     return lista[indiceAleatorio];
 }
 
-// Filtra por style, objective, product e type.
-// Se nao encontrar combinacao perfeita, relaxa os filtros aos poucos para nao quebrar a UI.
 function escolherItemPorFiltros(lista, filtros) {
     if (!Array.isArray(lista) || lista.length === 0) {
         return null;
@@ -295,7 +581,7 @@ function filtrarItens(lista, filtros) {
     return lista.filter((item) => {
         return Object.entries(filtros).every(([campo, valor]) => {
             if (!valor) return true;
-            if (campo === "product") return produtoCompativel(item.product, valor);
+            if (campo === "product") return produtoCompativel(item.product || item.produto, valor);
             return normalizarTexto(item[campo]) === normalizarTexto(valor);
         });
     });
@@ -324,26 +610,8 @@ function normalizarTexto(valor) {
     return String(valor || "").trim().toLowerCase();
 }
 
-function mostrarLoading() {
-    resultadoEl.innerHTML = `
-        <div class="result-card">
-            <h3>Carregando</h3>
-            <p>Preparando bibliotecas de ganchos, tendencias e chamadas de acao...</p>
-        </div>
-    `;
-}
-
-function escaparHtml(valor) {
-    return String(valor || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
 // ===============================
-// FUNCAO PRINCIPAL
+// GERADOR
 // ===============================
 
 function gerarConteudo() {
@@ -378,7 +646,7 @@ function gerarConteudo() {
     const hashtags = hashtagsPorUniforme[tipoUniforme] || hashtagsPorUniforme.empresa;
     const temaFinal = tema || "Mostrar um uniforme sendo criado do zero";
 
-    const resultadoHTML = `
+    resultadoEl.innerHTML = `
         <div class="result-card">
             <h3>Ideia de Reels</h3>
             <p>
@@ -423,12 +691,103 @@ function gerarConteudo() {
         </div>
     `;
 
-    resultadoEl.innerHTML = resultadoHTML;
+    if (generatorStatusEl) {
+        generatorStatusEl.textContent = "Conteudo gerado";
+    }
+}
+
+// ===============================
+// HELPERS DE UI
+// ===============================
+
+function mostrarLoading() {
+    if (resultadoEl) {
+        resultadoEl.innerHTML = `
+            <div class="result-card">
+                <h3>Carregando</h3>
+                <p>Preparando bibliotecas de ganchos, tendencias, dores e insights...</p>
+            </div>
+        `;
+    }
+}
+
+function criarMetricCard(titulo, valor, descricao) {
+    return `
+        <article class="metric-card">
+            <span>${escaparHtml(titulo)}</span>
+            <strong>${escaparHtml(valor)}</strong>
+            <p>${escaparHtml(descricao)}</p>
+        </article>
+    `;
+}
+
+function criarEvento(titulo, item) {
+    return {
+        titulo,
+        texto: item ? item.text : "Aguardando novos dados desta biblioteca."
+    };
+}
+
+function criarChip(texto) {
+    return `<span class="chip">${escaparHtml(texto)}</span>`;
+}
+
+function criarEmptyState(texto) {
+    return `<div class="empty-state">${escaparHtml(texto)}</div>`;
+}
+
+function rotuloTipo(type) {
+    const rotulos = {
+        gancho: "Gancho",
+        tendencia: "Tendencia",
+        chamada_acao: "Chamada de Acao",
+        dor_mercado: "Dor de Mercado",
+        insight_anuncio: "Insight de Anuncio",
+        insight_estrategico: "Insight Estrategico"
+    };
+
+    return rotulos[type] || "Item do Brain";
+}
+
+function mostrarDataAtual() {
+    if (!dataAtualEl) {
+        return;
+    }
+
+    dataAtualEl.textContent = new Date().toLocaleDateString("pt-BR", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+    });
+}
+
+function formatarDataArquivo(data) {
+    const ano = data.getFullYear();
+    const mes = String(data.getMonth() + 1).padStart(2, "0");
+    const dia = String(data.getDate()).padStart(2, "0");
+
+    return `${ano}-${mes}-${dia}`;
+}
+
+function escaparHtml(valor) {
+    return String(valor || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 
 // ===============================
 // EVENTOS
 // ===============================
 
-generateBtn.addEventListener("click", gerarConteudo);
+document.querySelectorAll(".nav-item").forEach((botao) => {
+    botao.addEventListener("click", () => mudarSecao(botao.dataset.section));
+});
+
+if (generateBtn) {
+    generateBtn.addEventListener("click", gerarConteudo);
+}
+
 inicializarBibliotecas();
