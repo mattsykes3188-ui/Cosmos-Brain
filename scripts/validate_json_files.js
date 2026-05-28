@@ -61,9 +61,23 @@ function validateJsonFiles(options = {}) {
       continue;
     }
 
+    if (isResearchLibraryFile(relativePath)) {
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+        errors.push({ file: relativePath, message: 'Research library JSON must contain an object.' });
+      }
+      continue;
+    }
+
     if (isTaxonomyFile(relativePath)) {
       if (!Array.isArray(parsed)) {
         errors.push({ file: relativePath, message: 'Taxonomy JSON must contain an array.' });
+      }
+      continue;
+    }
+
+    if (isSemanticAssistFile(relativePath)) {
+      if (!isStringArrayMap(parsed)) {
+        errors.push({ file: relativePath, message: 'Semantic assist JSON must contain an object of string arrays.' });
       }
       continue;
     }
@@ -97,12 +111,33 @@ function isTaxonomyFile(relativePath) {
   return relativePath.startsWith('data/taxonomia/');
 }
 
+function isSemanticAssistFile(relativePath) {
+  return relativePath.startsWith('data/semantic_assists/');
+}
+
+function isStringArrayMap(parsed) {
+  return parsed
+    && typeof parsed === 'object'
+    && !Array.isArray(parsed)
+    && Object.values(parsed).every((value) => Array.isArray(value) && value.every((item) => typeof item === 'string'));
+}
+
 function isGeneratedStrategicIndex(relativePath) {
-  return relativePath === 'data/biblioteca_anuncios/padroes_locucao/index.json';
+  return relativePath === 'data/biblioteca_anuncios/padroes_locucao/index.json'
+    || isResearchLibraryIndex(relativePath);
 }
 
 function isApprovedPatternFile(relativePath) {
   return relativePath.startsWith('data/biblioteca_anuncios/padroes_locucao/');
+}
+
+function isResearchLibraryFile(relativePath) {
+  return relativePath.startsWith('data/research_library/');
+}
+
+function isResearchLibraryIndex(relativePath) {
+  return relativePath === 'data/research_library/index.json'
+    || relativePath.startsWith('data/research_library/') && path.basename(relativePath) === 'index.json';
 }
 
 function walkJsonFiles(dir) {
@@ -165,6 +200,9 @@ function printResult(label, result) {
 module.exports = {
   isGeneratedStrategicIndex,
   isApprovedPatternFile,
+  isSemanticAssistFile,
+  isResearchLibraryFile,
+  isResearchLibraryIndex,
   isTaxonomyFile,
   validateJsonFiles,
   walkJsonFiles

@@ -1,52 +1,56 @@
 {
   "type": "padroes_locucao_index",
-  "generatedAt": "2026-05-27T00:15:22.404Z",
-  "total": 5,
+  "generatedAt": "2026-05-28T12:21:25.039Z",
+  "total": 9,
   "counts": {
     "por_segmento": {
+      "pesca": 5,
       "agro": 1,
       "corporativo": 1,
       "esportivo": 1,
-      "hospitalar": 1,
-      "pesca": 1
+      "hospitalar": 1
     },
     "por_tipo_dor": {
+      "atraso_producao": 3,
+      "baixa_percepcao_premium": 2,
       "falta_padronizacao": 2,
       "falta_identidade_visual": 1,
-      "arte_baixa_qualidade": 1,
-      "baixa_percepcao_premium": 1
+      "arte_baixa_qualidade": 1
     },
     "por_hook_type": {
-      "dor_direta": 1,
-      "autoridade": 1,
+      "autoridade": 4,
+      "dor_direta": 2,
       "comparativo": 1,
       "pergunta": 1,
       "transformacao": 1
     },
     "por_estrutura_narrativa": {
+      "demonstracao_produto": 4,
       "problema_solucao": 2,
       "autoridade": 1,
       "antes_depois": 1,
       "prova_visual": 1
     },
     "por_tom_emocional": {
+      "premium": 4,
+      "direto": 1,
       "confiavel": 1,
       "corporativo": 1,
       "esportivo": 1,
-      "tecnico": 1,
-      "premium": 1
+      "tecnico": 1
     },
     "por_tipo_cta": {
-      "chamar_whatsapp": 1,
+      "chamar_whatsapp": 4,
+      "conhecer_modelos": 2,
       "pedir_orcamento": 1,
       "solicitar_mockup": 1,
-      "ver_catalogo": 1,
-      "conhecer_modelos": 1
+      "ver_catalogo": 1
     },
     "por_objetivo_comercial": {
-      "gerar_lead": 1,
+      "divulgar_segmento": 2,
+      "converter_whatsapp": 2,
+      "gerar_lead": 2,
       "aumentar_autoridade": 1,
-      "converter_whatsapp": 1,
       "educar_cliente": 1,
       "vender_premium": 1
     }
@@ -71,13 +75,13 @@
     "tipos_dor": {
       "covered": [
         "arte_baixa_qualidade",
+        "atraso_producao",
         "baixa_percepcao_premium",
         "falta_identidade_visual",
         "falta_padronizacao"
       ],
       "missing": [
         "aprovacao_whatsapp",
-        "atraso_producao",
         "briefing_incompleto",
         "cliente_indeciso",
         "demora_orcamento",
@@ -113,6 +117,8 @@
       "estrutura_narrativa": "problema_solucao",
       "tom_emocional": "confiavel",
       "tipo_cta": "chamar_whatsapp",
+      "formato_conteudo": "reel",
+      "estilo_visual": "fabrica_real",
       "objetivo_comercial": "gerar_lead",
       "approvedAt": "2026-05-27T00:00:00.000Z",
       "sourceFilename": ""
@@ -126,6 +132,8 @@
       "estrutura_narrativa": "autoridade",
       "tom_emocional": "corporativo",
       "tipo_cta": "pedir_orcamento",
+      "formato_conteudo": "carrossel",
+      "estilo_visual": "corporativo_moderno",
       "objetivo_comercial": "aumentar_autoridade",
       "approvedAt": "2026-05-27T00:00:00.000Z",
       "sourceFilename": ""
@@ -139,6 +147,8 @@
       "estrutura_narrativa": "antes_depois",
       "tom_emocional": "esportivo",
       "tipo_cta": "solicitar_mockup",
+      "formato_conteudo": "reel",
+      "estilo_visual": "esportivo_agressivo",
       "objetivo_comercial": "converter_whatsapp",
       "approvedAt": "2026-05-27T00:00:00.000Z",
       "sourceFilename": ""
@@ -152,6 +162,8 @@
       "estrutura_narrativa": "problema_solucao",
       "tom_emocional": "tecnico",
       "tipo_cta": "ver_catalogo",
+      "formato_conteudo": "post_estatico",
+      "estilo_visual": "institucional",
       "objetivo_comercial": "educar_cliente",
       "approvedAt": "2026-05-27T00:00:00.000Z",
       "sourceFilename": ""
@@ -165,9 +177,71 @@
       "estrutura_narrativa": "prova_visual",
       "tom_emocional": "premium",
       "tipo_cta": "conhecer_modelos",
+      "formato_conteudo": "video_bastidor",
+      "estilo_visual": "premium_clean",
       "objetivo_comercial": "vender_premium",
       "approvedAt": "2026-05-27T00:00:00.000Z",
       "sourceFilename": ""
+    },
+    {
+      "filename": "WhatsApp-Video-2026-05-26-at-23-27-44_2026-05-27T02-44-12-802Z_curada_padrao_locucao_2.json",
+      "titulo": "Locução Vendas Camiseta de pesca",
+      "segmento": "pesca",
+      "tipo_dor": "atraso_producao",
+      "hook_type": "autoridade",
+      "estrutura_narrativa": "demonstracao_produto",
+      "tom_emocional": "premium",
+      "tipo_cta": "chamar_whatsapp",
+      "formato_conteudo": "reel",
+      "estilo_visual": "promocional_popular",
+      "objetivo_comercial": "divulgar_segmento",
+      "approvedAt": "2026-05-27T02:50:36.522Z",
+      "sourceFilename": "WhatsApp-Video-2026-05-26-at-23-27-44_2026-05-27T02-44-12-802Z_curada.txt"
+    },
+    {
+      "filename": "WhatsApp-Video-2026-05-26-at-23-27-44_2026-05-27T02-44-12-802Z_curada_padrao_locucao.json",
+      "titulo": "Locução Vendas Camiseta de pesca",
+      "segmento": "pesca",
+      "tipo_dor": "atraso_producao",
+      "hook_type": "autoridade",
+      "estrutura_narrativa": "demonstracao_produto",
+      "tom_emocional": "premium",
+      "tipo_cta": "chamar_whatsapp",
+      "formato_conteudo": "reel",
+      "estilo_visual": "promocional_popular",
+      "objetivo_comercial": "divulgar_segmento",
+      "approvedAt": "2026-05-27T02:50:32.459Z",
+      "sourceFilename": "WhatsApp-Video-2026-05-26-at-23-27-44_2026-05-27T02-44-12-802Z_curada.txt"
+    },
+    {
+      "filename": "WhatsApp-Video-2026-05-26-at-23-27-44_2026-05-27T21-41-41-530Z_curada_padrao_locucao.json",
+      "titulo": "Camiseta de pesca personalizada",
+      "segmento": "pesca",
+      "tipo_dor": "atraso_producao",
+      "hook_type": "dor_direta",
+      "estrutura_narrativa": "demonstracao_produto",
+      "tom_emocional": "direto",
+      "tipo_cta": "conhecer_modelos",
+      "formato_conteudo": "reel",
+      "estilo_visual": "esportivo_agressivo",
+      "objetivo_comercial": "converter_whatsapp",
+      "approvedAt": "2026-05-27T21:48:58.463Z",
+      "sourceFilename": "WhatsApp-Video-2026-05-26-at-23-27-44_2026-05-27T21-41-41-530Z_curada.txt"
+    },
+    {
+      "filename": "WhatsApp-Video-2026-05-26-at-23-27-44_2026-05-27T22-50-00-941Z_curada_padrao_locucao.json",
+      "titulo": "Camiseta de pesca personalizada premium",
+      "segmento": "pesca",
+      "tipo_dor": "baixa_percepcao_premium",
+      "hook_type": "autoridade",
+      "estrutura_narrativa": "demonstracao_produto",
+      "tom_emocional": "premium",
+      "tipo_cta": "chamar_whatsapp",
+      "formato_conteudo": "reel",
+      "estilo_visual": "premium_clean",
+      "objetivo_comercial": "gerar_lead",
+      "approvedAt": "2026-05-27T22:50:44.117Z",
+      "sourceFilename": "WhatsApp-Video-2026-05-26-at-23-27-44_2026-05-27T22-50-00-941Z_curada.txt"
     }
   ]
 }

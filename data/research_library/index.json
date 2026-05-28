@@ -1,0 +1,121 @@
+{
+  "type": "research_library_index",
+  "generatedAt": "2026-05-28T12:21:14.085Z",
+  "total": 6,
+  "approved": 6,
+  "drafts": 0,
+  "counts": {
+    "by_type": {
+      "market_signal": 5,
+      "visual_pattern": 1
+    },
+    "by_segmento": {
+      "pesca": 4,
+      "corporativo": 1,
+      "esportivo": 1
+    },
+    "by_objetivo": {
+      "gerar_lead": 1,
+      "vender_premium": 1,
+      "sem_valor": 3,
+      "aumentar_autoridade": 1
+    },
+    "by_hook": {
+      "promessa_pratica": 2,
+      "sem_valor": 3,
+      "autoridade": 1
+    },
+    "by_visual": {
+      "sem_valor": 6
+    },
+    "by_narrativa": {
+      "sem_valor": 6
+    }
+  },
+  "items": [
+    {
+      "id": "research_market_signal_20260528_4974c224",
+      "type": "market_signal",
+      "status": "approved",
+      "title": "Oportunidade de showroom/configurador segmentado para pesca",
+      "segmento": "pesca",
+      "objetivo_comercial": "gerar_lead",
+      "hook_type": "promessa_pratica",
+      "estrutura_narrativa": "",
+      "tom_emocional": "premium",
+      "tipo_cta": "",
+      "estilo_visual": "",
+      "path": "data/research_library/market_signals/approved/research_market_signal_20260528_4974c224.json"
+    },
+    {
+      "id": "research_market_signal_20260528_697ebef2",
+      "type": "market_signal",
+      "status": "approved",
+      "title": "Customizacao guiada como diferencial premium em pesca",
+      "segmento": "pesca",
+      "objetivo_comercial": "vender_premium",
+      "hook_type": "promessa_pratica",
+      "estrutura_narrativa": "",
+      "tom_emocional": "premium",
+      "tipo_cta": "",
+      "estilo_visual": "",
+      "path": "data/research_library/market_signals/approved/research_market_signal_20260528_697ebef2.json"
+    },
+    {
+      "id": "research_market_signal_20260528_b0e5e9c4",
+      "type": "market_signal",
+      "status": "approved",
+      "title": "Showroom e aprovacao visual reduzem friccao comercial",
+      "segmento": "pesca",
+      "objetivo_comercial": "",
+      "hook_type": "",
+      "estrutura_narrativa": "",
+      "tom_emocional": "",
+      "tipo_cta": "",
+      "estilo_visual": "",
+      "path": "data/research_library/market_signals/approved/research_market_signal_20260528_b0e5e9c4.json"
+    },
+    {
+      "id": "research_market_signal_20260528_b1b3f674",
+      "type": "market_signal",
+      "status": "approved",
+      "title": "Briefing comercial fragmentado no WhatsApp gera demora e retrabalho",
+      "segmento": "corporativo",
+      "objetivo_comercial": "",
+      "hook_type": "",
+      "estrutura_narrativa": "",
+      "tom_emocional": "",
+      "tipo_cta": "",
+      "estilo_visual": "",
+      "path": "data/research_library/market_signals/approved/research_market_signal_20260528_b1b3f674.json"
+    },
+    {
+      "id": "research_market_signal_20260528_ea27a37b",
+      "type": "market_signal",
+      "status": "approved",
+      "title": "Aprovacao manual por mockup estatico aumenta inseguranca e retrabalho",
+      "segmento": "esportivo",
+      "objetivo_comercial": "",
+      "hook_type": "",
+      "estrutura_narrativa": "",
+      "tom_emocional": "",
+      "tipo_cta": "",
+      "estilo_visual": "",
+      "path": "data/research_library/market_signals/approved/research_market_signal_20260528_ea27a37b.json"
+    },
+    {
+      "id": "research_visual_pattern_20260528_8bcd1522",
+      "type": "visual_pattern",
+      "status": "approved",
+      "title": "Prova tecnica visual para comunicacao premium em pesca",
+      "segmento": "pesca",
+      "objetivo_comercial": "aumentar_autoridade",
+      "hook_type": "autoridade",
+      "estrutura_narrativa": "",
+      "tom_emocional": "tecnico",
+      "tipo_cta": "",
+      "estilo_visual": "",
+      "path": "data/research_library/visual_patterns/approved/research_visual_pattern_20260528_8bcd1522.json"
+    }
+  ]
+}

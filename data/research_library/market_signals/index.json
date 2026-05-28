@@ -1,0 +1,79 @@
+{
+  "type": "research_type_index",
+  "folder": "market_signals",
+  "generatedAt": "2026-05-28T12:21:14.085Z",
+  "approved": 5,
+  "drafts": 0,
+  "items": [
+    {
+      "id": "research_market_signal_20260528_4974c224",
+      "type": "market_signal",
+      "status": "approved",
+      "title": "Oportunidade de showroom/configurador segmentado para pesca",
+      "segmento": "pesca",
+      "objetivo_comercial": "gerar_lead",
+      "hook_type": "promessa_pratica",
+      "estrutura_narrativa": "",
+      "tom_emocional": "premium",
+      "tipo_cta": "",
+      "estilo_visual": "",
+      "path": "data/research_library/market_signals/approved/research_market_signal_20260528_4974c224.json"
+    },
+    {
+      "id": "research_market_signal_20260528_697ebef2",
+      "type": "market_signal",
+      "status": "approved",
+      "title": "Customizacao guiada como diferencial premium em pesca",
+      "segmento": "pesca",
+      "objetivo_comercial": "vender_premium",
+      "hook_type": "promessa_pratica",
+      "estrutura_narrativa": "",
+      "tom_emocional": "premium",
+      "tipo_cta": "",
+      "estilo_visual": "",
+      "path": "data/research_library/market_signals/approved/research_market_signal_20260528_697ebef2.json"
+    },
+    {
+      "id": "research_market_signal_20260528_b0e5e9c4",
+      "type": "market_signal",
+      "status": "approved",
+      "title": "Showroom e aprovacao visual reduzem friccao comercial",
+      "segmento": "pesca",
+      "objetivo_comercial": "",
+      "hook_type": "",
+      "estrutura_narrativa": "",
+      "tom_emocional": "",
+      "tipo_cta": "",
+      "estilo_visual": "",
+      "path": "data/research_library/market_signals/approved/research_market_signal_20260528_b0e5e9c4.json"
+    },
+    {
+      "id": "research_market_signal_20260528_b1b3f674",
+      "type": "market_signal",
+      "status": "approved",
+      "title": "Briefing comercial fragmentado no WhatsApp gera demora e retrabalho",
+      "segmento": "corporativo",
+      "objetivo_comercial": "",
+      "hook_type": "",
+      "estrutura_narrativa": "",
+      "tom_emocional": "",
+      "tipo_cta": "",
+      "estilo_visual": "",
+      "path": "data/research_library/market_signals/approved/research_market_signal_20260528_b1b3f674.json"
+    },
+    {
+      "id": "research_market_signal_20260528_ea27a37b",
+      "type": "market_signal",
+      "status": "approved",
+      "title": "Aprovacao manual por mockup estatico aumenta inseguranca e retrabalho",
+      "segmento": "esportivo",
+      "objetivo_comercial": "",
+      "hook_type": "",
+      "estrutura_narrativa": "",
+      "tom_emocional": "",
+      "tipo_cta": "",
+      "estilo_visual": "",
+      "path": "data/research_library/market_signals/approved/research_market_signal_20260528_ea27a37b.json"
+    }
+  ]
+}

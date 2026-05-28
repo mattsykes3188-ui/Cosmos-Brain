@@ -1,0 +1,23 @@
+{
+  "type": "padrao_locucao",
+  "source": {
+    "kind": "transcricao_curada",
+    "filename": "WhatsApp-Video-2026-05-26-at-23-27-44_2026-05-27T21-41-41-530Z_curada.txt",
+    "path": "tools/video-intelligence/transcricoes_curadas/WhatsApp-Video-2026-05-26-at-23-27-44_2026-05-27T21-41-41-530Z_curada.txt"
+  },
+  "titulo": "Camiseta de pesca personalizada",
+  "segmento": "pesca",
+  "tipo_dor": "atraso_producao",
+  "hook_type": "dor_direta",
+  "estrutura_narrativa": "demonstracao_produto",
+  "tom_emocional": "direto",
+  "tipo_cta": "conhecer_modelos",
+  "formato_conteudo": "reel",
+  "estilo_visual": "esportivo_agressivo",
+  "objetivo_comercial": "converter_whatsapp",
+  "observacoes": "SN",
+  "createdAt": "2026-05-27T21:48:20.896Z",
+  "status": "approved",
+  "approvedAt": "2026-05-27T21:48:58.463Z",
+  "promotedFrom": "tools/video-intelligence/padroes_locucao/WhatsApp-Video-2026-05-26-at-23-27-44_2026-05-27T21-41-41-530Z_curada_padrao_locucao.json"
+}

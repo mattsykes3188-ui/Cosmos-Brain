@@ -1,0 +1,19 @@
+{
+  "id": "research_market_signal_20260528_4974c224",
+  "type": "market_signal",
+  "status": "approved",
+  "title": "Oportunidade de showroom/configurador segmentado para pesca",
+  "insight": "O mercado de uniformes de pesca reforça customização total, escolha de detalhes, arte exclusiva e simulador como diferenciais de valor.",
+  "source": {
+    "kind": "research_document",
+    "path": "research_documents/raw/pesquisa_01_mapa_premium_nicho.md",
+    "description": "Pesquisa 01 — Mapa do Premium do Nicho"
+  },
+  "segmento": "pesca",
+  "objetivo_comercial": "gerar_lead",
+  "hook_type": "promessa_pratica",
+  "tom_emocional": "premium",
+  "created_at": "2026-05-28T02:12:18.030Z",
+  "imported_at": "2026-05-28T02:12:18.032Z",
+  "fingerprint": "6fdd2c86622da0572e25d6a80567d3e8cdf99d4066b8eb44c20f0bb519b09041"
+}

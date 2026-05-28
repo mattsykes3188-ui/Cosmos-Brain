@@ -1,0 +1,64 @@
+{
+  "pedir_orcamento": [
+    "orcamento",
+    "orçamento",
+    "peca seu orcamento",
+    "peça seu orçamento",
+    "solicite um orçamento"
+  ],
+  "chamar_whatsapp": [
+    "whatsapp",
+    "chame no whatsapp",
+    "manda mensagem",
+    "chamar no whats"
+  ],
+  "conhecer_modelos": [
+    "conheca os modelos",
+    "conheça os modelos",
+    "ver modelos",
+    "opcoes",
+    "opções"
+  ],
+  "ver_catalogo": [
+    "catalogo",
+    "catálogo",
+    "ver catalogo",
+    "acesse o catalogo"
+  ],
+  "solicitar_mockup": [
+    "mockup",
+    "solicite mockup",
+    "visualizar antes",
+    "aprovar arte"
+  ],
+  "fechar_pedido": [
+    "fechar pedido",
+    "finalizar pedido",
+    "garanta seu pedido",
+    "comprar agora"
+  ],
+  "agendar_atendimento": [
+    "agende",
+    "agendar atendimento",
+    "marque um horario",
+    "marque um horário"
+  ],
+  "baixar_template": [
+    "baixar template",
+    "download do template",
+    "modelo pronto",
+    "template"
+  ],
+  "aprovar_modelo": [
+    "aprovar modelo",
+    "aprove o modelo",
+    "aprovacao do modelo",
+    "aprovação do modelo"
+  ],
+  "pedir_amostra": [
+    "amostra",
+    "pedir amostra",
+    "solicite amostra",
+    "ver amostra"
+  ]
+}

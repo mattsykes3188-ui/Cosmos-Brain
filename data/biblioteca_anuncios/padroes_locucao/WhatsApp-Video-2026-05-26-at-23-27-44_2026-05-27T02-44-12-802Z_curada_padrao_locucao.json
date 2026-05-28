@@ -1,0 +1,23 @@
+{
+  "type": "padrao_locucao",
+  "source": {
+    "kind": "transcricao_curada",
+    "filename": "WhatsApp-Video-2026-05-26-at-23-27-44_2026-05-27T02-44-12-802Z_curada.txt",
+    "path": "tools/video-intelligence/transcricoes_curadas/WhatsApp-Video-2026-05-26-at-23-27-44_2026-05-27T02-44-12-802Z_curada.txt"
+  },
+  "titulo": "Locução Vendas Camiseta de pesca",
+  "segmento": "pesca",
+  "tipo_dor": "atraso_producao",
+  "hook_type": "autoridade",
+  "estrutura_narrativa": "demonstracao_produto",
+  "tom_emocional": "premium",
+  "tipo_cta": "chamar_whatsapp",
+  "formato_conteudo": "reel",
+  "estilo_visual": "promocional_popular",
+  "objetivo_comercial": "divulgar_segmento",
+  "observacoes": "Camiseta de Pesca",
+  "createdAt": "2026-05-27T02:50:17.028Z",
+  "status": "approved",
+  "approvedAt": "2026-05-27T02:50:32.459Z",
+  "promotedFrom": "tools/video-intelligence/padroes_locucao/WhatsApp-Video-2026-05-26-at-23-27-44_2026-05-27T02-44-12-802Z_curada_padrao_locucao.json"
+}

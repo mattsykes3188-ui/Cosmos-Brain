@@ -1,0 +1,24 @@
+{
+  "type": "market_signal",
+  "title": "Aprovacao manual por mockup estatico aumenta inseguranca e retrabalho",
+  "source": {
+    "kind": "research_document",
+    "path": "research_documents/raw/pesquisa_02_jornada_comercial_fragmentada.md",
+    "description": "Pesquisa 02 — Jornada Comercial Fragmentada do Nicho"
+  },
+  "segmento": "esportivo",
+  "insight": "A pesquisa aponta que o cliente compra certeza, velocidade e reducao de atrito; quando a aprovacao visual fica presa a mockup estatico e conversa manual, a visualizacao perde forca como prova comercial e a iteracao tende a ficar mais cara.",
+  "oportunidade": "Trocar a aprovacao baseada apenas em mockup estatico por uma experiencia visual versionada, compartilhavel e com registro claro do que foi aprovado.",
+  "aplicacao_potencial": [
+    "Cosmos Showroom",
+    "Cosmos Ops",
+    "Cosmos Brain"
+  ],
+  "evidencia_resumida": [
+    "A pesquisa afirma que o comprador precisa visualizar uma proposta minimamente confiavel antes de avancar para orcamento e aprovacao.",
+    "O relatorio descreve dor de aprovacao visual ruim e iteracao cara nas solucoes de moda e confeccao analisadas.",
+    "O MVP recomendado inclui showroom mais premium do que um mockup estatico e aprovacao visual com versionamento para reduzir retrabalho."
+  ],
+  "observacao": "workflow_pattern foi solicitado, mas o importer atual nao aceita esse type; export registrado como market_signal para evitar rejeicao por type.",
+  "status": "approved"
+}

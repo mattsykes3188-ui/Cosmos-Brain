@@ -1,0 +1,26 @@
+{
+  "type": "visual_pattern",
+  "title": "Prova tecnica visual para comunicacao premium em pesca",
+  "source": {
+    "kind": "research_document",
+    "path": "research_documents/raw/pesquisa_01_mapa_premium_nicho.md",
+    "description": "Pesquisa 01 — Mapa do Premium do Nicho"
+  },
+  "segmento": "pesca",
+  "hook_type": "autoridade",
+  "tom_emocional": "tecnico",
+  "objetivo_comercial": "aumentar_autoridade",
+  "insight": "O relatorio mostra que comunicacoes de pesca e uniformes personalizados repetem provas tecnicas como protecao UV, tecido leve, respirabilidade, dry fit, conforto e acabamento como suporte para percepcao premium.",
+  "oportunidade": "Empacotar provas tecnicas em linguagem visual cinematografica por segmento, usando closes, demonstracao de material e contexto real de uso para diferenciar a comunicacao premium.",
+  "aplicacao_potencial": [
+    "Cosmos Midia",
+    "Cosmos Design",
+    "Cosmos Showroom"
+  ],
+  "evidencia_resumida": [
+    "O relatorio lista protecao UV, tecido leve e respirabilidade entre os padroes monitorados desde o dia zero.",
+    "A oportunidade prioritaria recomenda uma prova tecnica cinematografica propria por segmento.",
+    "O exemplo de pesca associa personalizacao, protecao UV, tecido leve e exclusividade como linguagem dominante."
+  ],
+  "status": "approved"
+}

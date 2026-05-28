@@ -1,0 +1,27 @@
+{
+  "type": "market_signal",
+  "title": "Oportunidade de showroom/configurador segmentado para pesca",
+  "source": {
+    "kind": "research_document",
+    "path": "research_documents/raw/pesquisa_01_mapa_premium_nicho.md",
+    "description": "Pesquisa 01 — Mapa do Premium do Nicho"
+  },
+  "segmento": "pesca",
+  "hook_type": "promessa_pratica",
+  "tom_emocional": "premium",
+  "objetivo_comercial": "gerar_lead",
+  "insight": "O mercado de uniformes de pesca reforça customização total, escolha de detalhes, arte exclusiva e simulador como diferenciais de valor.",
+  "oportunidade": "Criar no Cosmos Showroom um configurador visual segmentado por nicho, com presets de pesca, personalização guiada e apresentação premium.",
+  "aplicacao_potencial": [
+    "Astro",
+    "Cosmos Showroom",
+    "Cosmos Design",
+    "Cosmos Brain"
+  ],
+  "evidencia_resumida": [
+    "uso recorrente de linguagem de personalização total",
+    "benchmarks comunicam simulador e compra online",
+    "a personalização guiada aparece como mecanismo de diferenciação premium"
+  ],
+  "status": "approved"
+}

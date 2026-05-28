@@ -1,0 +1,23 @@
+{
+  "type": "padrao_locucao",
+  "source": {
+    "kind": "transcricao_curada",
+    "filename": "WhatsApp-Video-2026-05-26-at-23-27-44_2026-05-27T22-50-00-941Z_curada.txt",
+    "path": "tools/video-intelligence/transcricoes_curadas/WhatsApp-Video-2026-05-26-at-23-27-44_2026-05-27T22-50-00-941Z_curada.txt"
+  },
+  "titulo": "Camiseta de pesca personalizada premium",
+  "segmento": "pesca",
+  "tipo_dor": "baixa_percepcao_premium",
+  "hook_type": "autoridade",
+  "estrutura_narrativa": "demonstracao_produto",
+  "tom_emocional": "premium",
+  "tipo_cta": "chamar_whatsapp",
+  "formato_conteudo": "reel",
+  "estilo_visual": "premium_clean",
+  "objetivo_comercial": "gerar_lead",
+  "observacoes": "Conteúdo focado em autoridade, qualidade percebida, personalização e conforto para pescaria.\n\nReasoning GPT manual: O conteúdo utiliza forte construção de autoridade e percepção premium através de prova de qualidade, variedade, fabricação própria e benefícios do produto. O CTA principal direciona o usuário para contato comercial imediato via consultores.",
+  "createdAt": "2026-05-27T22:50:44.092Z",
+  "status": "approved",
+  "approvedAt": "2026-05-27T22:50:44.117Z",
+  "promotedFrom": "tools/video-intelligence/padroes_locucao/WhatsApp-Video-2026-05-26-at-23-27-44_2026-05-27T22-50-00-941Z_curada_padrao_locucao.json"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "research_market_signal_20260528_b0e5e9c4",
+  "type": "market_signal",
+  "status": "approved",
+  "title": "Showroom e aprovacao visual reduzem friccao comercial",
+  "insight": "A pesquisa identifica uma lacuna clara entre simuladores de pre-venda e suites internas de producao: a camada que une showroom comercial, aprovacao colaborativa e exporto operacional leve para fechar mais rapido e errar menos.",
+  "source": {
+    "kind": "research_document",
+    "path": "research_documents/raw/pesquisa_02_jornada_comercial_fragmentada.md",
+    "description": "Pesquisa 02 — Jornada Comercial Fragmentada do Nicho"
+  },
+  "segmento": "pesca",
+  "created_at": "2026-05-28T12:21:08.673Z",
+  "imported_at": "2026-05-28T12:21:08.673Z",
+  "fingerprint": "0dd18681e7fa68f8b9e586b8320cfc1208626648d587d0bc3dbd0d73a169fa1f"
+}

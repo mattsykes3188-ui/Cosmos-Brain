@@ -1,0 +1,24 @@
+{
+  "type": "market_signal",
+  "title": "Briefing comercial fragmentado no WhatsApp gera demora e retrabalho",
+  "source": {
+    "kind": "research_document",
+    "path": "research_documents/raw/pesquisa_02_jornada_comercial_fragmentada.md",
+    "description": "Pesquisa 02 — Jornada Comercial Fragmentada do Nicho"
+  },
+  "segmento": "corporativo",
+  "insight": "A pesquisa descreve uma jornada em que venda, referencia visual, conversa comercial, arte, custo, aprovacao e producao passam por handoffs sucessivos; quando esse fluxo fica fragmentado em conversa e atendimento humano, cresce a chance de demora, retrabalho e perda de clareza premium.",
+  "oportunidade": "Estruturar o briefing comercial em um fluxo compartilhavel que conecte referencia visual, escolhas do cliente, orcamento, versoes e aprovacao antes de chegar a producao.",
+  "aplicacao_potencial": [
+    "Cosmos Ops",
+    "Cosmos Showroom",
+    "Cosmos Brain"
+  ],
+  "evidencia_resumida": [
+    "O relatorio afirma que o WhatsApp e parte estrutural da jornada, mas conversa e parte do produto comercial, nao um detalhe operacional.",
+    "A pesquisa aponta informacao dispersa, desalinhamento entre areas e baixa visibilidade de andamento como dores do fluxo atual.",
+    "O texto conclui que cada passagem mal resolvida entre venda, arte, custo, aprovacao e producao cria atraso, retrabalho e margem perdida."
+  ],
+  "observacao": "workflow_pattern foi solicitado, mas o importer atual nao aceita esse type; export registrado como market_signal para evitar rejeicao por type.",
+  "status": "approved"
+}

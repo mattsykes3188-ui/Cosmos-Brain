@@ -1,0 +1,78 @@
+{
+  "dor_direta": [
+    "esta passando uma imagem errada",
+    "parece desorganizada",
+    "problema",
+    "dor",
+    "falta de padronizacao",
+    "falta de padronização"
+  ],
+  "pergunta": [
+    "voce ja parou para pensar",
+    "você já parou para pensar",
+    "voce sabe",
+    "você sabe",
+    "ja pensou",
+    "já pensou"
+  ],
+  "choque": [
+    "pode estar custando caro",
+    "erro grave",
+    "barato sai caro",
+    "cuidado",
+    "nao cometa"
+  ],
+  "curiosidade": [
+    "o detalhe",
+    "pouca gente sabe",
+    "segredo",
+    "olha isso",
+    "voce nao imagina"
+  ],
+  "autoridade": [
+    "especialista",
+    "anos de experiencia",
+    "depois de produzir",
+    "criterio tecnico",
+    "referencia"
+  ],
+  "transformacao": [
+    "antes e depois",
+    "transforma",
+    "mudou",
+    "nova identidade",
+    "resultado final"
+  ],
+  "comparativo": [
+    "versus",
+    "vs",
+    "comparar",
+    "diferenca entre",
+    "qual vale mais"
+  ],
+  "bastidor": [
+    "bastidor",
+    "por tras",
+    "produção",
+    "producao",
+    "como e feito",
+    "processo real"
+  ],
+  "erro_comum": [
+    "erro comum",
+    "erro que",
+    "na hora de comprar",
+    "muita gente erra",
+    "falha recorrente"
+  ],
+  "promessa_pratica": [
+    "mais de cem opcoes",
+    "mais de cem opções",
+    "clique agora",
+    "peca agora",
+    "peça agora",
+    "resultado rapido",
+    "solucao pratica",
+    "oferta direta"
+  ]
+}

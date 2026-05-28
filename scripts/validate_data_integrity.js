@@ -33,7 +33,15 @@ function validateDataIntegrity(options = {}) {
       continue;
     }
 
+    if (isSemanticAssistFile(relativePath)) {
+      continue;
+    }
+
     if (isApprovedPatternFile(relativePath)) {
+      continue;
+    }
+
+    if (isResearchLibraryFile(relativePath)) {
       continue;
     }
 
@@ -107,8 +115,16 @@ function isTaxonomyFile(relativePath) {
   return relativePath.startsWith('data/taxonomia/');
 }
 
+function isSemanticAssistFile(relativePath) {
+  return relativePath.startsWith('data/semantic_assists/');
+}
+
 function isApprovedPatternFile(relativePath) {
   return relativePath.startsWith('data/biblioteca_anuncios/padroes_locucao/');
+}
+
+function isResearchLibraryFile(relativePath) {
+  return relativePath.startsWith('data/research_library/');
 }
 
 function collectIndexedFiles(rootDir, dataDir, errors) {
@@ -202,6 +218,8 @@ function printResult(label, result) {
 module.exports = {
   collectIndexedFiles,
   isApprovedPatternFile,
+  isResearchLibraryFile,
+  isSemanticAssistFile,
   isTaxonomyFile,
   validateDataIntegrity
 };

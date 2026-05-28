@@ -1,12 +1,25 @@
 'use strict';
 
-const { execFile } = require('child_process');
+const { execFile, spawnSync } = require('child_process');
 const fs = require('fs');
 const http = require('http');
 const path = require('path');
+const { inferSemanticSuggestions } = require('../../core/assistedSemanticExtraction');
+const {
+  buildManualGptPrompt,
+  buildPreviewFromManualGptJson,
+  extractJsonFromGptResponse,
+  normalizeManualGptJson,
+  validateManualGptJson
+} = require('../../core/manualGptSemanticBridge');
+const {
+  buildSemanticFilename,
+  normalizeSemanticFilename
+} = require('../../core/semanticNaming');
 
 const PORT = Number(process.env.PORT || 5600);
 const TOOL_ROOT = __dirname;
+const REPO_ROOT = path.join(TOOL_ROOT, '..', '..');
 const PUBLIC_DIR = path.join(TOOL_ROOT, 'public');
 const UPLOAD_DIR = path.join(TOOL_ROOT, 'uploads');
 const AUDIO_DIR = path.join(TOOL_ROOT, 'audio');
@@ -16,6 +29,8 @@ const PATTERNS_DIR = path.join(TOOL_ROOT, 'padroes_locucao');
 const TAXONOMY_DIR = path.join(TOOL_ROOT, '..', '..', 'data', 'taxonomia');
 const TRANSCRIBE_SCRIPT = path.join(TOOL_ROOT, 'transcribe.py');
 const MAX_UPLOAD_BYTES = 200 * 1024 * 1024;
+const ALLOWED_WHISPER_MODELS = new Set(['tiny', 'base', 'small', 'medium', 'large']);
+const ALLOWED_WHISPER_LANGUAGES = new Set(['pt', 'auto']);
 const TAXONOMY_MAP = {
   segmentos: 'segmentos.json',
   tipos_dor: 'tipos_dor.json',
@@ -38,6 +53,14 @@ const PATTERN_TAXONOMY_FIELDS = {
   estilo_visual: 'estilos_visuais',
   objetivo_comercial: 'objetivos_comerciais'
 };
+const REBUILD_STEPS = [
+  { name: 'index', script: 'scripts/build_padroes_locucao_index.js', args: [] },
+  { name: 'coverage_report', script: 'scripts/build_padroes_locucao_coverage_report.js', args: [] },
+  { name: 'batch_reports', script: 'scripts/build_semantic_query_batch_reports.js', args: ['--all'] },
+  { name: 'batch_summary', script: 'scripts/build_semantic_query_batch_summary.js', args: [] },
+  { name: 'gap_backlog', script: 'scripts/build_semantic_knowledge_gap_backlog.js', args: [] },
+  { name: 'expansion_plan', script: 'scripts/build_semantic_knowledge_expansion_plan.js', args: [] }
+];
 
 function startServer(port = PORT) {
   ensureWorkingDirs();
@@ -110,6 +133,21 @@ function startServer(port = PORT) {
         return;
       }
 
+      if (request.method === 'POST' && requestUrl.pathname === '/assist-semantic-extraction') {
+        await handleAssistSemanticExtraction(request, response);
+        return;
+      }
+
+      if (request.method === 'POST' && requestUrl.pathname === '/manual-gpt/build-prompt') {
+        await handleManualGptBuildPrompt(request, response);
+        return;
+      }
+
+      if (request.method === 'POST' && requestUrl.pathname === '/manual-gpt/parse-response') {
+        await handleManualGptParseResponse(request, response);
+        return;
+      }
+
       if (request.method === 'GET' && requestUrl.pathname === '/padroes-locucao-draft') {
         sendJson(response, 200, {
           success: true,
@@ -130,6 +168,17 @@ function startServer(port = PORT) {
 
       if (request.method === 'POST' && requestUrl.pathname === '/promover-padrao-locucao') {
         await handlePromoverPadraoLocucao(request, response);
+        return;
+      }
+
+      if (request.method === 'GET' && requestUrl.pathname === '/workflow-state') {
+        sendJson(response, 200, getWorkflowState());
+        return;
+      }
+
+      if (request.method === 'POST' && requestUrl.pathname === '/rebuild-semantic-reports') {
+        const rebuild = rebuildSemanticReports();
+        sendJson(response, rebuild.success ? 200 : 500, rebuild);
         return;
       }
 
@@ -184,7 +233,9 @@ async function handleUpload(request, response) {
   }
 
   const body = await readRequestBody(request, MAX_UPLOAD_BYTES);
-  const file = parseMultipartFile(body, contentType);
+  const multipart = parseMultipartForm(body, contentType);
+  const file = multipart.file;
+  const whisperConfig = getWhisperConfig(multipart.fields);
 
   if (!file) {
     sendJson(response, 400, {
@@ -196,7 +247,7 @@ async function handleUpload(request, response) {
 
   const video = salvarVideoEnviado(file);
   const audio = await extrairAudioDoVideo(video.absolutePath);
-  const transcription = await transcreverAudio(audio.absolutePath);
+  const transcription = await transcreverAudio(audio.absolutePath, whisperConfig);
 
   // TODO: gerar transcricao_curada.
   // TODO: gerar padrao_locucao.
@@ -216,7 +267,9 @@ async function handleUpload(request, response) {
     transcription: {
       filename: transcription.filename,
       path: transcription.path,
-      preview: transcription.preview
+      preview: transcription.preview,
+      model: whisperConfig.model,
+      language: whisperConfig.language
     },
     duration_ms: Date.now() - startedAt,
     message: 'Video recebido, audio extraido e transcricao bruta concluida.'
@@ -253,19 +306,7 @@ async function extrairAudioDoVideo(videoPath) {
   const audioFilename = `${parsed.name}.wav`;
   const audioPath = path.join(AUDIO_DIR, audioFilename);
 
-  await runCommand('ffmpeg', [
-    '-y',
-    '-i',
-    videoPath,
-    '-vn',
-    '-acodec',
-    'pcm_s16le',
-    '-ar',
-    '16000',
-    '-ac',
-    '1',
-    audioPath
-  ], {
+  await runCommand('ffmpeg', buildFfmpegAudioArgs(videoPath, audioPath), {
     dependencyName: 'ffmpeg'
   });
 
@@ -276,18 +317,28 @@ async function extrairAudioDoVideo(videoPath) {
   };
 }
 
-async function transcreverAudio(audioPath) {
+function buildFfmpegAudioArgs(videoPath, audioPath) {
+  return [
+    '-i',
+    videoPath,
+    '-vn',
+    '-ac',
+    '1',
+    '-ar',
+    '16000',
+    '-y',
+    audioPath
+  ];
+}
+
+async function transcreverAudio(audioPath, options = {}) {
   const transcriptFilename = `${path.parse(audioPath).name}.txt`;
   const transcriptPath = path.join(RAW_TRANSCRIPTIONS_DIR, transcriptFilename);
   const pythonCommand = process.env.WHISPER_PYTHON || process.env.PYTHON || 'python';
+  const whisperConfig = getWhisperConfig(options);
+  const runner = options.runCommandFn || runCommand;
 
-  await runCommand(pythonCommand, [
-    TRANSCRIBE_SCRIPT,
-    audioPath,
-    transcriptPath,
-    '--model',
-    process.env.WHISPER_MODEL || 'tiny'
-  ], {
+  await runner(pythonCommand, buildTranscribeArgs(audioPath, transcriptPath, whisperConfig), {
     dependencyName: 'python/openai-whisper',
     timeoutMs: 30 * 60 * 1000
   });
@@ -312,6 +363,49 @@ function salvarTranscricaoBruta(text, filename) {
     text: cleanText,
     preview: cleanText.slice(0, 420)
   };
+}
+
+function getWhisperConfig(input = {}) {
+  return {
+    model: validateWhisperModel(input.model || process.env.WHISPER_MODEL || 'small'),
+    language: validateWhisperLanguage(input.language || process.env.WHISPER_LANGUAGE || 'pt')
+  };
+}
+
+function validateWhisperModel(model) {
+  const normalized = String(model || '').trim().toLowerCase();
+
+  if (!ALLOWED_WHISPER_MODELS.has(normalized)) {
+    throwBadRequest(`Modelo Whisper invalido: ${model}. Use tiny, base, small, medium ou large.`);
+  }
+
+  return normalized;
+}
+
+function validateWhisperLanguage(language) {
+  const normalized = String(language || '').trim().toLowerCase();
+
+  if (!ALLOWED_WHISPER_LANGUAGES.has(normalized)) {
+    throwBadRequest(`Idioma Whisper invalido: ${language}. Use pt ou auto.`);
+  }
+
+  return normalized;
+}
+
+function buildTranscribeArgs(audioPath, outputPath, config = {}) {
+  const whisperConfig = getWhisperConfig(config);
+
+  return [
+    TRANSCRIBE_SCRIPT,
+    '--audio',
+    audioPath,
+    '--model',
+    whisperConfig.model,
+    '--language',
+    whisperConfig.language,
+    '--output',
+    outputPath
+  ];
 }
 
 function listarTranscricoesBrutas() {
@@ -424,16 +518,20 @@ function validarValorTaxonomia(nomeTaxonomia, valor) {
   return carregarTaxonomia(nomeTaxonomia).some((item) => item && item.id === valor);
 }
 
-function gerarNomePadraoLocucao(filename) {
-  const safeName = assertSafeTextFilename(filename);
+function gerarNomePadraoLocucao(payloadOrFilename, directory = PATTERNS_DIR) {
+  if (payloadOrFilename && typeof payloadOrFilename === 'object' && !Array.isArray(payloadOrFilename)) {
+    return buildSemanticFilename(payloadOrFilename, directory);
+  }
+
+  const safeName = assertSafeTextFilename(payloadOrFilename);
   const parsed = path.parse(safeName);
 
-  return `${parsed.name}_padrao_locucao.json`;
+  return normalizeSemanticFilename(`${parsed.name}_padrao_locucao.json`);
 }
 
 function salvarPadraoLocucao(payload) {
   const normalized = validarPayloadPadraoLocucao(payload);
-  const patternFilename = gerarNomePadraoLocucao(normalized.sourceFilename);
+  const patternFilename = gerarNomePadraoLocucao(normalized, PATTERNS_DIR);
   const targetPath = path.join(PATTERNS_DIR, patternFilename);
   const sourcePath = path.join(CURATED_TRANSCRIPTIONS_DIR, normalized.sourceFilename);
 
@@ -444,6 +542,7 @@ function salvarPadraoLocucao(payload) {
     source: {
       kind: 'transcricao_curada',
       filename: normalized.sourceFilename,
+      originalFilename: normalized.originalFilename,
       path: toSlash(path.relative(path.join(TOOL_ROOT, '..', '..'), sourcePath))
     },
     titulo: normalized.titulo,
@@ -476,6 +575,16 @@ function listarPadroesLocucaoDraft() {
 
   return fs.readdirSync(PATTERNS_DIR)
     .filter((filename) => path.extname(filename).toLowerCase() === '.json')
+    .sort();
+}
+
+function listarPadroesLocucaoApproved() {
+  const approvedDir = getApprovedPatternsDir();
+
+  fs.mkdirSync(approvedDir, { recursive: true });
+
+  return fs.readdirSync(approvedDir)
+    .filter((filename) => path.extname(filename).toLowerCase() === '.json' && filename !== 'index.json')
     .sort();
 }
 
@@ -620,10 +729,15 @@ async function handlePromoverPadraoLocucao(request, response) {
   }
 
   const result = promoverPadraoLocucao(payload.filename);
+  const rebuild = rebuildSemanticReports();
   sendJson(response, 200, {
-    success: true,
+    success: rebuild.success,
     promotedFilename: result.promotedFilename,
-    destination: result.destination
+    destination: result.destination,
+    rebuild,
+    message: rebuild.success
+      ? 'Padrao promovido e inteligencia reconstruida.'
+      : 'Padrao promovido, mas o rebuild semantico falhou parcialmente.'
   });
 }
 
@@ -651,6 +765,9 @@ function validarPayloadPadraoLocucao(payload) {
   }
 
   normalized.sourceFilename = assertSafeTextFilename(normalized.sourceFilename);
+  normalized.originalFilename = typeof payload.originalFilename === 'string' && payload.originalFilename.trim() !== ''
+    ? assertSafeTextFilename(payload.originalFilename.trim())
+    : normalized.sourceFilename;
 
   const sourcePath = path.join(CURATED_TRANSCRIPTIONS_DIR, normalized.sourceFilename);
   if (!fs.existsSync(sourcePath)) {
@@ -686,6 +803,104 @@ async function handleSalvarPadraoLocucao(request, response) {
     patternFilename: result.filename,
     path: result.path
   });
+}
+
+async function handleAssistSemanticExtraction(request, response) {
+  const body = await readRequestBody(request, 2 * 1024 * 1024);
+  let payload;
+
+  try {
+    payload = JSON.parse(body.toString('utf8').replace(/^\uFEFF/, ''));
+  } catch (_) {
+    sendJson(response, 400, {
+      success: false,
+      message: 'Body JSON invalido.'
+    });
+    return;
+  }
+
+  if (!payload || typeof payload.text !== 'string' || payload.text.trim() === '') {
+    sendJson(response, 400, {
+      success: false,
+      message: 'Campo text e obrigatorio para sugerir campos semanticos.'
+    });
+    return;
+  }
+
+  sendJson(response, 200, {
+    success: true,
+    suggestions: inferSemanticSuggestions(payload.text),
+    message: 'Sugestoes geradas por heuristica local. Revise todos os campos antes de salvar.'
+  });
+}
+
+async function handleManualGptBuildPrompt(request, response) {
+  const body = await readRequestBody(request, 2 * 1024 * 1024);
+  let payload;
+
+  try {
+    payload = JSON.parse(body.toString('utf8').replace(/^\uFEFF/, ''));
+  } catch (_) {
+    sendJson(response, 400, {
+      success: false,
+      message: 'Body JSON invalido.'
+    });
+    return;
+  }
+
+  try {
+    sendJson(response, 200, {
+      success: true,
+      prompt: buildManualGptPrompt(payload.text)
+    });
+  } catch (error) {
+    sendJson(response, 400, {
+      success: false,
+      message: error.message
+    });
+  }
+}
+
+async function handleManualGptParseResponse(request, response) {
+  const body = await readRequestBody(request, 2 * 1024 * 1024);
+  let payload;
+
+  try {
+    payload = JSON.parse(body.toString('utf8').replace(/^\uFEFF/, ''));
+  } catch (_) {
+    sendJson(response, 400, {
+      success: false,
+      message: 'Body JSON invalido.'
+    });
+    return;
+  }
+
+  try {
+    const parsed = extractJsonFromGptResponse(payload.responseText);
+    const validation = validateManualGptJson(parsed);
+
+    if (!validation.valid) {
+      sendJson(response, 400, {
+        success: false,
+        message: 'JSON semantico invalido.',
+        errors: validation.errors
+      });
+      return;
+    }
+
+    const normalized = normalizeManualGptJson(parsed);
+    sendJson(response, 200, {
+      success: true,
+      json: normalized,
+      preview: buildPreviewFromManualGptJson(normalized)
+    });
+  } catch (error) {
+    sendJson(response, 400, {
+      success: false,
+      message: error.message,
+      errors: error.errors || []
+    });
+  }
 }
 
 function throwBadRequest(message) {
@@ -768,6 +983,142 @@ function getApprovedPatternsDir() {
   return path.join(TOOL_ROOT, '..', '..', 'data', 'biblioteca_anuncios', 'padroes_locucao');
 }
 
+function getWorkflowState() {
+  return buildWorkflowStateFromFiles();
+}
+
+function buildWorkflowStateFromFiles(options = {}) {
+  const state = {
+    uploads: listFilesByExtension(options.uploadDir || UPLOAD_DIR, '.mp4'),
+    audios: listFilesByExtension(options.audioDir || AUDIO_DIR, '.wav'),
+    transcricoesBrutas: listFilesByExtension(options.rawDir || RAW_TRANSCRIPTIONS_DIR, '.txt'),
+    transcricoesCuradas: listFilesByExtension(options.curatedDir || CURATED_TRANSCRIPTIONS_DIR, '.txt'),
+    padroesDraft: listFilesByExtension(options.patternsDir || PATTERNS_DIR, '.json'),
+    padroesApproved: listFilesByExtension(options.approvedDir || getApprovedPatternsDir(), '.json')
+      .filter((filename) => filename !== 'index.json'),
+    nextStep: '',
+    lastUpdatedAt: new Date().toISOString()
+  };
+
+  state.nextStep = inferNextStep(state);
+
+  return state;
+}
+
+function inferNextStep(workflowState) {
+  const state = workflowState || {};
+
+  if (!hasItems(state.uploads)) {
+    return 'upload_video';
+  }
+
+  if (!hasItems(state.transcricoesBrutas)) {
+    return 'aguardar_transcricao_bruta';
+  }
+
+  if (!hasItems(state.transcricoesCuradas)) {
+    return 'curar_transcricao';
+  }
+
+  if (!hasItems(state.padroesDraft)) {
+    return 'extrair_padrao_locucao';
+  }
+
+  if (!hasItems(state.padroesApproved)) {
+    return 'promover_para_brain';
+  }
+
+  return 'rebuild_inteligencia';
+}
+
+function rebuildSemanticReports(options = {}) {
+  const runner = options.runner || safeRunNodeScript;
+  const steps = [];
+
+  for (const step of REBUILD_STEPS) {
+    console.log(`[video-intelligence] rebuild: ${step.name}`);
+    const result = runner(step.script, step.args);
+    steps.push({
+      name: step.name,
+      success: result.success,
+      script: step.script,
+      args: step.args,
+      exit_code: result.exit_code,
+      stdout: result.stdout,
+      stderr: result.stderr,
+      message: result.success ? 'ok' : 'falha no rebuild'
+    });
+
+    if (!result.success) {
+      console.error(`[video-intelligence] rebuild falhou em ${step.name}: ${result.stderr || result.stdout}`);
+      break;
+    }
+  }
+
+  return {
+    success: steps.length === REBUILD_STEPS.length && steps.every((step) => step.success),
+    steps,
+    lastUpdatedAt: new Date().toISOString()
+  };
+}
+
+function safeRunNodeScript(scriptPath, args = [], options = {}) {
+  const safeScriptPath = assertSafeRepoScriptPath(scriptPath);
+  const safeArgs = Array.isArray(args) ? args.map(String) : [];
+  const result = spawnSync(process.execPath, [safeScriptPath, ...safeArgs], {
+    cwd: options.cwd || REPO_ROOT,
+    encoding: 'utf8',
+    windowsHide: true,
+    timeout: options.timeoutMs || 2 * 60 * 1000
+  });
+
+  return {
+    success: result.status === 0,
+    exit_code: result.status,
+    stdout: result.stdout || '',
+    stderr: result.stderr || ''
+  };
+}
+
+function assertSafeRepoScriptPath(scriptPath) {
+  if (typeof scriptPath !== 'string' || scriptPath.trim() === '') {
+    throwBadRequest('Script invalido para rebuild.');
+  }
+
+  const normalized = scriptPath.replace(/\\/g, '/');
+
+  if (path.isAbsolute(normalized) || normalized.includes('..') || !normalized.startsWith('scripts/')) {
+    throwBadRequest('Path traversal bloqueado para script de rebuild.');
+  }
+
+  if (path.extname(normalized) !== '.js') {
+    throwBadRequest('Apenas scripts .js podem ser executados no rebuild.');
+  }
+
+  const resolved = path.resolve(REPO_ROOT, normalized);
+  const scriptsRoot = path.resolve(REPO_ROOT, 'scripts');
+
+  if (!resolved.startsWith(`${scriptsRoot}${path.sep}`)) {
+    throwBadRequest('Script fora da pasta scripts bloqueado.');
+  }
+
+  return resolved;
+}
+
+function listFilesByExtension(dir, extension) {
+  if (!fs.existsSync(dir)) {
+    return [];
+  }
+
+  return fs.readdirSync(dir)
+    .filter((filename) => path.extname(filename).toLowerCase() === extension)
+    .sort();
+}
+
+function hasItems(value) {
+  return Array.isArray(value) && value.length > 0;
+}
+
 function runCommand(command, args, options = {}) {
   return new Promise((resolve, reject) => {
     const child = execFile(command, args, {
@@ -844,14 +1195,23 @@ function readRequestBody(request, maxBytes) {
 }
 
 function parseMultipartFile(body, contentType) {
+  return parseMultipartForm(body, contentType).file;
+}
+
+function parseMultipartForm(body, contentType) {
   const boundaryMatch = contentType.match(/boundary=(?:"([^"]+)"|([^;]+))/i);
 
   if (!boundaryMatch) {
-    return null;
+    return {
+      file: null,
+      fields: {}
+    };
   }
 
   const boundary = Buffer.from(`--${boundaryMatch[1] || boundaryMatch[2]}`);
   const parts = splitBuffer(body, boundary);
+  const fields = {};
+  let file = null;
 
   for (const part of parts) {
     const trimmed = trimMultipartPart(part);
@@ -863,19 +1223,28 @@ function parseMultipartFile(body, contentType) {
 
     const rawHeaders = trimmed.slice(0, separatorIndex).toString('utf8');
     const content = trimmed.slice(separatorIndex + 4);
+    const nameMatch = rawHeaders.match(/name="([^"]+)"/i);
     const filenameMatch = rawHeaders.match(/filename="([^"]+)"/i);
 
-    if (!filenameMatch) {
+    if (!nameMatch) {
       continue;
     }
 
-    return {
-      filename: filenameMatch[1],
-      content
-    };
+    if (filenameMatch) {
+      file = {
+        filename: filenameMatch[1],
+        content
+      };
+      continue;
+    }
+
+    fields[nameMatch[1]] = content.toString('utf8').trim();
   }
 
-  return null;
+  return {
+    file,
+    fields
+  };
 }
 
 function splitBuffer(buffer, separator) {
@@ -960,12 +1329,19 @@ if (require.main === module) {
 
 module.exports = {
   AUDIO_DIR,
+  ALLOWED_WHISPER_LANGUAGES,
+  ALLOWED_WHISPER_MODELS,
   CURATED_TRANSCRIPTIONS_DIR,
   PATTERNS_DIR,
   RAW_TRANSCRIPTIONS_DIR,
+  REBUILD_STEPS,
+  REPO_ROOT,
   TAXONOMY_DIR,
   TOOL_ROOT,
   UPLOAD_DIR,
+  buildWorkflowStateFromFiles,
+  buildFfmpegAudioArgs,
+  buildTranscribeArgs,
   carregarTaxonomia,
   createSafeFileName,
   createSafeTextFileName,
@@ -973,16 +1349,26 @@ module.exports = {
   gerarNomeCurado,
   gerarNomePadraoLocucao,
   gerarNomePromovido,
+  getWhisperConfig,
+  getWorkflowState,
+  handleAssistSemanticExtraction,
+  handleManualGptBuildPrompt,
+  handleManualGptParseResponse,
   handleUpload,
+  inferNextStep,
   lerTranscricaoBruta,
   lerTranscricaoCurada,
   lerPadraoLocucaoDraft,
   listarTaxonomiasDisponiveis,
+  listarPadroesLocucaoApproved,
   listarPadroesLocucaoDraft,
   listarTranscricoesBrutas,
   listarTranscricoesCuradas,
   parseMultipartFile,
+  parseMultipartForm,
   promoverPadraoLocucao,
+  rebuildSemanticReports,
+  safeRunNodeScript,
   salvarPadraoLocucao,
   salvarTranscricaoCurada,
   salvarTranscricaoBruta,
@@ -990,5 +1376,7 @@ module.exports = {
   transcreverAudio,
   validarPadraoLocucaoContraTaxonomia,
   validarPadraoLocucaoSchema,
-  validarValorTaxonomia
+  validarValorTaxonomia,
+  validateWhisperLanguage,
+  validateWhisperModel
 };

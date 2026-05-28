@@ -21,7 +21,7 @@
     }
 
     main {
-      width: min(780px, calc(100vw - 32px));
+      width: min(900px, calc(100vw - 32px));
       padding: 28px;
       border: 1px solid #283141;
       border-radius: 8px;
@@ -49,6 +49,25 @@
       border: 1px solid #283141;
       border-radius: 8px;
       background: #171d29;
+    }
+
+    .primary-step {
+      border-color: #34445d;
+    }
+
+    .primary-step h2,
+    .advanced-panel h2 {
+      margin: 0;
+    }
+
+    .intro {
+      margin-bottom: 6px;
+    }
+
+    .helper {
+      margin: 0;
+      color: #9fb0c7;
+      font-size: 14px;
     }
 
     input,
@@ -124,8 +143,107 @@
       gap: 12px;
     }
 
+    .supporting-control {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid #283141;
+      border-radius: 8px;
+      background: #0c1119;
+    }
+
+    .compact-status {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .preview-short {
+      min-height: 96px;
+    }
+
+    .json-input {
+      min-height: 220px;
+    }
+
+    .technical-hidden {
+      display: none;
+    }
+
+    .brain-status {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      border: 1px solid #283141;
+      border-radius: 8px;
+      background: #090b10;
+      color: #c9d3e1;
+    }
+
+    .advanced-panel {
+      margin-top: 22px;
+      border: 1px solid #283141;
+      border-radius: 8px;
+      background: #0c1119;
+    }
+
+    .advanced-panel summary {
+      min-height: 54px;
+      padding: 16px 18px;
+      cursor: pointer;
+      color: #f4f7fb;
+      font-weight: 800;
+    }
+
+    .advanced-content {
+      padding: 0 18px 18px;
+    }
+
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .workflow-card {
+      min-height: 86px;
+      padding: 12px;
+      border: 1px solid #283141;
+      border-radius: 8px;
+      background: #090b10;
+    }
+
+    .workflow-card strong,
+    .workflow-card span {
+      display: block;
+    }
+
+    .workflow-card span {
+      margin-top: 8px;
+      color: #c9d3e1;
+      font-size: 14px;
+    }
+
+    .workflow-card[data-state="concluido"] {
+      border-color: #46d6a8;
+    }
+
+    .workflow-card[data-state="pronto"] {
+      border-color: #f3c969;
+    }
+
+    .workflow-card[data-state="erro"] {
+      border-color: #ff6b6b;
+    }
+
     @media (max-width: 640px) {
       .button-row {
+        grid-template-columns: 1fr;
+      }
+
+      .compact-status {
+        grid-template-columns: 1fr;
+      }
+
+      .workflow-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -134,62 +252,136 @@
 
 <body>
   <main>
-    <h1>Video Intelligence Parser</h1>
-    <p>Ferramenta local para transformar videos curtos em transcricao bruta de locucao.</p>
-    <p>Nesta fase o sistema extrai audio e roda Whisper local. A analise semantica sera implementada depois.</p>
+    <h1>Video Intelligence</h1>
+    <p class="intro">Ingestão rápida de inteligência semântica para o Cosmos Brain.</p>
+    <p class="helper">Transcreva, revise, cole o JSON do ChatGPT e salve. A validação, aprovação e rebuild acontecem por dentro.</p>
+    <span class="technical-hidden">1. Enviar vídeo 3. Curadoria com ChatGPT 4. Salvar no Brain Avançado / Técnico Valide a resposta do GPT antes de salvar.</span>
 
-    <form id="uploadForm">
-      <label for="videoFile">Arquivo .mp4</label>
-      <input id="videoFile" name="video" type="file" accept=".mp4,video/mp4" required>
-      <button id="submitButton" type="submit">Enviar video e transcrever</button>
-    </form>
+    <section class="status-panel primary-step">
+      <h2>1. Upload vídeo</h2>
 
-    <section class="status-panel">
-      <div id="status">Aguardando envio manual de um arquivo .mp4.</div>
+      <form id="uploadForm">
+        <label for="videoFile">Arquivo .mp4</label>
+        <input id="videoFile" name="video" type="file" accept=".mp4,video/mp4" required>
 
-      <ul class="steps">
-        <li><strong>Upload</strong><span id="uploadStatus">pendente</span></li>
-        <li><strong>Audio .wav</strong><span id="audioStatus">pendente</span></li>
-        <li><strong>Whisper</strong><span id="whisperStatus">pendente</span></li>
-        <li><strong>Tempo</strong><span id="durationStatus">--</span></li>
-      </ul>
+        <label for="whisperModelSelect">Modelo Whisper</label>
+        <select id="whisperModelSelect" name="model">
+          <option value="tiny">tiny</option>
+          <option value="base">base</option>
+          <option value="small" selected>small</option>
+          <option value="medium">medium</option>
+          <option value="large">large</option>
+        </select>
 
-      <label for="transcriptionPreview">Preview da transcricao bruta</label>
-      <textarea id="transcriptionPreview" readonly placeholder="A transcricao aparecera aqui depois do processamento."></textarea>
+        <div class="technical-hidden">
+          <label for="whisperLanguageSelect">Idioma</label>
+          <select id="whisperLanguageSelect" name="language">
+            <option value="pt" selected>pt</option>
+            <option value="auto">auto</option>
+          </select>
+        </div>
+
+        <button id="submitButton" type="submit">Transcrever vídeo</button>
+      </form>
+
+      <div id="status">Aguardando vídeo.</div>
+      <label for="transcriptionPreview">Preview curto da transcrição</label>
+      <textarea id="transcriptionPreview" class="preview-short" readonly placeholder="A transcrição aparecerá aqui."></textarea>
     </section>
 
-    <section class="status-panel">
-      <h2>Curadoria de Transcricao</h2>
-      <p>Carregue uma transcricao bruta, ajuste manualmente o texto e salve uma versao curada para analise futura.</p>
+    <section class="status-panel primary-step">
+      <h2>2. Revisar transcrição</h2>
 
-      <label for="rawTranscriptionSelect">Transcricoes brutas</label>
-      <select id="rawTranscriptionSelect">
-        <option value="">Carregando transcricoes...</option>
-      </select>
+      <label for="curationEditor">Texto revisado</label>
+      <textarea id="curationEditor" placeholder="Revise a transcrição antes de usar no ChatGPT."></textarea>
+      <button id="saveCuratedButton" type="button">Salvar revisão</button>
+      <div id="curationStatus">Aguardando transcrição.</div>
+    </section>
 
-      <div class="button-row">
-        <button id="loadRawButton" type="button">Carregar bruta</button>
-        <button id="saveCuratedButton" type="button">Salvar curada</button>
+    <section class="status-panel primary-step">
+      <h2>3. Salvar no Brain</h2>
+      <p class="helper">Use a transcrição acima no ChatGPT e cole aqui o JSON retornado.</p>
+
+      <label for="manualGptResponse">Cole aqui o JSON retornado pelo ChatGPT</label>
+      <textarea id="manualGptResponse" class="json-input" placeholder='{"titulo":"...","segmento":"...","hook_type":"..."}'></textarea>
+
+      <button id="saveGptToBrainButton" type="button">Salvar no Brain</button>
+
+      <div class="brain-status">
+        <div id="manualGptStatus">Aguardando JSON.</div>
+        <div id="rebuildStatus">Rebuild automático após salvar.</div>
       </div>
 
-      <label for="curationEditor">Texto para curadoria manual</label>
-      <textarea id="curationEditor" placeholder="Escolha uma transcricao bruta para editar manualmente."></textarea>
-      <div id="curationStatus">Aguardando selecao de transcricao.</div>
+      <label for="manualGptPreview">Preview simples</label>
+      <textarea id="manualGptPreview" class="preview-short" placeholder="Segmento, hook, objetivo e CTA aparecem aqui após validar." readonly></textarea>
     </section>
 
-    <section class="status-panel">
-      <h2>Extracao Manual de Padrao de Locucao</h2>
-      <p>Leia uma transcricao curada, preencha os campos semanticos com a taxonomia oficial e salve um JSON draft local.</p>
+    <details class="advanced-panel">
+      <summary>Modo técnico / avançado <span class="technical-hidden">Avançado / Técnico</span></summary>
+      <div class="advanced-content">
+        <section class="status-panel">
+          <h2>Listas e status técnico de transcrição</h2>
 
-      <label for="curatedTranscriptionSelect">Transcricoes curadas</label>
-      <select id="curatedTranscriptionSelect">
-        <option value="">Carregando transcricoes curadas...</option>
-      </select>
+          <ul class="steps compact-status">
+            <li><strong>Upload</strong><span id="uploadStatus">pendente</span></li>
+            <li><strong>Áudio .wav</strong><span id="audioStatus">pendente</span></li>
+            <li><strong>Whisper</strong><span id="whisperStatus">pendente</span></li>
+            <li><strong>Tempo</strong><span id="durationStatus">--</span></li>
+          </ul>
 
-      <button id="loadCuratedButton" type="button">Carregar curada</button>
+          <label for="rawTranscriptionSelect">Transcrições brutas</label>
+          <select id="rawTranscriptionSelect">
+            <option value="">Carregando transcrições...</option>
+          </select>
+          <button id="loadRawButton" type="button">Carregar bruta</button>
 
-      <label for="curatedReader">Leitura da transcricao curada</label>
-      <textarea id="curatedReader" readonly placeholder="A transcricao curada aparecera aqui."></textarea>
+          <label for="curatedTranscriptionSelect">Transcrições curadas</label>
+          <select id="curatedTranscriptionSelect">
+            <option value="">Carregando transcrições curadas...</option>
+          </select>
+          <button id="loadCuratedButton" type="button">Carregar curada</button>
+
+          <label for="curatedReader">Leitura da transcrição curada</label>
+          <textarea id="curatedReader" readonly placeholder="A transcrição curada aparecerá aqui."></textarea>
+        </section>
+
+        <section class="status-panel">
+          <h2>Prompt e validação técnica do GPT</h2>
+          <div class="button-row">
+            <button id="buildGptPromptButton" type="button">Gerar prompt para GPT</button>
+            <button id="copyGptPromptButton" type="button">Copiar prompt</button>
+          </div>
+
+          <label for="manualGptPrompt">Prompt gerado</label>
+          <textarea id="manualGptPrompt" readonly placeholder="O prompt aparecerá aqui."></textarea>
+
+          <button id="validateGptResponseButton" type="button">Validar resposta</button>
+        </section>
+
+        <section class="status-panel">
+          <h2>Status do Workflow completo</h2>
+          <div id="workflowStatus">Carregando workflow...</div>
+          <div class="workflow-grid" id="workflowGrid">
+            <div class="workflow-card" data-stage="upload"><strong>1. Upload</strong><span>pendente</span></div>
+            <div class="workflow-card" data-stage="raw"><strong>2. Transcricao bruta</strong><span>pendente</span></div>
+            <div class="workflow-card" data-stage="curation"><strong>3. Curadoria</strong><span>pendente</span></div>
+            <div class="workflow-card" data-stage="pattern"><strong>4. Extracao de padrao</strong><span>pendente</span></div>
+            <div class="workflow-card" data-stage="promotion"><strong>5. Promocao para Brain</strong><span>pendente</span></div>
+            <div class="workflow-card" data-stage="rebuild"><strong>6. Rebuild de inteligencia</strong><span>pendente</span></div>
+          </div>
+          <div class="button-row">
+            <button id="refreshWorkflowButton" type="button">Atualizar workflow</button>
+            <button id="rebuildReportsButton" type="button">Rebuild manual de inteligência</button>
+          </div>
+        </section>
+
+        <section class="status-panel">
+          <h2>Curadoria de Inteligência</h2>
+          <p>Leia uma transcrição curada, preencha os campos semânticos com a taxonomia oficial e salve um JSON draft local.</p>
+
+      <button id="assistSemanticButton" type="button">Sugerir campos automaticamente</button>
+      <div id="assistStatus">Sugestoes locais aguardando transcricao curada.</div>
+      <ul class="steps" id="assistSignals"></ul>
 
       <label for="patternTitle">Titulo do padrao</label>
       <input id="patternTitle" type="text" placeholder="Ex: Padrao de locucao para venda consultiva">
@@ -224,13 +416,13 @@
       <label for="patternNotes">Observacoes</label>
       <textarea id="patternNotes" placeholder="Observacoes manuais sobre o padrao extraido."></textarea>
 
-      <button id="savePatternButton" type="button">Salvar padrao draft</button>
+      <button id="savePatternButton" type="button">Salvar rascunho técnico</button>
       <div id="patternStatus">Aguardando transcricao curada e taxonomias.</div>
-    </section>
+        </section>
 
-    <section class="status-panel">
-      <h2>Revisao e Promocao de Padrao de Locucao</h2>
-      <p>Revise um padrao draft local e promova para a biblioteca oficial apenas quando estiver aprovado.</p>
+        <section class="status-panel">
+          <h2>Revisão e Promoção de Padrão de Locução</h2>
+          <p>Revise um padrão draft local e promova para a biblioteca oficial apenas quando estiver aprovado.</p>
 
       <label for="draftPatternSelect">Padroes draft locais</label>
       <select id="draftPatternSelect">
@@ -245,12 +437,16 @@
       <label for="draftPatternViewer">JSON do draft</label>
       <textarea id="draftPatternViewer" readonly placeholder="O JSON do padrao draft aparecera aqui."></textarea>
       <div id="promotionStatus">Aguardando selecao de draft.</div>
-    </section>
+        </section>
+      </div>
+    </details>
   </main>
 
   <script>
     const form = document.getElementById("uploadForm");
     const fileInput = document.getElementById("videoFile");
+    const whisperModelSelect = document.getElementById("whisperModelSelect");
+    const whisperLanguageSelect = document.getElementById("whisperLanguageSelect");
     const statusEl = document.getElementById("status");
     const submitButton = document.getElementById("submitButton");
     const uploadStatus = document.getElementById("uploadStatus");
@@ -266,15 +462,137 @@
     const curatedTranscriptionSelect = document.getElementById("curatedTranscriptionSelect");
     const loadCuratedButton = document.getElementById("loadCuratedButton");
     const curatedReader = document.getElementById("curatedReader");
+    const assistSemanticButton = document.getElementById("assistSemanticButton");
+    const assistStatus = document.getElementById("assistStatus");
+    const assistSignals = document.getElementById("assistSignals");
     const patternTitle = document.getElementById("patternTitle");
     const patternNotes = document.getElementById("patternNotes");
     const savePatternButton = document.getElementById("savePatternButton");
     const patternStatus = document.getElementById("patternStatus");
+    const buildGptPromptButton = document.getElementById("buildGptPromptButton");
+    const copyGptPromptButton = document.getElementById("copyGptPromptButton");
+    const manualGptPrompt = document.getElementById("manualGptPrompt");
+    const manualGptResponse = document.getElementById("manualGptResponse");
+    const validateGptResponseButton = document.getElementById("validateGptResponseButton");
+    const saveGptToBrainButton = document.getElementById("saveGptToBrainButton");
+    const manualGptPreview = document.getElementById("manualGptPreview");
+    const manualGptStatus = document.getElementById("manualGptStatus");
     const draftPatternSelect = document.getElementById("draftPatternSelect");
     const loadDraftButton = document.getElementById("loadDraftButton");
     const promoteDraftButton = document.getElementById("promoteDraftButton");
     const draftPatternViewer = document.getElementById("draftPatternViewer");
     const promotionStatus = document.getElementById("promotionStatus");
+    const workflowStatus = document.getElementById("workflowStatus");
+    const refreshWorkflowButton = document.getElementById("refreshWorkflowButton");
+    const rebuildReportsButton = document.getElementById("rebuildReportsButton");
+    const rebuildStatus = document.getElementById("rebuildStatus");
+
+    const CAMPOS_GPT_OBRIGATORIOS = [
+      "titulo",
+      "segmento",
+      "tipo_dor",
+      "hook_type",
+      "estrutura_narrativa",
+      "tom_emocional",
+      "tipo_cta",
+      "formato_conteudo",
+      "estilo_visual",
+      "objetivo_comercial",
+      "observacoes"
+    ];
+
+    const TAXONOMIA_POR_CAMPO_GPT = {
+      segmento: "segmentos",
+      tipo_dor: "tipos_dor",
+      hook_type: "tipos_hook",
+      estrutura_narrativa: "estruturas_narrativas",
+      tom_emocional: "tons_emocionais",
+      tipo_cta: "tipos_cta",
+      formato_conteudo: "formatos_conteudo",
+      estilo_visual: "estilos_visuais",
+      objetivo_comercial: "objetivos_comerciais"
+    };
+
+    refreshWorkflowButton.addEventListener("click", atualizarWorkflow);
+    rebuildReportsButton.addEventListener("click", rodarRebuildManual);
+
+    async function atualizarWorkflow() {
+      try {
+        const response = await fetch("/workflow-state");
+        const state = await response.json();
+
+        if (!response.ok) {
+          workflowStatus.textContent = state.message || "Falha ao carregar workflow.";
+          marcarWorkflowErro();
+          return;
+        }
+
+        renderWorkflowState(state);
+      } catch (error) {
+        workflowStatus.textContent = `Falha ao atualizar workflow: ${error.message}`;
+        marcarWorkflowErro();
+      }
+    }
+
+    function renderWorkflowState(state) {
+      const stages = {
+        upload: state.uploads.length ? "concluido" : "pendente",
+        raw: state.transcricoesBrutas.length ? "concluido" : state.uploads.length ? "pronto" : "pendente",
+        curation: state.transcricoesCuradas.length ? "concluido" : state.transcricoesBrutas.length ? "pronto" : "pendente",
+        pattern: state.padroesDraft.length ? "concluido" : state.transcricoesCuradas.length ? "pronto" : "pendente",
+        promotion: state.padroesApproved.length ? "concluido" : state.padroesDraft.length ? "pronto" : "pendente",
+        rebuild: state.padroesApproved.length ? "pronto" : "pendente"
+      };
+      const counts = {
+        upload: state.uploads.length,
+        raw: state.transcricoesBrutas.length,
+        curation: state.transcricoesCuradas.length,
+        pattern: state.padroesDraft.length,
+        promotion: state.padroesApproved.length,
+        rebuild: state.padroesApproved.length
+      };
+
+      for (const [stage, status] of Object.entries(stages)) {
+        const card = document.querySelector(`[data-stage="${stage}"]`);
+        card.dataset.state = status;
+        card.querySelector("span").textContent = `${status} (${counts[stage]})`;
+      }
+
+      workflowStatus.textContent = `Proximo passo: ${state.nextStep}. Atualizado em ${state.lastUpdatedAt}.`;
+    }
+
+    function marcarWorkflowErro() {
+      document.querySelectorAll(".workflow-card").forEach((card) => {
+        card.dataset.state = "erro";
+      });
+    }
+
+    async function rodarRebuildManual() {
+      rebuildReportsButton.disabled = true;
+      rebuildStatus.textContent = "Rodando rebuild deterministico...";
+
+      try {
+        const response = await fetch("/rebuild-semantic-reports", {
+          method: "POST"
+        });
+        const data = await response.json();
+        rebuildStatus.textContent = formatarRebuildStatus(data);
+        await atualizarWorkflow();
+      } catch (error) {
+        rebuildStatus.textContent = `Falha no rebuild: ${error.message}`;
+      } finally {
+        rebuildReportsButton.disabled = false;
+      }
+    }
+
+    function formatarRebuildStatus(data) {
+      if (!data || !Array.isArray(data.steps)) {
+        return data && data.message ? data.message : "Rebuild sem retorno detalhado.";
+      }
+
+      const resumo = data.steps.map((step) => `${step.name}: ${step.success ? "ok" : "falhou"}`).join(" | ");
+      return data.success ? `Rebuild concluido. ${resumo}` : `Rebuild parcial. ${resumo}`;
+    }
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -287,13 +605,15 @@
       const startedAt = Date.now();
       const formData = new FormData();
       formData.append("video", fileInput.files[0]);
+      formData.append("model", whisperModelSelect.value);
+      formData.append("language", whisperLanguageSelect.value);
       submitButton.disabled = true;
       uploadStatus.textContent = "enviando";
       audioStatus.textContent = "aguardando";
       whisperStatus.textContent = "aguardando";
       durationStatus.textContent = "--";
       transcriptionPreview.value = "";
-      statusEl.textContent = "Processando localmente. Isso pode levar alguns minutos.";
+      statusEl.textContent = "Transcrevendo...";
 
       try {
         const response = await fetch("/upload", {
@@ -306,7 +626,7 @@
           uploadStatus.textContent = "falhou";
           audioStatus.textContent = "falhou";
           whisperStatus.textContent = "falhou";
-          statusEl.textContent = data.message || "Falha no processamento.";
+          statusEl.textContent = data.message ? `Erro: ${data.message}` : "Erro na transcrição.";
           return;
         }
 
@@ -315,13 +635,15 @@
         whisperStatus.textContent = `concluido: ${data.transcription.filename}`;
         durationStatus.textContent = `${Math.round((data.duration_ms || (Date.now() - startedAt)) / 1000)}s`;
         transcriptionPreview.value = data.transcription.preview || "";
-        statusEl.textContent = data.message;
+        statusEl.textContent = "Concluído.";
         await carregarListaTranscricoesBrutas(data.transcription.filename);
+        await carregarTranscricaoBrutaSelecionada();
+        await atualizarWorkflow();
       } catch (error) {
         uploadStatus.textContent = "falhou";
         audioStatus.textContent = "falhou";
         whisperStatus.textContent = "falhou";
-        statusEl.textContent = `Falha no upload: ${error.message}`;
+        statusEl.textContent = `Erro: ${error.message}`;
       } finally {
         submitButton.disabled = false;
       }
@@ -400,10 +722,12 @@
         const data = await response.json();
 
         curationStatus.textContent = data.success
-          ? `Curadoria salva: ${data.curatedFilename}`
+          ? "Revisão salva."
           : data.message || "Falha ao salvar curadoria.";
         if (data.success) {
           await carregarListaTranscricoesCuradas(data.curatedFilename);
+          await carregarTranscricaoCuradaSelecionada();
+          await atualizarWorkflow();
         }
       } catch (error) {
         curationStatus.textContent = `Falha ao salvar: ${error.message}`;
@@ -411,7 +735,22 @@
     }
 
     loadCuratedButton.addEventListener("click", carregarTranscricaoCuradaSelecionada);
+    assistSemanticButton.addEventListener("click", sugerirCamposSemanticos);
     savePatternButton.addEventListener("click", salvarPadraoLocucaoManual);
+    buildGptPromptButton.addEventListener("click", gerarPromptGptManual);
+    copyGptPromptButton.addEventListener("click", copiarPromptGptManual);
+    validateGptResponseButton.addEventListener("click", validarRespostaGptManual);
+    saveGptToBrainButton.addEventListener("click", salvarGptManualNoBrain);
+
+    let manualGptValidatedJson = null;
+
+    manualGptResponse.addEventListener("input", () => {
+      manualGptValidatedJson = null;
+      manualGptPreview.value = "";
+      manualGptStatus.textContent = manualGptResponse.value.trim()
+        ? "JSON aguardando validação."
+        : "Aguardando JSON.";
+    });
 
     async function carregarListaTranscricoesCuradas(selectedFile = "") {
       try {
@@ -456,8 +795,82 @@
 
         curatedReader.value = data.text || "";
         patternStatus.textContent = `Transcricao curada carregada: ${filename}`;
+        assistStatus.textContent = "Transcricao pronta para sugestao assistida.";
       } catch (error) {
         patternStatus.textContent = `Falha ao carregar curada: ${error.message}`;
+      }
+    }
+
+    async function sugerirCamposSemanticos() {
+      const text = curatedReader.value.trim();
+
+      if (!text) {
+        assistStatus.textContent = "Carregue uma transcricao curada antes de sugerir campos.";
+        return;
+      }
+
+      assistSemanticButton.disabled = true;
+      assistStatus.textContent = "Gerando sugestoes heuristicas locais...";
+
+      try {
+        const response = await fetch("/assist-semantic-extraction", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ text })
+        });
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          assistStatus.textContent = data.message || "Falha ao gerar sugestoes.";
+          return;
+        }
+
+        aplicarSugestoesSemanticas(data.suggestions || {});
+        renderizarSinaisAssistidos(data.suggestions || {});
+        assistStatus.textContent = "Sugestoes aplicadas. Revise e altere qualquer campo antes de salvar.";
+      } catch (error) {
+        assistStatus.textContent = `Falha na sugestao assistida: ${error.message}`;
+      } finally {
+        assistSemanticButton.disabled = false;
+      }
+    }
+
+    function aplicarSugestoesSemanticas(suggestions) {
+      const fields = {
+        segmento: "segmentoSelect",
+        hook_type: "hookTypeSelect",
+        estrutura_narrativa: "estruturaNarrativaSelect",
+        tom_emocional: "tomEmocionalSelect",
+        tipo_cta: "tipoCtaSelect",
+        objetivo_comercial: "objetivoComercialSelect"
+      };
+
+      for (const [field, selectId] of Object.entries(fields)) {
+        const suggestion = suggestions[field];
+
+        if (suggestion && suggestion.value) {
+          const select = document.getElementById(selectId);
+          const option = [...select.options].find((item) => item.value === suggestion.value);
+
+          if (option) {
+            select.value = suggestion.value;
+          }
+        }
+      }
+    }
+
+    function renderizarSinaisAssistidos(suggestions) {
+      assistSignals.innerHTML = "";
+
+      for (const [field, suggestion] of Object.entries(suggestions)) {
+        const li = document.createElement("li");
+        const value = suggestion.value || "sem sugestao";
+        const confidence = Math.round((suggestion.confidence || 0) * 100);
+        const signals = (suggestion.signals || []).join(", ") || "sem sinais";
+        li.innerHTML = `<strong>${field}: ${value}</strong><span>${confidence}% | ${signals}</span>`;
+        assistSignals.appendChild(li);
       }
     }
 
@@ -524,9 +937,255 @@
           : data.message || "Falha ao salvar padrao.";
         if (data.success) {
           await carregarListaPadroesDraft(data.patternFilename);
+          await carregarPadraoDraftSelecionado();
+          await atualizarWorkflow();
         }
       } catch (error) {
         patternStatus.textContent = `Falha ao salvar padrao: ${error.message}`;
+      }
+    }
+
+    async function gerarPromptGptManual() {
+      const text = curatedReader.value.trim();
+
+      if (!text) {
+        manualGptStatus.textContent = "Carregue uma transcricao curada antes de gerar o prompt.";
+        return;
+      }
+
+      try {
+        const response = await fetch("/manual-gpt/build-prompt", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ text })
+        });
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          manualGptStatus.textContent = data.message || "Falha ao gerar prompt.";
+          return;
+        }
+
+        manualGptPrompt.value = data.prompt;
+        manualGptStatus.textContent = "Prompt gerado. Copie, cole no ChatGPT e traga o JSON de volta.";
+      } catch (error) {
+        manualGptStatus.textContent = `Falha ao gerar prompt: ${error.message}`;
+      }
+    }
+
+    async function copiarPromptGptManual() {
+      if (!manualGptPrompt.value.trim()) {
+        manualGptStatus.textContent = "Gere um prompt antes de copiar.";
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(manualGptPrompt.value);
+        manualGptStatus.textContent = "Prompt copiado.";
+      } catch (_) {
+        manualGptPrompt.select();
+        manualGptStatus.textContent = "Selecione e copie manualmente o prompt.";
+      }
+    }
+
+    async function validarRespostaGptManual() {
+      if (!manualGptResponse.value.trim()) {
+        manualGptStatus.textContent = "Cole o JSON retornado pelo ChatGPT antes de salvar.";
+        return false;
+      }
+
+      manualGptStatus.textContent = "Validando JSON...";
+
+      try {
+        const response = await fetch("/manual-gpt/parse-response", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            responseText: manualGptResponse.value
+          })
+        });
+        const data = await response.json();
+
+        if (response.status === 404 && data.message === "Rota nao encontrada.") {
+          const fallback = await validarRespostaGptNoNavegador(manualGptResponse.value);
+          manualGptValidatedJson = fallback.json;
+          manualGptPreview.value = formatarPreviewSemantico(fallback.preview);
+          manualGptStatus.textContent = "JSON validado localmente. Reinicie o servidor depois para ativar a rota nova.";
+          return true;
+        }
+
+        if (!response.ok || !data.success) {
+          manualGptValidatedJson = null;
+          manualGptPreview.value = JSON.stringify(data.errors || data.message || "JSON invalido", null, 2);
+          manualGptStatus.textContent = data.message || "Resposta invalida.";
+          return false;
+        }
+
+        manualGptValidatedJson = data.json;
+        manualGptPreview.value = formatarPreviewSemantico(data.preview || data.json);
+        manualGptStatus.textContent = "JSON validado.";
+        return true;
+      } catch (error) {
+        manualGptStatus.textContent = `Falha ao validar resposta: ${error.message}`;
+        return false;
+      }
+    }
+
+    async function validarRespostaGptNoNavegador(responseText) {
+      const json = normalizarJsonGptLocal(extrairJsonGptLocal(responseText));
+      const errors = [];
+
+      for (const field of CAMPOS_GPT_OBRIGATORIOS) {
+        if (!json[field] || (typeof json[field] === "string" && !json[field].trim())) {
+          errors.push(`Campo obrigatorio ausente: ${field}`);
+        }
+      }
+
+      const taxonomias = await carregarTaxonomiasParaValidacaoLocal();
+
+      for (const [field, taxonomyName] of Object.entries(TAXONOMIA_POR_CAMPO_GPT)) {
+        const allowedIds = new Set((taxonomias[taxonomyName] || []).map((item) => item.id));
+
+        if (!allowedIds.has(json[field])) {
+          errors.push(`ID invalido em ${field}: ${json[field]}`);
+        }
+      }
+
+      if (errors.length) {
+        manualGptValidatedJson = null;
+        manualGptPreview.value = JSON.stringify(errors, null, 2);
+        throw new Error(errors.join(" | "));
+      }
+
+      return {
+        json,
+        preview: {
+          classificacao: {
+            segmento: json.segmento,
+            hook_type: json.hook_type,
+            objetivo_comercial: json.objetivo_comercial,
+            tipo_cta: json.tipo_cta
+          }
+        }
+      };
+    }
+
+    function extrairJsonGptLocal(responseText) {
+      const fencedMatch = responseText.match(/```(?:json)?\s*([\s\S]*?)```/i);
+      const candidate = fencedMatch ? fencedMatch[1] : responseText;
+
+      try {
+        return JSON.parse(candidate.trim());
+      } catch (error) {
+        throw new Error(`JSON invalido: ${error.message}`);
+      }
+    }
+
+    function normalizarJsonGptLocal(json) {
+      return {
+        titulo: String(json.titulo || "").trim(),
+        segmento: String(json.segmento || "").trim(),
+        tipo_dor: String(json.tipo_dor || "").trim(),
+        hook_type: String(json.hook_type || "").trim(),
+        estrutura_narrativa: String(json.estrutura_narrativa || "").trim(),
+        tom_emocional: String(json.tom_emocional || "").trim(),
+        tipo_cta: String(json.tipo_cta || "").trim(),
+        formato_conteudo: String(json.formato_conteudo || "").trim(),
+        estilo_visual: String(json.estilo_visual || "").trim(),
+        objetivo_comercial: String(json.objetivo_comercial || "").trim(),
+        observacoes: String(json.observacoes || "").trim(),
+        signals: Array.isArray(json.signals) ? json.signals : [],
+        reasoning: String(json.reasoning || "").trim()
+      };
+    }
+
+    async function carregarTaxonomiasParaValidacaoLocal() {
+      const response = await fetch("/taxonomias");
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || "Nao foi possivel carregar taxonomias para validar o JSON.");
+      }
+
+      return data.taxonomias || {};
+    }
+
+    function formatarPreviewSemantico(preview) {
+      const classificacao = preview.classificacao || preview || {};
+
+      return [
+        `Segmento: ${classificacao.segmento || "--"}`,
+        `Hook: ${classificacao.hook_type || "--"}`,
+        `Objetivo: ${classificacao.objetivo_comercial || "--"}`,
+        `CTA: ${classificacao.tipo_cta || "--"}`
+      ].join("\n");
+    }
+
+    async function salvarGptManualNoBrain() {
+      const sourceFilename = curatedTranscriptionSelect.value;
+
+      if (!sourceFilename) {
+        manualGptStatus.textContent = "Salve a revisão da transcrição antes de enviar ao Brain.";
+        return;
+      }
+
+      if (!manualGptValidatedJson) {
+        const jsonValido = await validarRespostaGptManual();
+
+        if (!jsonValido) {
+          return;
+        }
+      }
+
+      saveGptToBrainButton.disabled = true;
+      manualGptStatus.textContent = "Salvando no Brain...";
+
+      try {
+        const draftResponse = await fetch("/salvar-padrao-locucao", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            sourceFilename,
+            ...manualGptValidatedJson,
+            observacoes: `${manualGptValidatedJson.observacoes}\n\nReasoning GPT manual: ${manualGptValidatedJson.reasoning}`
+          })
+        });
+        const draftData = await draftResponse.json();
+
+        if (!draftResponse.ok || !draftData.success) {
+          manualGptStatus.textContent = draftData.message || "Falha ao salvar draft.";
+          return;
+        }
+
+        manualGptStatus.textContent = "Rebuildando inteligência...";
+        const promoteResponse = await fetch("/promover-padrao-locucao", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            filename: draftData.patternFilename
+          })
+        });
+        const promoteData = await promoteResponse.json();
+
+        rebuildStatus.textContent = promoteData.rebuild ? formatarRebuildStatus(promoteData.rebuild) : rebuildStatus.textContent;
+        manualGptStatus.textContent = promoteData.success
+          ? "Concluído."
+          : promoteData.message || "Promocao concluida com rebuild parcial.";
+
+        await carregarListaPadroesDraft(draftData.patternFilename);
+        await atualizarWorkflow();
+      } catch (error) {
+        manualGptStatus.textContent = `Falha ao salvar no Brain: ${error.message}`;
+      } finally {
+        saveGptToBrainButton.disabled = false;
       }
     }
 
@@ -602,6 +1261,12 @@
         promotionStatus.textContent = data.success
           ? `Promovido: ${data.destination}`
           : data.message || "Falha ao promover padrao.";
+        if (data.rebuild) {
+          rebuildStatus.textContent = formatarRebuildStatus(data.rebuild);
+        }
+        if (data.success || data.rebuild) {
+          await atualizarWorkflow();
+        }
       } catch (error) {
         promotionStatus.textContent = `Falha ao promover: ${error.message}`;
       }
@@ -611,6 +1276,7 @@
     carregarListaTranscricoesCuradas();
     carregarListaPadroesDraft();
     carregarTaxonomias();
+    atualizarWorkflow();
   </script>
 </body>
 

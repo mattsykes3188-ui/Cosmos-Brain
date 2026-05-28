@@ -1,0 +1,24 @@
+{
+  "type": "market_signal",
+  "title": "Showroom e aprovacao visual reduzem friccao comercial",
+  "source": {
+    "kind": "research_document",
+    "path": "research_documents/raw/pesquisa_02_jornada_comercial_fragmentada.md",
+    "description": "Pesquisa 02 — Jornada Comercial Fragmentada do Nicho"
+  },
+  "segmento": "pesca",
+  "insight": "A pesquisa identifica uma lacuna clara entre simuladores de pre-venda e suites internas de producao: a camada que une showroom comercial, aprovacao colaborativa e exporto operacional leve para fechar mais rapido e errar menos.",
+  "oportunidade": "Criar um showroom visual compartilhavel com aprovacao versionada, pronto para circular em WhatsApp, proposta e fluxo operacional leve.",
+  "aplicacao_potencial": [
+    "Cosmos Showroom",
+    "Cosmos Ops",
+    "Astro",
+    "Cosmos Brain"
+  ],
+  "evidencia_resumida": [
+    "O relatorio recomenda showroom compartilhavel com visual mais premium do que mockup estatico.",
+    "A pesquisa sugere aprovacao visual com versionamento para travar o que foi aprovado e reduzir retrabalho.",
+    "O posicionamento sugerido e plataforma de venda visual, aprovacao e preparacao operacional para fabricas de uniformes."
+  ],
+  "status": "approved"
+}

@@ -70,6 +70,8 @@ function buildPadroesLocucaoIndex(options = {}) {
       estrutura_narrativa: payload.estrutura_narrativa,
       tom_emocional: payload.tom_emocional,
       tipo_cta: payload.tipo_cta,
+      formato_conteudo: payload.formato_conteudo || '',
+      estilo_visual: payload.estilo_visual || '',
       objetivo_comercial: payload.objetivo_comercial,
       approvedAt: payload.approvedAt || '',
       sourceFilename: payload.source && payload.source.filename ? payload.source.filename : ''

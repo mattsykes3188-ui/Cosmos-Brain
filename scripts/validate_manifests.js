@@ -47,7 +47,9 @@ function validateManifests(options = {}) {
 }
 
 function isGeneratedStrategicIndex(relativePath) {
-  return relativePath === 'data/biblioteca_anuncios/padroes_locucao/index.json';
+  return relativePath === 'data/biblioteca_anuncios/padroes_locucao/index.json'
+    || relativePath === 'data/research_library/index.json'
+    || relativePath.startsWith('data/research_library/') && path.basename(relativePath) === 'index.json';
 }
 
 function validateManifestFile(rootDir, indexPath, errors) {

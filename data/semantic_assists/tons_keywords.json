@@ -1,0 +1,83 @@
+{
+  "premium": [
+    "premium",
+    "alto padrao",
+    "alto padrão",
+    "sofisticado",
+    "acabamento superior",
+    "valor percebido"
+  ],
+  "confiavel": [
+    "confianca",
+    "confiança",
+    "seguranca",
+    "segurança",
+    "profissionalismo",
+    "organização",
+    "organizacao"
+  ],
+  "urgente": [
+    "agora",
+    "hoje",
+    "rapido",
+    "rápido",
+    "prazo curto",
+    "urgente"
+  ],
+  "tecnico": [
+    "tecnico",
+    "técnico",
+    "tecido",
+    "acabamento",
+    "bordado",
+    "sublimacao",
+    "sublimação"
+  ],
+  "popular": [
+    "economico",
+    "econômico",
+    "preco acessivel",
+    "preço acessível",
+    "simples",
+    "popular"
+  ],
+  "sofisticado": [
+    "elegante",
+    "refinado",
+    "luxo",
+    "discreto",
+    "editorial"
+  ],
+  "esportivo": [
+    "performance",
+    "time",
+    "energia",
+    "campeonato",
+    "competicao",
+    "competição"
+  ],
+  "corporativo": [
+    "corporativo",
+    "empresa",
+    "profissional",
+    "equipe",
+    "atendimento"
+  ],
+  "inspirador": [
+    "orgulho",
+    "pertencimento",
+    "transformacao",
+    "transformação",
+    "motiva",
+    "identidade"
+  ],
+  "direto": [
+    "chame agora",
+    "clique agora",
+    "orcamento",
+    "orçamento",
+    "peca",
+    "peça",
+    "sem enrolacao"
+  ]
+}

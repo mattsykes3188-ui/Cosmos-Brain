@@ -1,0 +1,26 @@
+{
+  "type": "strategic_opportunity",
+  "title": "Showroom configurador segmentado para pesca",
+  "source": {
+    "kind": "research_document",
+    "path": "research_documents/raw/pesquisa_01_mapa_premium_nicho.md",
+    "description": "Pesquisa 01 — Mapa do Premium do Nicho"
+  },
+  "segmento": "pesca",
+  "hook_type": "promessa_pratica",
+  "tom_emocional": "premium",
+  "objetivo_comercial": "gerar_lead",
+  "insight": "O relatorio identifica oportunidade clara para showroom/configurador segmentado por nicho, com presets de pesca, agro, esportivo e operacional, sustentada por sinais de personalizacao guiada e simulador no mercado.",
+  "oportunidade": "Criar um configurador por segmento que mostre opcoes de pesca de forma guiada, com presets visuais e caminhos comerciais para lead ou simulacao.",
+  "aplicacao_potencial": [
+    "Astro",
+    "Cosmos Showroom",
+    "Cosmos Brain"
+  ],
+  "evidencia_resumida": [
+    "O relatorio recomenda showroom/configurador segmentado por nicho com presets de pesca, agro, esportivo e operacional.",
+    "A pesquisa cita simulador e compra online como benchmark publico relevante.",
+    "O formato para Cosmos Brain aponta configurador visual por segmento como oportunidade para reduzir friccao comercial."
+  ],
+  "status": "approved"
+}

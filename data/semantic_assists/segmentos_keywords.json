@@ -1,0 +1,82 @@
+{
+  "corporativo": [
+    "empresa",
+    "equipe comercial",
+    "escritorio",
+    "polo personalizada",
+    "atendimento",
+    "imagem profissional"
+  ],
+  "hospitalar": [
+    "hospital",
+    "clinica",
+    "saude",
+    "jaleco",
+    "scrub",
+    "enfermagem",
+    "medico"
+  ],
+  "agro": [
+    "agro",
+    "fazenda",
+    "campo",
+    "cooperativa",
+    "rural",
+    "agronegocio"
+  ],
+  "pesca": [
+    "camisa uv",
+    "protecao solar",
+    "proteção solar",
+    "pesca",
+    "pescaria",
+    "pesca esportiva",
+    "dry fit"
+  ],
+  "esportivo": [
+    "time",
+    "equipe esportiva",
+    "camisa de time",
+    "campeonato",
+    "atleta",
+    "performance"
+  ],
+  "comitiva": [
+    "comitiva",
+    "grupo",
+    "evento de grupo",
+    "identidade coletiva",
+    "turma"
+  ],
+  "promocional": [
+    "promocao",
+    "promoção",
+    "campanha",
+    "evento promocional",
+    "brinde",
+    "acao comercial"
+  ],
+  "escolar": [
+    "escola",
+    "alunos",
+    "uniforme escolar",
+    "colegio",
+    "instituicao de ensino"
+  ],
+  "gastronomia": [
+    "restaurante",
+    "cozinha",
+    "bar",
+    "cafeteria",
+    "avental",
+    "garcom"
+  ],
+  "operacional": [
+    "operacional",
+    "producao",
+    "manutencao",
+    "logistica",
+    "equipe de campo",
+    "durabilidade"
+  ]
+}

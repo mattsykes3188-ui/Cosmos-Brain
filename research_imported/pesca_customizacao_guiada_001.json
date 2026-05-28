@@ -1,0 +1,26 @@
+{
+  "type": "market_signal",
+  "title": "Customizacao guiada como diferencial premium em pesca",
+  "source": {
+    "kind": "research_document",
+    "path": "research_documents/raw/pesquisa_01_mapa_premium_nicho.md",
+    "description": "Pesquisa 01 — Mapa do Premium do Nicho"
+  },
+  "segmento": "pesca",
+  "hook_type": "promessa_pratica",
+  "tom_emocional": "premium",
+  "objetivo_comercial": "vender_premium",
+  "insight": "O relatorio identifica sinal forte de mercado para customizacao guiada em uniformes de pesca, com linguagem de escolha de detalhes, personalizacao total, arte exclusiva e simulador como diferenciais de valor.",
+  "oportunidade": "Transformar a customizacao em experiencia guiada premium, reduzindo a percepcao de uniforme generico e aumentando o valor percebido do pedido.",
+  "aplicacao_potencial": [
+    "Astro",
+    "Cosmos Showroom",
+    "Cosmos Brain"
+  ],
+  "evidencia_resumida": [
+    "O relatorio cita linguagem de escolha cada detalhe e linha completa totalmente personalizavel.",
+    "O benchmark de pesca destaca personalizacao com nome, logo, apelido e arte exclusiva da equipe.",
+    "O relatorio aponta simulador e compra online como sinais de oportunidade para showroom/configurador."
+  ],
+  "status": "approved"
+}

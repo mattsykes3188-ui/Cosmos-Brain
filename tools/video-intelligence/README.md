@@ -75,6 +75,31 @@ Se precisar apontar para outro Python:
 $env:WHISPER_PYTHON="C:\caminho\python.exe"
 ```
 
+## Whisper Quality Tuning
+
+O upload permite escolher modelo e idioma antes da transcricao.
+
+Modelos disponiveis:
+
+- `tiny`: mais rapido, menor qualidade.
+- `base`: rapido, ainda com mais erros.
+- `small`: equilibrio recomendado para portugues.
+- `medium`: melhor qualidade, mais lento.
+- `large`: mais pesado, exige mais maquina.
+
+Idioma:
+
+- `pt`: padrao recomendado para videos em portugues.
+- `auto`: deixa o Whisper detectar idioma automaticamente.
+
+Comando manual equivalente:
+
+```bash
+python tools/video-intelligence/transcribe.py --audio audio.wav --model small --language pt --output transcricao.txt
+```
+
+A primeira execucao de um modelo pode baixar pesos localmente. A curadoria humana continua necessaria, mesmo com modelos maiores.
+
 ## Como rodar
 
 ```bash
@@ -370,6 +395,332 @@ Para validar os seeds:
 ```bash
 node tests/test_seed_approved_patterns.js
 ```
+
+## Semantic Query Layer
+
+A camada de query semantica permite consultar os padroes aprovados usando filtros estruturados da taxonomia oficial.
+
+Ela usa como fonte:
+
+```text
+data/biblioteca_anuncios/padroes_locucao/index.json
+```
+
+Nao e busca vetorial, nao usa IA, nao usa embeddings e nao interpreta linguagem natural. Ela apenas aplica filtros deterministico sobre campos semanticos ja aprovados.
+
+Exemplos:
+
+```bash
+node scripts/query_padroes_locucao.js --segmento agro
+node scripts/query_padroes_locucao.js --hook_type autoridade
+node scripts/query_padroes_locucao.js --segmento hospitalar --tom_emocional tecnico
+node scripts/query_padroes_locucao.js --objetivo_comercial gerar_lead --save
+```
+
+Filtros aceitos:
+
+- segmento
+- tipo_dor
+- hook_type
+- estrutura_narrativa
+- tom_emocional
+- tipo_cta
+- objetivo_comercial
+- formato_conteudo
+- estilo_visual
+
+Todos os valores sao validados contra `data/taxonomia/`. Isso prepara o caminho para analytics, dashboard e busca semantica futura sem abrir mao da governanca atual.
+
+### Semantic Query Reports
+
+Consultas semanticas tambem podem gerar Markdown legivel em:
+
+```text
+reports/semantic_queries/
+```
+
+Exemplo:
+
+```bash
+node scripts/query_padroes_locucao.js --segmento agro --report
+```
+
+Use `--save --report` quando quiser salvar tanto o JSON estruturado quanto o relatorio Markdown.
+
+### Semantic Query Batch Reports
+
+Relatorios em lote geram pacotes Markdown por grupo semantico:
+
+```bash
+node scripts/build_semantic_query_batch_reports.js --group segmentos
+node scripts/build_semantic_query_batch_reports.js --all
+```
+
+Os arquivos ficam em:
+
+```text
+reports/semantic_queries/batch/
+```
+
+Cada batch tambem gera um `index.md` com os grupos e caminhos dos relatorios criados.
+
+### Semantic Query Coverage Summary
+
+O resumo executivo consolida os batch reports em:
+
+```text
+reports/semantic_queries/batch/summary.md
+```
+
+Para gerar:
+
+```bash
+node scripts/build_semantic_query_batch_summary.js
+```
+
+Ele mostra cobertura geral, cobertura por grupo, principais lacunas e recomendacoes deterministicas baseadas apenas nos dados do index e dos relatorios batch.
+
+### Semantic Knowledge Gap Backlog
+
+O backlog transforma lacunas semanticas em prioridades acionaveis:
+
+```bash
+node scripts/build_semantic_knowledge_gap_backlog.js
+```
+
+Saida:
+
+```text
+reports/semantic_queries/knowledge_gap_backlog.md
+```
+
+Ele usa apenas `summary.md`, `index.json` e taxonomias oficiais para sugerir proximos seeds e areas de coleta.
+
+### Knowledge Expansion Plan
+
+O plano de expansao organiza metas minimas, prioridades e proximos seeds:
+
+```bash
+node scripts/build_semantic_knowledge_expansion_plan.js
+```
+
+Saida:
+
+```text
+reports/semantic_queries/knowledge_expansion_plan.md
+```
+
+Ele transforma o backlog em uma ordem pratica de expansao semantica, sem IA e sem automacao de coleta.
+
+## Workflow Automation
+
+O fluxo local agora guia o trabalho do upload ate a atualizacao dos relatorios sem remover revisao humana.
+
+Fluxo:
+
+```text
+upload .mp4
+-> audio .wav
+-> transcricao bruta
+-> curadoria humana
+-> extracao manual de padrao
+-> draft local
+-> promocao humana para Brain
+-> rebuild deterministico de indices e relatorios
+```
+
+Endpoint de estado:
+
+```text
+GET /workflow-state
+```
+
+Retorna uploads, audios, transcricoes brutas, transcricoes curadas, drafts, aprovados e o proximo passo sugerido.
+
+Endpoint de rebuild:
+
+```text
+POST /rebuild-semantic-reports
+```
+
+Scripts executados:
+
+```text
+scripts/build_padroes_locucao_index.js
+scripts/build_padroes_locucao_coverage_report.js
+scripts/build_semantic_query_batch_reports.js --all
+scripts/build_semantic_query_batch_summary.js
+scripts/build_semantic_knowledge_gap_backlog.js
+scripts/build_semantic_knowledge_expansion_plan.js
+```
+
+Depois de promover um draft para o Brain, o servidor tenta rodar o rebuild automaticamente. Se o rebuild falhar, o padrao promovido nao e apagado; o erro volta no retorno para revisao.
+
+A aprovacao humana continua obrigatoria. O sistema apenas reduz atrito operacional.
+
+## Assisted Semantic Extraction
+
+A extracao semantica assistida sugere campos para um padrao de locucao a partir da transcricao curada.
+
+Endpoint:
+
+```text
+POST /assist-semantic-extraction
+```
+
+Body:
+
+```json
+{
+  "text": "transcricao curada..."
+}
+```
+
+Resposta:
+
+```json
+{
+  "success": true,
+  "suggestions": {
+    "segmento": {
+      "value": "pesca",
+      "confidence": 0.92,
+      "signals": ["camisa uv", "pesca"]
+    }
+  }
+}
+```
+
+Na interface local, use o botao "Sugerir campos automaticamente" na secao de extracao manual. A UI preenche os selects, mostra confianca e sinais encontrados, mas todos os campos continuam editaveis.
+
+O sistema apenas sugere; o humano continua revisando, salvando draft e aprovando.
+
+## Manual GPT Semantic Bridge
+
+Esta ponte permite usar o ChatGPT manualmente, sem API e sem automacao externa.
+
+Fluxo:
+
+```text
+transcricao curada
+-> gerar prompt no Cosmos
+-> copiar prompt
+-> colar no ChatGPT
+-> copiar JSON de volta
+-> validar no Cosmos
+-> revisar preview
+-> salvar no Brain
+```
+
+Endpoints:
+
+```text
+POST /manual-gpt/build-prompt
+POST /manual-gpt/parse-response
+```
+
+O prompt inclui:
+
+- transcricao curada
+- campos obrigatorios
+- IDs permitidos da taxonomia oficial
+- regra para nao inventar IDs
+- instrucao para retornar somente JSON
+
+O Cosmos valida o JSON antes de salvar. IDs inexistentes sao rejeitados. O botao "Salvar no Brain" executa o fluxo interno de draft, promocao e rebuild ja existente, mas somente depois do clique humano.
+
+Nao ha uso de OpenAI API nesta fase.
+
+## Simplified UI
+
+A tela principal do Video Intelligence agora mostra apenas o fluxo operacional:
+
+```text
+1. Enviar video
+2. Revisar transcricao
+3. Curadoria com ChatGPT
+4. Salvar no Brain
+```
+
+Os detalhes tecnicos continuam existindo, mas ficam recolhidos em **Avancado / Tecnico**:
+
+- status completo do workflow
+- curadoria manual antiga
+- extracao tecnica de padrao
+- revisao e promocao manual de drafts
+- rebuild manual de indices e relatorios
+- listas e JSONs internos
+
+O botao **Salvar no Brain** executa o fluxo interno ja governado:
+
+```text
+JSON validado
+-> salvar rascunho tecnico
+-> promover para Brain
+-> rebuild deterministico de inteligencia
+```
+
+A governanca nao foi removida. A interface apenas esconde a complexidade operacional para reduzir atrito no uso diario.
+
+## Ultra Simplified Intake UI
+
+A interface principal foi reduzida para tres passos reais de ingestao:
+
+```text
+1. Upload video
+2. Revisar transcricao
+3. Colar JSON + Salvar no Brain
+```
+
+O usuario nao precisa lidar com draft, promocao, rebuild, taxonomia completa, listas de arquivos ou relatorios durante o uso normal.
+
+O fluxo interno continua existindo:
+
+```text
+JSON do ChatGPT
+-> validacao contra taxonomia
+-> rascunho tecnico
+-> promocao approved
+-> rebuild de indices e relatorios
+-> Brain atualizado
+```
+
+O bloco **Modo tecnico / avancado** preserva os controles antigos para auditoria, manutencao e diagnostico, mas a ingestao diaria fica focada em velocidade.
+
+## Semantic Naming Layer
+
+Novos padroes de locucao deixam de usar o nome bruto do video como nome operacional.
+
+Antes:
+
+```text
+WhatsApp-Video-2026-05-26-at-23-27-44_2026...
+```
+
+Agora:
+
+```text
+pesca_autoridade_demonstracao_produto_001.json
+pesca_autoridade_demonstracao_produto_002.json
+```
+
+O nome e gerado a partir de campos semanticos do JSON validado:
+
+```text
+segmento + hook_type + estrutura_narrativa + objetivo_comercial + sequencia
+```
+
+O arquivo original nao e perdido. Ele continua salvo em:
+
+```json
+{
+  "source": {
+    "originalFilename": "WhatsApp-Video-2026-05-26-at-23-27-44_curada.txt"
+  }
+}
+```
+
+Arquivos antigos continuam aceitos e nao sao renomeados retroativamente. A camada apenas melhora a organizacao de novos drafts e novos approved patterns.
 
 ## Regras de seguranca
 

@@ -16,9 +16,10 @@ const {
 } = require('../tools/video-intelligence/server');
 
 const curatedFixtureName = 'unit_manual_pattern_curada.txt';
-const patternFixtureName = 'unit_manual_pattern_curada_padrao_locucao.json';
+const patternFixtureName = 'escolar_erro_comum_quebra_objecao_acelerar_aprovacao_001.json';
 const curatedFixturePath = path.join(CURATED_TRANSCRIPTIONS_DIR, curatedFixtureName);
 const patternFixturePath = path.join(PATTERNS_DIR, patternFixtureName);
+const patternFixturePrefix = 'escolar_erro_comum_quebra_objecao_acelerar_aprovacao_';
 
 let passed = 0;
 let failed = 0;
@@ -51,22 +52,28 @@ function setup() {
 
 function cleanup() {
   fs.rmSync(curatedFixturePath, { force: true });
-  fs.rmSync(patternFixturePath, { force: true });
+  if (fs.existsSync(PATTERNS_DIR)) {
+    for (const filename of fs.readdirSync(PATTERNS_DIR)) {
+      if (filename.startsWith(patternFixturePrefix) && filename.endsWith('.json')) {
+        fs.rmSync(path.join(PATTERNS_DIR, filename), { force: true });
+      }
+    }
+  }
 }
 
 function validPayload(overrides = {}) {
   return {
     sourceFilename: curatedFixtureName,
     titulo: 'Padrao manual de teste',
-    segmento: 'agro',
+    segmento: 'escolar',
     tipo_dor: 'baixa_percepcao_premium',
-    hook_type: 'dor_direta',
-    estrutura_narrativa: 'problema_solucao',
+    hook_type: 'erro_comum',
+    estrutura_narrativa: 'quebra_objecao',
     tom_emocional: 'confiavel',
     tipo_cta: 'chamar_whatsapp',
     formato_conteudo: 'reel',
     estilo_visual: 'fabrica_real',
-    objetivo_comercial: 'gerar_lead',
+    objetivo_comercial: 'acelerar_aprovacao',
     observacoes: 'Padrao extraido manualmente em teste.',
     ...overrides
   };
@@ -80,7 +87,7 @@ assert(lerTranscricaoCurada(curatedFixtureName) === 'Texto curado para extracao 
 assertThrows(() => lerTranscricaoCurada('../arquivo.txt'), 'lerTranscricaoCurada blocks path traversal');
 
 console.log('\n[TEST 2] pattern filename is generated safely');
-assert(gerarNomePadraoLocucao(curatedFixtureName) === patternFixtureName, 'gerarNomePadraoLocucao adds suffix');
+assert(gerarNomePadraoLocucao(validPayload()) === patternFixtureName, 'gerarNomePadraoLocucao creates semantic filename');
 assertThrows(() => gerarNomePadraoLocucao('video.mp4'), 'gerarNomePadraoLocucao blocks non txt');
 assertThrows(() => gerarNomePadraoLocucao('../curada.txt'), 'gerarNomePadraoLocucao blocks traversal');
 
@@ -101,8 +108,9 @@ assert(fs.existsSync(patternFixturePath), 'pattern file exists in padroes_locuca
 assert(saved.type === 'padrao_locucao', 'saved payload has type padrao_locucao');
 assert(saved.source.kind === 'transcricao_curada', 'saved payload has source.kind transcricao_curada');
 assert(saved.source.filename === curatedFixtureName, 'saved payload keeps source filename');
+assert(saved.source.originalFilename === curatedFixtureName, 'saved payload preserves original filename');
 assert(saved.status === 'draft', 'saved payload status is draft');
-assert(saved.segmento === 'agro', 'saved payload keeps taxonomy value');
+assert(saved.segmento === 'escolar', 'saved payload keeps taxonomy value');
 
 console.log('\n[TEST 5] invalid payloads are rejected');
 assertThrows(() => salvarPadraoLocucao(validPayload({ titulo: '' })), 'rejects missing titulo');

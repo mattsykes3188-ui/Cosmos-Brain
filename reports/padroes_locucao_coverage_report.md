@@ -1,40 +1,42 @@
 # Relatorio de Cobertura - Padroes de Locucao
 
-- Data de geracao: 2026-05-27T00:15:22.555Z
-- Total de padroes aprovados: 5
+- Data de geracao: 2026-05-28T12:21:19.318Z
+- Total de padroes aprovados: 9
 
 ## Resumo executivo
 
-O Brain possui 5 padrao(oes) de locucao aprovado(s).
+O Brain possui 9 padrao(oes) de locucao aprovado(s).
 As secoes abaixo mostram os grupos mais cobertos e as lacunas que ainda precisam de coleta de inteligencia.
 
 ## Cobertura principal
 
 ### Top segmentos cobertos
 
+- pesca: 5
 - agro: 1
 - corporativo: 1
 - esportivo: 1
 - hospitalar: 1
-- pesca: 1
 
 ### Top tipos de dor cobertos
 
+- atraso_producao: 3
+- baixa_percepcao_premium: 2
 - falta_padronizacao: 2
 - arte_baixa_qualidade: 1
-- baixa_percepcao_premium: 1
 - falta_identidade_visual: 1
 
 ### Top hooks cobertos
 
-- autoridade: 1
+- autoridade: 4
+- dor_direta: 2
 - comparativo: 1
-- dor_direta: 1
 - pergunta: 1
 - transformacao: 1
 
 ### Top estruturas narrativas
 
+- demonstracao_produto: 4
 - problema_solucao: 2
 - antes_depois: 1
 - autoridade: 1
@@ -42,26 +44,28 @@ As secoes abaixo mostram os grupos mais cobertos e as lacunas que ainda precisam
 
 ### Top tons emocionais
 
+- premium: 4
 - confiavel: 1
 - corporativo: 1
+- direto: 1
 - esportivo: 1
-- premium: 1
 - tecnico: 1
 
 ### Top CTAs
 
-- chamar_whatsapp: 1
-- conhecer_modelos: 1
+- chamar_whatsapp: 4
+- conhecer_modelos: 2
 - pedir_orcamento: 1
 - solicitar_mockup: 1
 - ver_catalogo: 1
 
 ### Top objetivos comerciais
 
+- converter_whatsapp: 2
+- divulgar_segmento: 2
+- gerar_lead: 2
 - aumentar_autoridade: 1
-- converter_whatsapp: 1
 - educar_cliente: 1
-- gerar_lead: 1
 - vender_premium: 1
 
 
@@ -78,7 +82,6 @@ As secoes abaixo mostram os grupos mais cobertos e as lacunas que ainda precisam
 ### Tipos de dor sem padroes
 
 - aprovacao_whatsapp
-- atraso_producao
 - briefing_incompleto
 - cliente_indeciso
 - demora_orcamento
@@ -108,6 +111,7 @@ As secoes abaixo mostram os grupos mais cobertos e as lacunas que ainda precisam
 ### Tipos de dor cobertos
 
 - arte_baixa_qualidade
+- atraso_producao
 - baixa_percepcao_premium
 - falta_identidade_visual
 - falta_padronizacao

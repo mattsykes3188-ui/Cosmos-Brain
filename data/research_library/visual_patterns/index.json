@@ -1,0 +1,23 @@
+{
+  "type": "research_type_index",
+  "folder": "visual_patterns",
+  "generatedAt": "2026-05-28T12:21:14.085Z",
+  "approved": 1,
+  "drafts": 0,
+  "items": [
+    {
+      "id": "research_visual_pattern_20260528_8bcd1522",
+      "type": "visual_pattern",
+      "status": "approved",
+      "title": "Prova tecnica visual para comunicacao premium em pesca",
+      "segmento": "pesca",
+      "objetivo_comercial": "aumentar_autoridade",
+      "hook_type": "autoridade",
+      "estrutura_narrativa": "",
+      "tom_emocional": "tecnico",
+      "tipo_cta": "",
+      "estilo_visual": "",
+      "path": "data/research_library/visual_patterns/approved/research_visual_pattern_20260528_8bcd1522.json"
+    }
+  ]
+}

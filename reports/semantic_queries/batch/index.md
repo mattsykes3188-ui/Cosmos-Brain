@@ -1,0 +1,63 @@
+# Índice de Relatórios Semânticos em Lote
+
+- Data de geração: 2026-05-28T12:21:25.142Z
+- Grupos gerados: segmentos, tons_emocionais, objetivos_comerciais, tipos_dor, hooks
+- Total de relatórios gerados: 52
+
+## Arquivos
+
+- reports/semantic_queries/batch/hooks/semantic_query_hook_type_autoridade.md
+- reports/semantic_queries/batch/hooks/semantic_query_hook_type_bastidor.md
+- reports/semantic_queries/batch/hooks/semantic_query_hook_type_choque.md
+- reports/semantic_queries/batch/hooks/semantic_query_hook_type_comparativo.md
+- reports/semantic_queries/batch/hooks/semantic_query_hook_type_curiosidade.md
+- reports/semantic_queries/batch/hooks/semantic_query_hook_type_dor_direta.md
+- reports/semantic_queries/batch/hooks/semantic_query_hook_type_erro_comum.md
+- reports/semantic_queries/batch/hooks/semantic_query_hook_type_pergunta.md
+- reports/semantic_queries/batch/hooks/semantic_query_hook_type_promessa_pratica.md
+- reports/semantic_queries/batch/hooks/semantic_query_hook_type_transformacao.md
+- reports/semantic_queries/batch/objetivos_comerciais/semantic_query_objetivo_comercial_acelerar_aprovacao.md
+- reports/semantic_queries/batch/objetivos_comerciais/semantic_query_objetivo_comercial_aumentar_autoridade.md
+- reports/semantic_queries/batch/objetivos_comerciais/semantic_query_objetivo_comercial_aumentar_ticket.md
+- reports/semantic_queries/batch/objetivos_comerciais/semantic_query_objetivo_comercial_converter_whatsapp.md
+- reports/semantic_queries/batch/objetivos_comerciais/semantic_query_objetivo_comercial_divulgar_segmento.md
+- reports/semantic_queries/batch/objetivos_comerciais/semantic_query_objetivo_comercial_educar_cliente.md
+- reports/semantic_queries/batch/objetivos_comerciais/semantic_query_objetivo_comercial_fortalecer_marca.md
+- reports/semantic_queries/batch/objetivos_comerciais/semantic_query_objetivo_comercial_gerar_lead.md
+- reports/semantic_queries/batch/objetivos_comerciais/semantic_query_objetivo_comercial_reduzir_objecao.md
+- reports/semantic_queries/batch/objetivos_comerciais/semantic_query_objetivo_comercial_vender_premium.md
+- reports/semantic_queries/batch/segmentos/semantic_query_segmento_agro.md
+- reports/semantic_queries/batch/segmentos/semantic_query_segmento_comitiva.md
+- reports/semantic_queries/batch/segmentos/semantic_query_segmento_corporativo.md
+- reports/semantic_queries/batch/segmentos/semantic_query_segmento_escolar.md
+- reports/semantic_queries/batch/segmentos/semantic_query_segmento_esportivo.md
+- reports/semantic_queries/batch/segmentos/semantic_query_segmento_gastronomia.md
+- reports/semantic_queries/batch/segmentos/semantic_query_segmento_hospitalar.md
+- reports/semantic_queries/batch/segmentos/semantic_query_segmento_operacional.md
+- reports/semantic_queries/batch/segmentos/semantic_query_segmento_pesca.md
+- reports/semantic_queries/batch/segmentos/semantic_query_segmento_promocional.md
+- reports/semantic_queries/batch/tipos_dor/semantic_query_tipo_dor_aprovacao_whatsapp.md
+- reports/semantic_queries/batch/tipos_dor/semantic_query_tipo_dor_arte_baixa_qualidade.md
+- reports/semantic_queries/batch/tipos_dor/semantic_query_tipo_dor_atraso_producao.md
+- reports/semantic_queries/batch/tipos_dor/semantic_query_tipo_dor_baixa_percepcao_premium.md
+- reports/semantic_queries/batch/tipos_dor/semantic_query_tipo_dor_briefing_incompleto.md
+- reports/semantic_queries/batch/tipos_dor/semantic_query_tipo_dor_cliente_indeciso.md
+- reports/semantic_queries/batch/tipos_dor/semantic_query_tipo_dor_demora_orcamento.md
+- reports/semantic_queries/batch/tipos_dor/semantic_query_tipo_dor_dificuldade_vender_valor.md
+- reports/semantic_queries/batch/tipos_dor/semantic_query_tipo_dor_falta_identidade_visual.md
+- reports/semantic_queries/batch/tipos_dor/semantic_query_tipo_dor_falta_padronizacao.md
+- reports/semantic_queries/batch/tipos_dor/semantic_query_tipo_dor_inconsistencia_lote.md
+- reports/semantic_queries/batch/tipos_dor/semantic_query_tipo_dor_retrabalho_design.md
+- reports/semantic_queries/batch/tons_emocionais/semantic_query_tom_emocional_confiavel.md
+- reports/semantic_queries/batch/tons_emocionais/semantic_query_tom_emocional_corporativo.md
+- reports/semantic_queries/batch/tons_emocionais/semantic_query_tom_emocional_direto.md
+- reports/semantic_queries/batch/tons_emocionais/semantic_query_tom_emocional_esportivo.md
+- reports/semantic_queries/batch/tons_emocionais/semantic_query_tom_emocional_inspirador.md
+- reports/semantic_queries/batch/tons_emocionais/semantic_query_tom_emocional_popular.md
+- reports/semantic_queries/batch/tons_emocionais/semantic_query_tom_emocional_premium.md
+- reports/semantic_queries/batch/tons_emocionais/semantic_query_tom_emocional_sofisticado.md
+- reports/semantic_queries/batch/tons_emocionais/semantic_query_tom_emocional_tecnico.md
+- reports/semantic_queries/batch/tons_emocionais/semantic_query_tom_emocional_urgente.md
+
+> Relatórios derivados de `data/biblioteca_anuncios/padroes_locucao/index.json`.
+> Eles podem ser regenerados a qualquer momento pelo script de batch.
